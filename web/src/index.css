@@ -1,0 +1,151 @@
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'Inter var', Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+:root {
+  --chart-bg: #ffffff;
+  --chart-series: #1f4e79;
+  --chart-band: rgba(31, 119, 180, 0.13);
+  --chart-recent: rgba(255, 193, 7, 0.16);
+  --chart-cp: #6a1b9a;
+  --chart-seasonal: #8e24aa;
+  color-scheme: light;
+}
+
+.dark {
+  --chart-bg: #0f172a;
+  --chart-series: #7cb7f0;
+  --chart-band: rgba(96, 165, 250, 0.16);
+  --chart-recent: rgba(250, 204, 21, 0.1);
+  --chart-cp: #c084fc;
+  --chart-seasonal: #d8b4fe;
+  color-scheme: dark;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-slate-50 font-sans text-slate-900 antialiased dark:bg-[#0b1020] dark:text-slate-100;
+  overflow-x: hidden;
+}
+
+@layer components {
+  .card {
+    @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm shadow-slate-900/[0.03] dark:border-slate-800 dark:bg-slate-900/70 dark:shadow-none;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-indigo-500 dark:hover:bg-indigo-400;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-white;
+  }
+
+  .field {
+    @apply w-full rounded-xl border border-slate-200 bg-white px-3.5 py-2.5 text-[15px] text-slate-900 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-indigo-400 focus:ring-4 focus:ring-indigo-500/15 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-indigo-400;
+  }
+}
+
+/* Methodology / About text rendered from Markdown */
+.prose-sc {
+  @apply text-[14.5px] leading-relaxed text-slate-700 dark:text-slate-300;
+}
+.prose-sc > * + * {
+  @apply mt-3;
+}
+.prose-sc h1,
+.prose-sc h2,
+.prose-sc h3 {
+  @apply mt-6 font-semibold text-slate-900 dark:text-slate-100;
+}
+.prose-sc h3 {
+  @apply text-base;
+}
+.prose-sc ul {
+  @apply list-disc space-y-1 pl-5;
+}
+.prose-sc ol {
+  @apply list-decimal space-y-1 pl-5;
+}
+.prose-sc a {
+  @apply font-medium text-indigo-600 underline decoration-indigo-300 underline-offset-2 dark:text-indigo-300;
+}
+.prose-sc strong {
+  @apply font-semibold text-slate-900 dark:text-slate-100;
+}
+.prose-sc code {
+  @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.85em] text-slate-800 dark:bg-slate-800 dark:text-slate-200;
+}
+.prose-sc pre {
+  @apply overflow-x-auto rounded-xl bg-slate-100 p-3 text-xs leading-relaxed dark:bg-slate-800/80;
+  white-space: pre-wrap;
+}
+.prose-sc pre code {
+  @apply bg-transparent p-0;
+}
+.prose-sc table {
+  @apply block w-full overflow-x-auto border-collapse text-left text-[13px];
+}
+.prose-sc th {
+  @apply border-b border-slate-200 px-2 py-1.5 font-semibold text-slate-900 dark:border-slate-700 dark:text-slate-100;
+}
+.prose-sc td {
+  @apply border-b border-slate-100 px-2 py-1.5 align-top dark:border-slate-800;
+}
+
+/* Subtle motion */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.rise {
+  animation: rise 0.35s ease-out both;
+}
+@keyframes draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+}
+.drawer-in {
+  animation: drawer-in 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+.fade-in {
+  animation: fade-in 0.2s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

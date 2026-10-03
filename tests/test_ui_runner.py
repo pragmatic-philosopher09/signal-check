@@ -248,3 +248,22 @@ def test_slow_narration_times_out_to_template(cfg: Config) -> None:
     assert time.monotonic() - started < 2
     assert {n.failure for n in result.values()} == {"timeout"}
     assert all(n.path == "template" for n in result.values())
+
+
+def test_single_worker_runs_inline_without_threads(
+    cfg: Config, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    def no_threads(*_args: Any, **_kwargs: Any) -> Any:
+        raise AssertionError("max_workers=1 must not start a thread pool (Pyodide has none)")
+
+    monkeypatch.setattr(runner, "ThreadPoolExecutor", no_threads)
+    factories = no_network_factories(
+        wikipedia=FakeAdapter("wikipedia", error=KeyError("boom")),
+        hackernews=FakeAdapter("hackernews", series=snapshot_as_live("hackernews", "chatgpt")),
+    )
+    result = runner.run_topic(
+        "chatgpt", ["wikipedia", "hackernews"], cfg, factories=factories, max_workers=1
+    )
+    wiki, hn = result.outcomes
+    assert wiki.message == "Couldn't fetch Wikipedia: unexpected error (KeyError)"
+    assert hn.verdict is not None

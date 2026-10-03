@@ -24,7 +24,6 @@ import math
 from dataclasses import dataclass
 
 import numpy as np
-import ruptures as rpt
 
 from signalcheck.config import Config, get_config
 from signalcheck.engine.checks.common import (
@@ -41,6 +40,7 @@ from signalcheck.engine.checks.common import (
     skipped,
     timestamps,
 )
+from signalcheck.engine.pelt import pelt
 from signalcheck.models import BaselineStats, Evidence, Preprocessed, Windows
 
 CHECK = "level_shift"
@@ -79,9 +79,12 @@ class ShiftResult:
 
 
 def pelt_change_points(z: np.ndarray, min_size: int, penalty: float) -> list[int]:
-    """Change points (first index of each new segment) from PELT with an L2 cost."""
-    algo = rpt.Pelt(model="l2", min_size=min_size, jump=1).fit(z.reshape(-1, 1))
-    return [int(b) for b in algo.predict(pen=penalty)[:-1]]
+    """Change points (first index of each new segment) from PELT with an L2 cost.
+
+    Uses the pure-numpy :func:`signalcheck.engine.pelt.pelt`, identical to
+    ``ruptures.Pelt(model="l2", jump=1)`` but installable in the browser (Pyodide).
+    """
+    return [int(b) for b in pelt(z, min_size, penalty)[:-1]]
 
 
 def detect_shift(

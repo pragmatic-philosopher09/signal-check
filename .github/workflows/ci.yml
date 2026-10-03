@@ -38,3 +38,40 @@ jobs:
         run: pytest
       - name: Eval smoke run
         run: python -m eval.run_eval --sweep 0
+
+  web:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install engine dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Precompute samples and bundle the engine
+        run: python -m scripts.build_web
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - name: Install web dependencies
+        working-directory: web
+        run: npm ci
+      - name: Lint
+        working-directory: web
+        run: npm run lint
+      - name: Typecheck
+        working-directory: web
+        run: npm run typecheck
+      - name: Unit tests
+        working-directory: web
+        run: npm test
+      - name: Build
+        working-directory: web
+        run: npm run build

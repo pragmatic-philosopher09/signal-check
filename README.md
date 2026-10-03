@@ -2,6 +2,9 @@
 
 **Is this change real and lasting, or is it noise?**
 
+**Live demo: <https://pragmatic-philosopher09.github.io/signal-check/>** — a static site that runs
+the same Python engine in your browser ([what it can and can't do](#static-demo-github-pages)).
+
 Signal Check is a free, non-commercial web app. It gives a deterministic, evidence-backed verdict
 on public attention data from Wikipedia, Hacker News, Google Trends, Reddit and, optionally, X.
 The verdict is one of `TREND` (up or down), `FLUKE`, `SEASONAL`, `NO_CHANGE` or `INCONCLUSIVE`.
@@ -61,7 +64,18 @@ flowchart LR
     V --> N["narration<br/>(optional LLM, validated;<br/>template fallback)"]
     XS --> UI["Streamlit UI<br/>app.py + signalcheck/ui"]
     N --> UI
+    XS --> EX["signalcheck/web/export<br/>JSON contract"]
+    N --> EX
+    EX --> WEB
+    subgraph Browser["GitHub Pages (static)"]
+        WEB["React app<br/>web/"] <-->|postMessage| WK["Web Worker<br/>Pyodide + signalcheck"]
+        WK -->|"XHR, 6h IndexedDB cache"| API["Wikipedia / HN APIs"]
+    end
 ```
+
+The same package powers both frontends. The Streamlit app imports it directly. The static site
+gets precomputed sample results (JSON written by the engine at build time) and, for live queries
+and CSV uploads, runs the unchanged package inside [Pyodide](https://pyodide.org) in a Web Worker.
 
 The engine never knows which source a series came from. Each adapter turns its source into a
 `Series` ([`models.py`](signalcheck/models.py)).
@@ -92,7 +106,7 @@ validates it at load time. The UI's **Methodology** expander is generated from t
 | [Concentration](signalcheck/engine/checks/concentration.py) | What share of the recent excess over the baseline median comes from the top 1 and top 2 periods? A high share means a one-off. |
 | [Seasonality](signalcheck/engine/checks/seasonality.py) | With ≥ 2 years of data, how much of the rise does the annual STL component explain? Is anything left in the rise's direction after removing it? Day-of-week patterns are removed as a nuisance only. |
 | [Outliers](signalcheck/engine/checks/outliers.py) | Robust z of recent points against the baseline. Daily data is scored after removing a fixed day-of-week profile. |
-| [Level shift](signalcheck/engine/checks/level_shift.py) | Is there a PELT change point in or just before the recent window, and has the new level held for `min_persist` periods? |
+| [Level shift](signalcheck/engine/checks/level_shift.py) | Is there a PELT change point in or just before the recent window, and has the new level held for `min_persist` periods? PELT is a small pure-numpy implementation ([`pelt.py`](signalcheck/engine/pelt.py)) because `ruptures` has no WebAssembly wheel; `tests/test_pelt.py` checks it returns the same breakpoints as `ruptures.Pelt(model="l2")` on hundreds of seeded series. |
 | [Low count](signalcheck/engine/checks/low_count.py) | For sparse counts: an exact rate-ratio test. If the CI includes 1, there are too few events to call. |
 | [Breadth](signalcheck/engine/checks/breadth.py) | Does one origin (author or community) drive most of the recent volume? |
 
@@ -212,6 +226,42 @@ counts and top-share ratios. No author names, user ids or post text are persiste
 identifies the app in its User-Agent (`SignalCheck/<version> (+<repo>; <contact>)`), and only
 official APIs are used. There is no scraping.
 
+## Static demo (GitHub Pages)
+
+<https://pragmatic-philosopher09.github.io/signal-check/> is built from [`web/`](web) (Vite, React,
+TypeScript, Tailwind) by [`.github/workflows/pages.yml`](.github/workflows/pages.yml) on every push
+to `main`. There is no server: verdicts are computed by the real `signalcheck` package, either at
+build time or in your browser.
+
+| | Static demo | Server deployment (Streamlit) |
+| :- | :- | :- |
+| Sample topics | ✅ instant (precomputed at build time) | ✅ instant (snapshots) |
+| Wikipedia, Hacker News | ✅ live, fetched from your browser | ✅ live |
+| Google Trends | CSV upload only | CSV upload (+ snapshots, best-effort live fetch) |
+| CSV upload | ✅ analysed in the browser, never uploaded | ✅ |
+| Reddit, X | ❌ "needs server-side credentials; not available on the static demo" | ✅ with credentials |
+| Narration | Template only (no keys are shipped) | Optional LLM, validated; template fallback |
+| Cache | IndexedDB, 6 h TTL, aggregates only | Disk, 6 h TTL, aggregates only |
+
+How it works:
+- `python -m scripts.build_web` runs the engine natively over `data/samples/` and writes
+  `web/public/results/*.json`, `site.json` (methodology and thresholds read from `config.yaml`)
+  and `py/` (a zip of `signalcheck/` + `config.yaml`, plus the pinned pure-Python
+  `pymannkendall` wheel, SHA-256 verified).
+- The page shows sample results immediately and warms the engine in a Web Worker in the
+  background. Pyodide loads numpy, pandas, scipy, statsmodels, pyyaml and requests from the
+  jsDelivr CDN (about 38 MB on first use, then browser-cached).
+- Adapters keep their Python logic. In the worker their HTTP goes through an injectable
+  transport (synchronous XHR) and the cache through an in-memory store mirrored to IndexedDB.
+  A failing source still renders "Couldn't fetch <source>: <reason>" in its card.
+- Browsers can't set `User-Agent`, so the worker sends Wikimedia's `Api-User-Agent` header to the
+  Wikipedia Action API (article search). The Wikimedia REST pageviews API rejects that header in
+  the CORS preflight, so pageview requests are plain simple requests.
+- A first live query takes about a minute: around 10 s to boot the engine, then the Hacker News
+  adapter's 90+ politely paced requests. Repeat queries come from the cache in a few seconds.
+
+The Streamlit app is unaffected and still deploys to Streamlit Community Cloud as described below.
+
 ## Deploying to Streamlit Community Cloud
 
 1. Push the repo to GitHub, then on [share.streamlit.io](https://share.streamlit.io) choose
@@ -254,6 +304,20 @@ UI logic lives in [`signalcheck/ui/`](signalcheck/ui), so it is unit-tested with
 - `methodology.py` builds the Methodology expander
 
 `tests/test_app.py` drives `app.py` with Streamlit's `AppTest`.
+
+**Static frontend (`web/`).** Requires Node 20+.
+
+```bash
+python -m scripts.build_web          # precompute samples, bundle the engine into web/public/
+cd web && npm ci
+npm run dev                          # http://localhost:5173/signal-check/
+npm run lint && npm run typecheck && npm test && npm run build
+npm run parity                       # runs the bundle in Pyodide (Node) and diffs it with CPython
+```
+
+Rerun `python -m scripts.build_web` after changing `signalcheck/` or `config.yaml`; the browser
+loads the bundled copy. The JSON contract shared by both sides lives in
+[`signalcheck/web/export.py`](signalcheck/web/export.py) and [`web/src/types.ts`](web/src/types.ts).
 
 ```python
 from signalcheck.engine import analyse, analyse_detailed, compare_sources
