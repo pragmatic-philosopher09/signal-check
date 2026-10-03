@@ -200,7 +200,21 @@ SCHEMA: dict[str, Any] = {
     "cross_source": {
         "min_overlap": NUMBER,
     },
+    "narration": {
+        "max_words": int,
+        "max_tokens": int,
+        "max_tokens_param": str,
+        "default_base_url": str,
+        "default_model": str,
+        "connect_timeout_s": NUMBER,
+        "read_timeout_s": NUMBER,
+        "max_retries": int,
+        "total_timeout_s": NUMBER,
+        "max_workers": int,
+    },
 }
+
+MAX_TOKENS_PARAMS: tuple[str, ...] = ("max_tokens", "max_completion_tokens")
 
 
 def _type_ok(value: object, expected: type | tuple[type, ...]) -> bool:
@@ -468,6 +482,39 @@ def _check_verdict_constraints(cfg: Config, require: Callable[[bool, str], None]
     require(0 < rate < 1, "eval.target_false_trend_rate: must be in (0, 1)")
     overlap = cfg["cross_source"]["min_overlap"]
     require(0 < overlap <= 1, "cross_source.min_overlap: must be in (0, 1]")
+    _check_narration_constraints(cfg, require)
+
+
+def _check_narration_constraints(cfg: Config, require: Callable[[bool, str], None]) -> None:
+    """Range checks for the optional LLM narration (section 9.1).
+
+    The word cap must leave room for a useful paragraph and stay within the
+    brief's 120 words; the token budget must cover the word cap (a word is at
+    least one token); timeouts are positive and the UI's overall wait is at least
+    one request's worth; the base URL is an http(s) URL.
+    """
+    n = cfg["narration"]
+    require(20 <= n["max_words"] <= 120, "narration.max_words: must be in [20, 120]")
+    require(
+        n["max_tokens"] >= n["max_words"], "narration.max_tokens: must be >= narration.max_words"
+    )
+    require(
+        n["max_tokens_param"] in MAX_TOKENS_PARAMS,
+        f"narration.max_tokens_param: must be one of {MAX_TOKENS_PARAMS}",
+    )
+    require(
+        str(n["default_base_url"]).startswith(("https://", "http://")),
+        "narration.default_base_url: must be an http(s) URL",
+    )
+    require(bool(n["default_model"].strip()), "narration.default_model: must not be empty")
+    require(n["connect_timeout_s"] > 0, "narration.connect_timeout_s: must be > 0")
+    require(n["read_timeout_s"] > 0, "narration.read_timeout_s: must be > 0")
+    require(n["max_retries"] >= 0, "narration.max_retries: must be >= 0")
+    require(
+        n["total_timeout_s"] >= n["connect_timeout_s"] + n["read_timeout_s"],
+        "narration.total_timeout_s: must be >= connect_timeout_s + read_timeout_s",
+    )
+    require(n["max_workers"] >= 1, "narration.max_workers: must be >= 1")
 
 
 def validate_config(raw: object) -> Config:

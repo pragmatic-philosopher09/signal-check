@@ -15,6 +15,7 @@ from signalcheck.config import Config
 from signalcheck.engine import confidence
 from signalcheck.engine.checks import CHECKS
 from signalcheck.engine.verdict import RULES, STANCE_WORDS
+from signalcheck.narrate import AI_LABEL, TEMPERATURE, TEMPLATE_LABEL, system_prompt
 from signalcheck.ui.view_models import check_name
 
 # What each check tests, in plain language (statistical meaning; no thresholds here).
@@ -173,6 +174,27 @@ def cross_source_section(cfg: Config) -> MethodologySection:
     return MethodologySection("Cross-source summary", body)
 
 
+def narration_section(cfg: Config) -> MethodologySection:
+    """How the optional AI summary is produced and checked (section 9.1)."""
+    prompt = textwrap.indent(system_prompt(cfg), "    ")
+    body = (
+        "The verdict is never decided by an LLM. When `LLM_PROVIDER` and `LLM_API_KEY` are "
+        "set, the card's findings (verdict, reason, evidence summaries and numbers, "
+        "change-my-mind conditions, caveats, window dates and source) are sent as JSON to an "
+        f"OpenAI-compatible model at temperature {TEMPERATURE}, which rewrites them as one "
+        "paragraph. The reply is shown as \u201c"
+        f"{AI_LABEL}\u201d only if every number, number word, date, month and year in it "
+        "appears in that JSON (rounding to fewer decimals and percent/fraction forms are "
+        "accepted; \u201cone\u201d and counts of checks, stances, conditions and caveats "
+        "count as present), the verdict label appears verbatim and no other label does, and "
+        f"it has at most {cfg['narration']['max_words']} words. Otherwise, or when no "
+        f"provider is configured or the call fails, a fixed template is shown as \u201c"
+        f"{TEMPLATE_LABEL}\u201d.\n\n"
+        "System prompt:\n\n" + prompt + "\n\n" + threshold_lines(cfg["narration"])
+    )
+    return MethodologySection("AI narration", body)
+
+
 def methodology_sections(cfg: Config) -> list[MethodologySection]:
     """All methodology sections, in reading order."""
     return [
@@ -182,4 +204,5 @@ def methodology_sections(cfg: Config) -> list[MethodologySection]:
         confidence_section(cfg),
         change_my_mind_section(cfg),
         cross_source_section(cfg),
+        narration_section(cfg),
     ]

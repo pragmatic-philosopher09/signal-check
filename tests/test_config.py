@@ -313,3 +313,34 @@ def test_secret_flag(monkeypatch: pytest.MonkeyPatch) -> None:
 def test_resolve_path_is_repo_relative(tmp_path: Path) -> None:
     assert cfg_mod.resolve_path("data/samples") == DEFAULT_CONFIG_PATH.parent / "data/samples"
     assert cfg_mod.resolve_path(tmp_path) == tmp_path
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda c: c["narration"].update(max_words=121), "narration.max_words"),
+        (lambda c: c["narration"].update(max_words=5), "narration.max_words"),
+        (lambda c: c["narration"].update(max_tokens=50), "narration.max_tokens"),
+        (lambda c: c["narration"].update(max_tokens_param="tokens"), "max_tokens_param"),
+        (lambda c: c["narration"].update(default_base_url="api.openai.com"), "default_base_url"),
+        (lambda c: c["narration"].update(default_model=" "), "default_model"),
+        (lambda c: c["narration"].update(connect_timeout_s=0), "connect_timeout_s"),
+        (lambda c: c["narration"].update(read_timeout_s=-1), "read_timeout_s"),
+        (lambda c: c["narration"].update(max_retries=-1), "narration.max_retries"),
+        (lambda c: c["narration"].update(total_timeout_s=10), "total_timeout_s"),
+        (lambda c: c["narration"].update(max_workers=0), "narration.max_workers"),
+    ],
+)
+def test_narration_settings_out_of_range_fail(
+    raw_config: dict[str, Any], mutate: Any, message: str
+) -> None:
+    mutate(raw_config)
+    with pytest.raises(ConfigError, match=message):
+        validate_config(raw_config)
+
+
+def test_narration_keys_present() -> None:
+    n = load_config()["narration"]
+    assert n["max_words"] == 120
+    assert n["max_tokens"] >= n["max_words"]
+    assert n["default_base_url"] == "https://api.openai.com/v1"

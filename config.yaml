@@ -233,3 +233,25 @@ eval:
 cross_source:
   # Sources whose recent window overlaps the comparison window less than this are "not comparable".
   min_overlap: 0.5
+
+# Section 9.1: optional LLM narration (LLM_PROVIDER / LLM_API_KEY / LLM_MODEL / LLM_BASE_URL in
+# .env or st.secrets). The LLM only rewrites the validated findings; any failure -> template text.
+narration:
+  # Word cap enforced by the validator (and stated in the prompt).
+  max_words: 120
+  # Completion token budget sent with every request.
+  max_tokens: 300
+  # Request field carrying the budget: max_tokens (most OpenAI-compatible gateways) or
+  # max_completion_tokens (newer OpenAI reasoning models).
+  max_tokens_param: max_tokens
+  # Used when LLM_BASE_URL / LLM_MODEL are unset.
+  default_base_url: https://api.openai.com/v1
+  default_model: gpt-4o-mini
+  # Per-request timeouts and retries (narration is optional, so it fails fast).
+  connect_timeout_s: 5
+  read_timeout_s: 20
+  max_retries: 1
+  # The UI waits at most this long for all of a page's narrations, then shows templates.
+  total_timeout_s: 30
+  # Concurrent narration requests per page.
+  max_workers: 4

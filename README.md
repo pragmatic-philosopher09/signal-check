@@ -4,7 +4,7 @@
 
 A free, non-commercial web app that gives a deterministic, evidence-backed verdict (`TREND`, `FLUKE`, `SEASONAL`, `NO_CHANGE`, `INCONCLUSIVE`) on public attention data from Google Trends, Reddit, Wikipedia, Hacker News and (optionally) X.
 
-Status: Phase 4 (data models, preprocessing, HTTP/cache layer, CSV upload, the seven statistical checks, the R1–R6 decision table, confidence, "what would change my mind", cross-source comparison, the synthetic eval, and live adapters for Wikipedia, Hacker News, Google Trends, Reddit and X) plus Phase 5: the Streamlit UI. AI narration (Phase 6) is not wired up yet; cards show a labelled template summary instead. The build specification is in [`COPILOT_BRIEF.md`](COPILOT_BRIEF.md).
+Status: Phase 4 (data models, preprocessing, HTTP/cache layer, CSV upload, the seven statistical checks, the R1–R6 decision table, confidence, "what would change my mind", cross-source comparison, the synthetic eval, and live adapters for Wikipedia, Hacker News, Google Trends, Reddit and X) plus Phase 5 (the Streamlit UI) and Phase 6: optional AI narration. Set `LLM_PROVIDER=openai`, `LLM_API_KEY` and optionally `LLM_MODEL` / `LLM_BASE_URL` (any OpenAI-compatible Chat Completions endpoint; see `.env.example`) to get an "AI-written summary of the findings above" on each card. The LLM only rewrites the deterministic findings; its text is shown only if every number, date and the verdict label check out against them, otherwise (or with no key) the card shows "Summary (template)". The build specification is in [`COPILOT_BRIEF.md`](COPILOT_BRIEF.md).
 
 ## Development
 

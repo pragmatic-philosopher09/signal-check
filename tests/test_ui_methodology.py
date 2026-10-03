@@ -5,6 +5,7 @@ from __future__ import annotations
 from signalcheck.config import Config
 from signalcheck.engine.checks import CHECKS
 from signalcheck.engine.verdict import RULES
+from signalcheck.narrate import AI_LABEL, TEMPLATE_LABEL, system_prompt
 from signalcheck.ui.methodology import format_value, methodology_sections
 
 
@@ -20,6 +21,7 @@ def test_sections_in_reading_order(cfg: Config) -> None:
         "Confidence",
         "What would change my mind",
         "Cross-source summary",
+        "AI narration",
     ]
 
 
@@ -54,3 +56,11 @@ def test_format_value() -> None:
     assert format_value({"D": 28, "W": 26}) == "D 28 \u00b7 W 26"
     assert format_value(True) == "yes"
     assert format_value(0.5) == "0.5"
+
+
+def test_narration_section_shows_the_prompt_and_labels(cfg: Config) -> None:
+    text = body(cfg, "AI narration")
+    for line in system_prompt(cfg).splitlines():
+        assert line in text
+    assert AI_LABEL in text and TEMPLATE_LABEL in text
+    assert "`max_words` = 120" in text
