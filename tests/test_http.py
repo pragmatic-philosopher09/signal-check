@@ -181,3 +181,27 @@ def test_get_json(cfg: Config, rng: np.random.Generator, sleep: SleepRecorder) -
     assert http.get_json(URL, **kwargs) == {"n": 3}
     with pytest.raises(http.HttpError, match="not valid JSON"):
         http.get_json(URL, **kwargs)
+
+
+def test_installed_session_carries_every_request(cfg: Config) -> None:
+    class Recording(requests.Session):
+        def __init__(self) -> None:
+            super().__init__()
+            self.urls: list[str] = []
+
+        def request(self, method: str | bytes, url: str | bytes, *args: Any, **kwargs: Any) -> Any:
+            self.urls.append(str(url))
+            response = requests.Response()
+            response.status_code = 200
+            response._content = b'{"ok": true}'
+            return response
+
+    session = Recording()
+    http.install_session(session)
+    try:
+        assert http.get_session() is session
+        assert http.get_json(URL, cfg=cfg) == {"ok": True}
+    finally:
+        http.install_session(None)
+    assert session.urls == [URL]
+    assert http.get_session() is not session

@@ -2,8 +2,9 @@
 
 Every source is fetched through :func:`fetch_safely` and analysed in isolation,
 so one failing adapter (or an unexpected analysis error) only degrades its own
-card. Sources are fetched concurrently with a small thread pool; the shared HTTP
-session and disk cache are created on the calling thread first.
+card. Sources are fetched concurrently with a small thread pool (or inline with
+``max_workers=1``, as in the browser build); the shared HTTP session and disk
+cache are created on the calling thread first.
 """
 
 from __future__ import annotations
@@ -228,6 +229,20 @@ def disabled_outcome(status: SourceStatus) -> SourceOutcome:
     )
 
 
+def _guarded(source: str, call: Callable[..., SourceOutcome], *args: Any) -> SourceOutcome:
+    """``call(*args)``, turning any unexpected exception into a per-card failure."""
+    try:
+        return call(*args)
+    except Exception as exc:
+        log.error("source %s failed with %s", source, type(exc).__name__)
+        label = source_label(source)
+        return SourceOutcome(
+            source,
+            label,
+            message=f"Couldn't fetch {label}: unexpected error ({type(exc).__name__})",
+        )
+
+
 def run_topic(
     query: str,
     sources: Sequence[str],
@@ -256,26 +271,20 @@ def run_topic(
     outcomes: list[SourceOutcome] = []
     if adapters:
         workers = max(1, min(max_workers, len(adapters)))
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            futures = [
-                (adapter.source, pool.submit(_fetch_and_analyse, adapter, query, params, cfg))
-                for adapter, params in adapters
-            ]
-            for source, future in futures:
-                try:
-                    outcomes.append(future.result())
-                except Exception as exc:
-                    log.error("source %s failed with %s", source, type(exc).__name__)
-                    label = source_label(source)
-                    outcomes.append(
-                        SourceOutcome(
-                            source,
-                            label,
-                            message=(
-                                f"Couldn't fetch {label}: unexpected error ({type(exc).__name__})"
-                            ),
-                        )
-                    )
+        if workers == 1:
+            # Inline, no threads: also the path for the browser build (Pyodide has none).
+            for adapter, params in adapters:
+                outcomes.append(
+                    _guarded(adapter.source, _fetch_and_analyse, adapter, query, params, cfg)
+                )
+        else:
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                futures = [
+                    (adapter.source, pool.submit(_fetch_and_analyse, adapter, query, params, cfg))
+                    for adapter, params in adapters
+                ]
+                for source, future in futures:
+                    outcomes.append(_guarded(source, future.result))
     return TopicResult(query, outcomes, summarise(outcomes, cfg), sample=sample)
 
 

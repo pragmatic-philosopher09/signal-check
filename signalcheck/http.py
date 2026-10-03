@@ -47,10 +47,31 @@ def build_session() -> requests.Session:
     return session
 
 
+_installed: list[requests.Session] = []
+
+
+def install_session(session: requests.Session | None) -> None:
+    """Route every request through ``session`` (``None`` restores the default).
+
+    The transport is injectable so the same adapters run unchanged in the browser
+    build, where the web worker installs a session that sends requests with the
+    browser's XMLHttpRequest instead of sockets.
+    """
+    _installed.clear()
+    if session is not None:
+        _installed.append(session)
+
+
 @lru_cache(maxsize=1)
-def get_session() -> requests.Session:
-    """The process-wide shared session (connection pooling, one User-Agent)."""
+def _shared_session() -> requests.Session:
     return build_session()
+
+
+def get_session() -> requests.Session:
+    """The installed session, else the process-wide shared one (pooling, one User-Agent)."""
+    if _installed:
+        return _installed[0]
+    return _shared_session()
 
 
 def is_retryable(status: int) -> bool:

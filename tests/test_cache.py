@@ -13,7 +13,15 @@ import responses
 
 from signalcheck import config as config_mod
 from signalcheck import http
-from signalcheck.cache import Cache, make_key, normalise_params, normalise_query
+from signalcheck.cache import (
+    Cache,
+    MemoryStore,
+    get_cache,
+    install_cache,
+    make_key,
+    normalise_params,
+    normalise_query,
+)
 from signalcheck.config import Config
 from tests.conftest import build_series
 
@@ -119,3 +127,37 @@ def test_series_round_trip(cache: Cache) -> None:
     assert out is series
     assert again is not None
     assert again.points.equals(series.points) and again.meta == series.meta
+
+
+def test_memory_store_ttl_persist_hook_and_reload() -> None:
+    clock = [1000.0]
+    stored: list[tuple[str, float | None, object]] = []
+    mem = Cache.in_memory(60, now=lambda: clock[0], on_store=lambda *e: stored.append(e))
+    calls: list[int] = []
+
+    def fetch() -> dict[str, int]:
+        calls.append(1)
+        return {"n": len(calls)}
+
+    assert mem.get_or_fetch("hackernews", "Rust ", {"a": 1}, fetch) == {"n": 1}
+    assert mem.get_or_fetch("hackernews", "rust", {"a": 1}, fetch) == {"n": 1}
+    assert len(calls) == 1
+    key = make_key("hackernews", "rust", {"a": 1})
+    assert stored == [(key, 1060.0, {"n": 1})]
+
+    fresh = MemoryStore(now=lambda: clock[0])
+    assert fresh.load([(key, 1060.0, {"n": 1}), ("old", 999.0, 1), ("forever", None, 2)]) == 2
+    assert fresh.get(key) == {"n": 1} and fresh.get("old") is None and fresh.get("forever") == 2
+    clock[0] = 1061.0
+    assert fresh.get(key, "gone") == "gone"
+    assert mem.get_or_fetch("hackernews", "rust", {"a": 1}, fetch) == {"n": 2}
+
+
+def test_installed_cache_replaces_the_disk_cache() -> None:
+    mem = Cache.in_memory(60)
+    install_cache(mem)
+    try:
+        assert get_cache() is mem
+    finally:
+        install_cache(None)
+    assert get_cache() is not mem

@@ -16,7 +16,12 @@ from pathlib import Path
 from typing import Any
 
 import yaml
-from dotenv import load_dotenv
+
+try:
+    from dotenv import load_dotenv
+except ImportError:  # pragma: no cover - python-dotenv is absent in the browser build
+    load_dotenv = None  # type: ignore[assignment]
+
 
 APP_NAME = "Signal Check"
 APP_VERSION = "0.1.0"
@@ -576,7 +581,8 @@ def secret_flag(name: str) -> bool | None:
 @lru_cache(maxsize=1)
 def _load_dotenv_once() -> None:
     """Load a local ``.env`` into ``os.environ`` without overriding existing values."""
-    load_dotenv(override=False)
+    if load_dotenv is not None:
+        load_dotenv(override=False)
 
 
 def _streamlit_secret(name: str) -> str | None:
