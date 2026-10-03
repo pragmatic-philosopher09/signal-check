@@ -279,6 +279,10 @@ def test_fluke_toggle_must_be_bool(raw_config: dict[str, Any]) -> None:
         (lambda c: c["adapters"]["x"].update(cost_counts_all_usd=-0.01), "cost_counts_all_usd"),
         (lambda c: c["adapters"]["x"].update(breadth_posts_per_day=500), "breadth_posts_per_day"),
         (lambda c: c["samples"].update(topics=[]), "samples.topics"),
+        (lambda c: c["ui"].update(timeframe_days=[]), "ui.timeframe_days"),
+        (lambda c: c["ui"].update(timeframe_days=[90, 0]), "ui.timeframe_days"),
+        (lambda c: c["ui"].update(chart_height_px=50), "ui.chart_height_px"),
+        (lambda c: c["ui"].update(threshold_headroom=0.5), "ui.threshold_headroom"),
     ],
 )
 def test_adapter_settings_out_of_range_fail(

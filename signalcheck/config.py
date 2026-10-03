@@ -115,6 +115,11 @@ SCHEMA: dict[str, Any] = {
         "dir": str,
         "topics": list,
     },
+    "ui": {
+        "timeframe_days": list,
+        "chart_height_px": int,
+        "threshold_headroom": NUMBER,
+    },
     "preprocess": {
         "min_history": FreqMap(int),
         "recent_frac": NUMBER,
@@ -336,6 +341,16 @@ def _check_adapter_constraints(cfg: Config, require: Callable[[bool, str], None]
         "adapters.x.breadth_posts_per_day: must be in [10, 100]",
     )
     require(bool(x["ledger_file"]), "adapters.x.ledger_file: must not be empty")
+    ui = cfg["ui"]
+    require(
+        bool(ui["timeframe_days"])
+        and all(
+            isinstance(d, int) and not isinstance(d, bool) and d >= 1 for d in ui["timeframe_days"]
+        ),
+        "ui.timeframe_days: must be a non-empty list of positive integers",
+    )
+    require(ui["chart_height_px"] >= 120, "ui.chart_height_px: must be >= 120")
+    require(ui["threshold_headroom"] >= 1, "ui.threshold_headroom: must be >= 1")
     for path, topics in (
         ("adapters.reddit.watchlist", rd["watchlist"]),
         ("samples.topics", cfg["samples"]["topics"]),

@@ -6,6 +6,6 @@ sources' verdicts over a common calendar window.
 """
 
 from signalcheck.engine.cross_source import compare_sources
-from signalcheck.engine.pipeline import analyse
+from signalcheck.engine.pipeline import Analysis, analyse, analyse_detailed
 
-__all__ = ["analyse", "compare_sources"]
+__all__ = ["Analysis", "analyse", "analyse_detailed", "compare_sources"]
