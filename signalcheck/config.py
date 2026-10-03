@@ -22,6 +22,7 @@ APP_VERSION = "0.1.0"
 
 DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.yaml"
 FREQS: tuple[str, ...] = ("D", "W", "M")
+SCALES: tuple[str, ...] = ("relative_0_100", "count", "pageviews", "value")
 
 Config = dict[str, Any]
 
@@ -59,6 +60,11 @@ SCHEMA: dict[str, Any] = {
         "ttl_hours": NUMBER,
         "dir": str,
     },
+    "adapters": {
+        "csv": {
+            "trends_lt1_value": NUMBER,
+        },
+    },
     "preprocess": {
         "min_history": FreqMap(int),
         "recent_frac": NUMBER,
@@ -67,6 +73,7 @@ SCHEMA: dict[str, Any] = {
         "gap_fill_max_consecutive": int,
         "mad_scale": NUMBER,
         "mad_floor": NUMBER,
+        "log_scales": list,
     },
     "checks": {
         "persistence": {
@@ -165,13 +172,62 @@ def _validate(node: object, schema: object, path: str, errors: list[str]) -> Non
         errors.append(f"{path}: expected {_type_name(schema)}")
 
 
+def _check_constraints(cfg: Config, errors: list[str]) -> None:
+    """Check value ranges and cross-key consistency of a schema-valid config.
+
+    These guarantee the preprocessing maths is well defined: a recent window of at
+    least one point that always leaves a non-empty baseline, a positive MAD floor,
+    and positive HTTP timeouts and cache TTL.
+    """
+
+    def require(ok: bool, message: str) -> None:
+        if not ok:
+            errors.append(message)
+
+    pre = cfg["preprocess"]
+    require(0 < pre["recent_frac"] < 1, "preprocess.recent_frac: must be in (0, 1)")
+    for freq in FREQS:
+        lo, hi, hist = pre["recent_min"][freq], pre["recent_max"][freq], pre["min_history"][freq]
+        require(lo >= 1, f"preprocess.recent_min.{freq}: must be >= 1")
+        require(lo <= hi, f"preprocess.recent_min.{freq}: must be <= recent_max.{freq}")
+        require(lo < hist, f"preprocess.recent_min.{freq}: must be < min_history.{freq}")
+        # round-half-up(recent_frac * n) < n for every n >= min_history, so the baseline
+        # window is never empty once the history is long enough.
+        require(
+            pre["recent_frac"] * hist < hist - 0.5,
+            f"preprocess.recent_frac: leaves no baseline at min_history.{freq}",
+        )
+    require(pre["gap_fill_max_consecutive"] >= 0, "preprocess.gap_fill_max_consecutive: >= 0")
+    require(pre["mad_scale"] > 0, "preprocess.mad_scale: must be > 0")
+    require(pre["mad_floor"] > 0, "preprocess.mad_floor: must be > 0")
+    unknown = [s for s in pre["log_scales"] if s not in SCALES]
+    require(not unknown, f"preprocess.log_scales: unknown scale(s) {unknown}; known: {SCALES}")
+
+    http = cfg["http"]
+    require(http["connect_timeout_s"] > 0, "http.connect_timeout_s: must be > 0")
+    require(http["read_timeout_s"] > 0, "http.read_timeout_s: must be > 0")
+    require(http["max_retries"] >= 0, "http.max_retries: must be >= 0")
+    require(http["backoff_base_s"] >= 0, "http.backoff_base_s: must be >= 0")
+    require(
+        http["backoff_max_s"] >= http["backoff_base_s"],
+        "http.backoff_max_s: must be >= backoff_base_s",
+    )
+    require(cfg["cache"]["ttl_hours"] > 0, "cache.ttl_hours: must be > 0")
+    lt1 = cfg["adapters"]["csv"]["trends_lt1_value"]
+    require(0 < lt1 < 1, "adapters.csv.trends_lt1_value: must be in (0, 1)")
+
+
 def validate_config(raw: object) -> Config:
     """Validate a parsed config against :data:`SCHEMA` and return it.
 
-    Raises :class:`ConfigError` listing every missing or mistyped key at once.
+    Raises :class:`ConfigError` listing every missing or mistyped key at once, then
+    every out-of-range or inconsistent value (see :func:`_check_constraints`).
     """
     errors: list[str] = []
     _validate(raw, SCHEMA, "", errors)
+    if not errors:
+        assert isinstance(raw, dict)
+        _check_constraints(raw, errors)
     if errors:
         raise ConfigError("Invalid config.yaml:\n  " + "\n  ".join(errors))
     assert isinstance(raw, dict)
