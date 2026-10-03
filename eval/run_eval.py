@@ -3,20 +3,23 @@
 Usage::
 
     python -m eval.run_eval                 # both splits, text report
-    python -m eval.run_eval --split test    # one split
+    python -m eval.run_eval --split tune    # one split
     python -m eval.run_eval --json          # machine-readable output
     python -m eval.run_eval --sweep 0       # skip the extra pure-noise seeds (default 20)
+    python -m eval.run_eval --split test --save final_test   # also write eval/results/*.json|md
 
-For each split (``tune``/``test``; real snapshots from ``eval/real_cases.yaml``
-are reported as ``real-tune``/``real-test`` once labelled) it prints the
-confusion matrix (rows = expected label, columns = verdict), accuracy (a TREND
-counts as correct only with the right direction), per-label recall, the
-false-TREND rate on pure-noise cases (target from ``eval.target_false_trend_rate``)
-and every failing case with the rule that fired and its reason.
+For each split (``tune``/``test``) it reports the synthetic cases
+(``eval/cases.yaml``), the real cases (``eval/real_cases.yaml``, loaded offline
+from the aggregate snapshots in ``eval/real_data/`` and cut at each case's
+``as_of``) and both combined: confusion matrix (rows = expected label, columns =
+verdict), accuracy (a TREND counts as correct only with the right direction),
+per-label recall, the false-TREND rate on pure-noise cases (target from
+``eval.target_false_trend_rate``) and every failing case with the rule that
+fired and its reason.
 
-Everything is deterministic: each case has a fixed seed, and ``--sweep`` derives
-its extra seeds from the case seed with :class:`numpy.random.SeedSequence`.
-This script reports; it never changes thresholds.
+Everything is deterministic: each synthetic case has a fixed seed, and
+``--sweep`` derives its extra seeds from the case seed with
+:class:`numpy.random.SeedSequence`. This script reports; it never changes thresholds.
 """
 
 from __future__ import annotations
@@ -30,18 +33,22 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
+import pandas as pd
 import yaml
 
+from eval.fetch_real import REAL_DATA_DIR, load_entries, real_data_path
 from eval.generators import GENERATORS
-from signalcheck.adapters.csv_upload import parse_csv
 from signalcheck.config import Config, get_config
 from signalcheck.engine import analyse
 from signalcheck.models import DIRECTIONS, LABELS, Series
+from signalcheck.snapshots import read_snapshot
 
 EVAL_DIR = Path(__file__).resolve().parent
 CASES_PATH = EVAL_DIR / "cases.yaml"
 REAL_CASES_PATH = EVAL_DIR / "real_cases.yaml"
+RESULTS_DIR = EVAL_DIR / "results"
 SPLITS: tuple[str, ...] = ("tune", "test")
+KINDS: tuple[str, ...] = ("synthetic", "real", "combined")
 SHORT: dict[str, str] = {
     "TREND": "TREND",
     "FLUKE": "FLUKE",
@@ -62,11 +69,6 @@ class Case:
     noise: bool
     kind: str
     build: Callable[[], Series]
-
-    @property
-    def group(self) -> str:
-        """Report section: ``tune``/``test`` for synthetic, ``real-<split>`` for real."""
-        return self.split if self.kind == "synthetic" else f"{self.kind}-{self.split}"
 
 
 @dataclass(frozen=True)
@@ -135,48 +137,45 @@ def load_cases(path: Path = CASES_PATH) -> list[Case]:
     return cases
 
 
-def real_builder(entry: dict[str, Any], snapshot: Path, cfg: Config) -> Callable[[], Series]:
-    """A builder parsing a real CSV snapshot with the entry's options."""
-
-    def build() -> Series:
-        return parse_csv(
-            snapshot.read_bytes(),
-            query=entry.get("query"),
-            value_column=entry.get("value_column"),
-            scale=entry.get("scale"),
-            freq=entry.get("freq"),
-            upload_date=entry.get("upload_date"),
-            last_period_incomplete=bool(entry.get("last_period_incomplete", False)),
-            cfg=cfg,
-        )
-
-    return build
+def truncate_as_of(series: Series, as_of: str) -> Series:
+    """Keep only periods that end on or before ``as_of`` (what the engine may see)."""
+    ts = pd.to_datetime(series.points["ts"])
+    span = pd.Timedelta(days=6) if series.freq == "W" else pd.Timedelta(0)
+    keep = (ts + span) <= pd.Timestamp(as_of)
+    meta = dict(series.meta)
+    meta["as_of"] = as_of
+    points = series.points.loc[keep.to_numpy()].reset_index(drop=True)
+    return Series(series.source, series.query, series.freq, points, series.scale, meta)
 
 
-def load_real_cases(path: Path, cfg: Config) -> tuple[list[Case], list[str]]:
-    """Labelled real cases whose snapshot exists, plus the ids of incomplete entries."""
+def real_builder(snapshot: Path, as_of: str) -> Callable[[], Series]:
+    """A builder reading a real snapshot (offline) and cutting it at ``as_of``."""
+    return lambda: truncate_as_of(read_snapshot(snapshot), as_of)
+
+
+def load_real_cases(
+    path: Path = REAL_CASES_PATH, data_dir: Path = REAL_DATA_DIR
+) -> tuple[list[Case], list[str]]:
+    """Labelled real cases whose snapshot exists, plus the ids of cases without one."""
     if not path.exists():
         return [], []
-    raw = yaml.safe_load(path.read_text()) or {}
     cases: list[Case] = []
     skipped: list[str] = []
-    for entry in raw.get("cases") or []:
-        case_id = str(entry.get("id"))
-        snapshot = entry.get("snapshot")
-        file = path.parent / snapshot if snapshot else None
-        if entry.get("label") is None or file is None or not file.exists():
-            skipped.append(case_id)
+    for entry in load_entries(path):
+        file = real_data_path(entry["id"], data_dir)
+        if not file.exists():
+            skipped.append(entry["id"])
             continue
-        _validate(entry, case_id)
+        _validate(entry, entry["id"])
         cases.append(
             Case(
-                id=case_id,
+                id=entry["id"],
                 label=entry["label"],
                 direction=entry.get("direction"),
                 split=entry["split"],
                 noise=False,
                 kind="real",
-                build=real_builder(entry, file, cfg),
+                build=real_builder(file, entry["as_of"]),
             )
         )
     return cases, skipped
@@ -236,8 +235,21 @@ def false_trend(results: Sequence[Result]) -> dict[str, Any]:
     return {"n": len(noise), "false_trend": len(hits), "rate": rate}
 
 
+def describe(r: Result) -> dict[str, Any]:
+    """One result as a report row."""
+    return {
+        "id": r.case.id,
+        "expected": r.case.label + (f" {r.case.direction}" if r.case.direction else ""),
+        "got": r.label + (f" {r.direction}" if r.direction else ""),
+        "correct": r.correct,
+        "confidence": r.confidence,
+        "rule": r.rule,
+        "reason": r.reason,
+    }
+
+
 def summarise(results: Sequence[Result], sweep: Sequence[Result] = ()) -> dict[str, Any]:
-    """Confusion matrix, accuracy, recall, false-TREND rate and failures for one split."""
+    """Confusion matrix, accuracy, recall, false-TREND rate, cases and failures for a group."""
     confusion = {e: {p: 0 for p in LABELS} for e in LABELS}
     for r in results:
         confusion[r.case.label][r.label] += 1
@@ -246,18 +258,7 @@ def summarise(results: Sequence[Result], sweep: Sequence[Result] = ()) -> dict[s
         of_label = [r for r in results if r.case.label == label]
         recall[label] = sum(r.correct for r in of_label) / len(of_label) if of_label else None
     n_correct = sum(r.correct for r in results)
-    failures = [
-        {
-            "id": r.case.id,
-            "expected": r.case.label + (f" {r.case.direction}" if r.case.direction else ""),
-            "got": r.label + (f" {r.direction}" if r.direction else ""),
-            "confidence": r.confidence,
-            "rule": r.rule,
-            "reason": r.reason,
-        }
-        for r in results
-        if not r.correct
-    ]
+    rows = [describe(r) for r in results]
     out: dict[str, Any] = {
         "n": len(results),
         "correct": n_correct,
@@ -265,7 +266,10 @@ def summarise(results: Sequence[Result], sweep: Sequence[Result] = ()) -> dict[s
         "confusion": confusion,
         "recall": recall,
         "false_trend": false_trend(results),
-        "failures": failures,
+        "cases": rows,
+        "failures": [
+            {k: v for k, v in row.items() if k != "correct"} for row in rows if not row["correct"]
+        ],
     }
     if sweep:
         out["noise_sweep"] = false_trend(sweep)
@@ -283,22 +287,28 @@ def run(
     """Evaluate the requested split(s); returns the full report as a dict."""
     cfg = cfg if cfg is not None else get_config()
     cases = load_cases(cases_path)
-    real, skipped = load_real_cases(real_path, cfg)
+    real, skipped = load_real_cases(real_path)
     wanted = SPLITS if split == "all" else (split,)
     selected = [c for c in [*cases, *real] if c.split in wanted]
     results = evaluate(selected, cfg)
     sweep_results = evaluate(
         noise_sweep([c for c in cases if c.split in wanted], sweep, cases_path), cfg
     )
-    groups: dict[str, Any] = {}
-    for group in dict.fromkeys(c.group for c in selected):
-        in_group = [r for r in results if r.case.group == group]
-        group_sweep = [r for r in sweep_results if r.case.split == group]
-        groups[group] = summarise(in_group, group_sweep)
+    splits: dict[str, Any] = {}
+    for name in wanted:
+        in_split = [r for r in results if r.case.split == name]
+        split_sweep = [r for r in sweep_results if r.case.split == name]
+        synthetic = [r for r in in_split if r.case.kind == "synthetic"]
+        real_results = [r for r in in_split if r.case.kind == "real"]
+        splits[name] = {
+            "synthetic": summarise(synthetic, split_sweep),
+            "real": summarise(real_results),
+            "combined": summarise(in_split, split_sweep),
+        }
     return {
         "target_false_trend_rate": float(cfg["eval"]["target_false_trend_rate"]),
         "sweep_seeds": sweep,
-        "splits": groups,
+        "splits": splits,
         "real_cases_skipped": skipped,
     }
 
@@ -343,17 +353,107 @@ def format_split(name: str, s: dict[str, Any], target: float) -> list[str]:
 
 
 def format_report(report: dict[str, Any]) -> str:
-    """The full text report."""
+    """The full text report: synthetic, real and combined blocks per split."""
     lines: list[str] = []
-    for name, s in report["splits"].items():
-        lines.extend(format_split(name, s, report["target_false_trend_rate"]))
-        lines.append("")
+    target = report["target_false_trend_rate"]
+    for name, kinds in report["splits"].items():
+        for kind in KINDS:
+            s = kinds[kind]
+            if s["n"] == 0:
+                continue
+            lines.extend(format_split(f"{name} / {kind}", s, target))
+            if kind == "real":
+                lines.append("real cases:")
+                lines.extend(
+                    f"  - {c['id']}: expected {c['expected']}, got {c['got']} "
+                    f"({c['confidence']}) via {c['rule']}"
+                    for c in s["cases"]
+                )
+            lines.append("")
     if report["real_cases_skipped"]:
-        lines.append(
-            f"real cases not yet labelled or missing a snapshot: "
-            f"{', '.join(report['real_cases_skipped'])}"
-        )
+        lines.append(f"real cases missing a snapshot: {', '.join(report['real_cases_skipped'])}")
     return "\n".join(lines).rstrip() + "\n"
+
+
+def _md_row(cells: Sequence[Any]) -> str:
+    return "| " + " | ".join(str(c) for c in cells) + " |"
+
+
+def format_markdown(report: dict[str, Any], title: str = "Eval results") -> str:
+    """Markdown tables: summary per split and kind, per-label recall, real cases, failures."""
+    target = report["target_false_trend_rate"]
+    lines = [
+        f"# {title}",
+        "",
+        f"False-TREND target: <= {_pct(target)} on pure noise; noise sweep: "
+        f"{report['sweep_seeds']} extra seeds per pure-noise case.",
+        "",
+        _md_row(["Split", "Cases", "n", "Accuracy", "False-TREND (cases)", "False-TREND (sweep)"]),
+        _md_row(["---"] * 6),
+    ]
+    for name, kinds in report["splits"].items():
+        for kind in KINDS:
+            s = kinds[kind]
+            if s["n"] == 0:
+                continue
+            ft = s["false_trend"]
+            sw = s.get("noise_sweep")
+            lines.append(
+                _md_row(
+                    [
+                        name,
+                        kind,
+                        s["n"],
+                        f"{_pct(s['accuracy'])} ({s['correct']}/{s['n']})",
+                        f"{_pct(ft['rate'])} ({ft['false_trend']}/{ft['n']})" if ft["n"] else "-",
+                        f"{_pct(sw['rate'])} ({sw['false_trend']}/{sw['n']})" if sw else "-",
+                    ]
+                )
+            )
+    lines += ["", "## Per-label recall (combined)", ""]
+    lines.append(_md_row(["Split", *LABELS]))
+    lines.append(_md_row(["---"] * (len(LABELS) + 1)))
+    for name, kinds in report["splits"].items():
+        recall = kinds["combined"]["recall"]
+        lines.append(_md_row([name, *(_pct(recall[label]) for label in LABELS)]))
+    for name, kinds in report["splits"].items():
+        real = kinds["real"]
+        if real["n"]:
+            lines += ["", f"## Real cases ({name})", ""]
+            lines.append(_md_row(["Case", "Expected", "Got", "Confidence", "Rule", "Correct"]))
+            lines.append(_md_row(["---"] * 6))
+            for c in real["cases"]:
+                lines.append(
+                    _md_row(
+                        [
+                            c["id"],
+                            c["expected"],
+                            c["got"],
+                            c["confidence"],
+                            c["rule"],
+                            "yes" if c["correct"] else "no",
+                        ]
+                    )
+                )
+        failures = kinds["combined"]["failures"]
+        lines += ["", f"## Failing cases ({name})", ""]
+        if not failures:
+            lines.append("None.")
+        for f in failures:
+            lines.append(
+                f"- `{f['id']}`: expected {f['expected']}, got {f['got']} "
+                f"({f['confidence']}) via {f['rule']}: {f['reason']}"
+            )
+    return "\n".join(lines) + "\n"
+
+
+def save(report: dict[str, Any], name: str, out_dir: Path = RESULTS_DIR) -> tuple[Path, Path]:
+    """Write ``<name>.json`` and ``<name>.md`` under ``out_dir``."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    json_path, md_path = out_dir / f"{name}.json", out_dir / f"{name}.md"
+    json_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    md_path.write_text(format_markdown(report, f"Eval results: {name}"), encoding="utf-8")
+    return json_path, md_path
 
 
 def main(argv: Sequence[str] | None = None) -> int:
@@ -366,8 +466,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument("--cases", type=Path, default=CASES_PATH)
     parser.add_argument("--real", type=Path, default=REAL_CASES_PATH)
+    parser.add_argument("--save", metavar="NAME", help="also write eval/results/NAME.json and .md")
     args = parser.parse_args(argv)
     report = run(args.split, args.sweep, args.cases, args.real)
+    if args.save:
+        save(report, args.save)
     if args.json:
         sys.stdout.write(json.dumps(report, indent=2) + "\n")
     else:
