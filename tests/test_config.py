@@ -166,3 +166,61 @@ def test_phase1_keys_present() -> None:
     cfg = load_config()
     assert cfg["preprocess"]["log_scales"] == ["count", "pageviews"]
     assert cfg["adapters"]["csv"]["trends_lt1_value"] == 0.5
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda c: c["checks"]["persistence"].update(mk_alpha=1.0), "mk_alpha: must be in"),
+        (lambda c: c["checks"]["persistence"].update(min_points=2), "min_points: must be >= 3"),
+        (
+            lambda c: c["checks"]["persistence"].update(slope_level_floor=0),
+            "slope_level_floor: must be > 0",
+        ),
+        (lambda c: c["checks"]["concentration"].update(conc_top1_max=1.5), "conc_top1_max"),
+        (
+            lambda c: c["checks"]["seasonality"]["annual_min_points"].update(W=60),
+            "annual_min_points.W: must cover two annual periods",
+        ),
+        (
+            lambda c: c["checks"]["seasonality"]["annual_min_points"].update(D=400),
+            "annual_min_points.D: must cover two annual periods",
+        ),
+        (
+            lambda c: c["checks"]["outliers"].update(isolated_max_points=0),
+            "isolated_max_points: must be >= 1",
+        ),
+        (lambda c: c["checks"]["level_shift"].update(hold_fraction=0.5), "hold_fraction"),
+        (
+            lambda c: c["checks"]["level_shift"]["recent_tolerance"].update(D=-1),
+            "recent_tolerance.D: must be >= 0",
+        ),
+        (lambda c: c["checks"]["low_count"].update(ci_level=1.0), "ci_level: must be in"),
+        (lambda c: c["display"].update(p_decimals=0), "p_decimals"),
+        (
+            lambda c: c["checks"]["seasonality"].update(stl_seasonal_deg=2),
+            "stl_seasonal_deg: must be 0 or 1",
+        ),
+    ],
+)
+def test_check_thresholds_out_of_range_fail(
+    raw_config: dict[str, Any], mutate: Any, message: str
+) -> None:
+    mutate(raw_config)
+    with pytest.raises(ConfigError, match=message):
+        validate_config(raw_config)
+
+
+def test_missing_phase2_keys_fail(raw_config: dict[str, Any]) -> None:
+    del raw_config["checks"]["outliers"]["isolated_max_points"]
+    del raw_config["display"]
+    with pytest.raises(ConfigError) as exc_info:
+        validate_config(raw_config)
+    assert "isolated_max_points" in str(exc_info.value)
+    assert "display" in str(exc_info.value)
+
+
+def test_phase2_keys_present() -> None:
+    cfg = load_config()
+    assert cfg["checks"]["level_shift"]["recent_tolerance"] == {"D": 7, "W": 3, "M": 2}
+    assert cfg["display"]["p_decimals"] == 3

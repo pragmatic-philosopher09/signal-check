@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import os
 import sys
+from collections.abc import Callable
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
@@ -82,6 +83,8 @@ SCHEMA: dict[str, Any] = {
             "mk_alpha": NUMBER,
             "min_slope": NUMBER,
             "band_mads": NUMBER,
+            "min_points": int,
+            "slope_level_floor": NUMBER,
         },
         "concentration": {
             "excess_min_mads": NUMBER,
@@ -94,15 +97,18 @@ SCHEMA: dict[str, Any] = {
             "annual_min_points": FreqMap(int),
             "annual_period": FreqMap(int),
             "stl_robust": bool,
+            "stl_seasonal_deg": int,
             "excess_min_mads": NUMBER,
         },
         "outliers": {
             "outlier_z": NUMBER,
+            "isolated_max_points": int,
         },
         "level_shift": {
             "pen_beta": NUMBER,
             "min_persist": FreqMap(int),
             "hold_fraction": NUMBER,
+            "recent_tolerance": FreqMap(int),
         },
         "low_count": {
             "low_count_threshold": NUMBER,
@@ -112,6 +118,12 @@ SCHEMA: dict[str, Any] = {
             "breadth_top_share_max": NUMBER,
             "breadth_min_contrib_ratio": NUMBER,
         },
+    },
+    "display": {
+        "value_decimals": int,
+        "pct_decimals": int,
+        "stat_decimals": int,
+        "p_decimals": int,
     },
     "verdict": {
         "seasonal_explained_min": NUMBER,
@@ -215,6 +227,82 @@ def _check_constraints(cfg: Config, errors: list[str]) -> None:
     require(cfg["cache"]["ttl_hours"] > 0, "cache.ttl_hours: must be > 0")
     lt1 = cfg["adapters"]["csv"]["trends_lt1_value"]
     require(0 < lt1 < 1, "adapters.csv.trends_lt1_value: must be in (0, 1)")
+    _check_check_constraints(cfg, require)
+
+
+def _check_check_constraints(cfg: Config, require: Callable[[bool, str], None]) -> None:
+    """Range checks for the section 6 check thresholds and display rounding.
+
+    Probabilities and shares must lie in their open/closed unit intervals, window
+    lengths and counts must be positive, and STL periods must be at least 2 with
+    two full periods available at the annual minimum history.
+    """
+    checks = cfg["checks"]
+    per = checks["persistence"]
+    require(per["persistence_context"] >= 0, "checks.persistence.persistence_context: >= 0")
+    require(per["hamed_rao_min_n"] >= 3, "checks.persistence.hamed_rao_min_n: must be >= 3")
+    require(0 < per["mk_alpha"] < 1, "checks.persistence.mk_alpha: must be in (0, 1)")
+    require(per["min_slope"] >= 0, "checks.persistence.min_slope: must be >= 0")
+    require(per["band_mads"] > 0, "checks.persistence.band_mads: must be > 0")
+    require(per["min_points"] >= 3, "checks.persistence.min_points: must be >= 3")
+    require(per["slope_level_floor"] > 0, "checks.persistence.slope_level_floor: must be > 0")
+
+    conc = checks["concentration"]
+    require(conc["excess_min_mads"] >= 0, "checks.concentration.excess_min_mads: must be >= 0")
+    for key in ("conc_top1_max", "conc_top2_max"):
+        require(0 < conc[key] <= 1, f"checks.concentration.{key}: must be in (0, 1]")
+
+    seas = checks["seasonality"]
+    require(seas["weekly_period"] >= 2, "checks.seasonality.weekly_period: must be >= 2")
+    require(
+        seas["stl_seasonal_deg"] in (0, 1), "checks.seasonality.stl_seasonal_deg: must be 0 or 1"
+    )
+    require(seas["weekly_min_weeks"] >= 2, "checks.seasonality.weekly_min_weeks: must be >= 2")
+    require(seas["excess_min_mads"] >= 0, "checks.seasonality.excess_min_mads: must be >= 0")
+    for freq in FREQS:
+        period = seas["annual_period"][freq]
+        require(period >= 2, f"checks.seasonality.annual_period.{freq}: must be >= 2")
+        # Daily data is aggregated to weeks of weekly_period days before annual STL.
+        days = seas["weekly_period"] if freq == "D" else 1
+        require(
+            seas["annual_min_points"][freq] >= 2 * period * days,
+            f"checks.seasonality.annual_min_points.{freq}: must cover two annual periods",
+        )
+
+    out = checks["outliers"]
+    require(out["outlier_z"] > 0, "checks.outliers.outlier_z: must be > 0")
+    require(out["isolated_max_points"] >= 1, "checks.outliers.isolated_max_points: must be >= 1")
+
+    ls = checks["level_shift"]
+    require(ls["pen_beta"] > 0, "checks.level_shift.pen_beta: must be > 0")
+    require(0.5 < ls["hold_fraction"] <= 1, "checks.level_shift.hold_fraction: must be in (0.5, 1]")
+    for freq in FREQS:
+        require(
+            ls["min_persist"][freq] >= 1, f"checks.level_shift.min_persist.{freq}: must be >= 1"
+        )
+        require(
+            ls["recent_tolerance"][freq] >= 0,
+            f"checks.level_shift.recent_tolerance.{freq}: must be >= 0",
+        )
+
+    low = checks["low_count"]
+    require(low["low_count_threshold"] > 0, "checks.low_count.low_count_threshold: must be > 0")
+    require(0 < low["ci_level"] < 1, "checks.low_count.ci_level: must be in (0, 1)")
+
+    br = checks["breadth"]
+    require(
+        0 < br["breadth_top_share_max"] <= 1,
+        "checks.breadth.breadth_top_share_max: must be in (0, 1]",
+    )
+    require(
+        br["breadth_min_contrib_ratio"] >= 0,
+        "checks.breadth.breadth_min_contrib_ratio: must be >= 0",
+    )
+
+    for key, value in cfg["display"].items():
+        require(value >= 0, f"display.{key}: must be >= 0")
+    # With 0 decimals every p-value would display as "p < 1".
+    require(cfg["display"]["p_decimals"] >= 1, "display.p_decimals: must be >= 1")
 
 
 def validate_config(raw: object) -> Config:
