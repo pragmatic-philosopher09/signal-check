@@ -95,6 +95,17 @@ samples:
   dir: data/samples
   topics: ["perplexity ai", "chatgpt", "taylor swift", "rust programming"]
 
+# Section 9: Streamlit UI (app.py).
+ui:
+  # Timeframe choices offered next to "Source defaults" (each adapter's history_days).
+  # Hacker News makes one request per day, so long timeframes are slow on a cold cache.
+  timeframe_days: [90, 180, 365, 800]
+  # Height of each per-source chart in pixels (kept short so cards fit a phone screen).
+  chart_height_px: 320
+  # Outlier-threshold lines above threshold_headroom x the highest plotted value are left off
+  # the chart so they don't squash the series (the threshold is still stated in the evidence).
+  threshold_headroom: 1.5
+
 # Section 5: preprocessing
 preprocess:
   # Minimum points of history; fewer -> INCONCLUSIVE (R1).

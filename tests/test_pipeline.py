@@ -10,7 +10,7 @@ import pytest
 
 from eval.generators import GENERATORS, linear_trend, seasonal_wave
 from signalcheck.config import Config
-from signalcheck.engine import analyse
+from signalcheck.engine import analyse, analyse_detailed
 from signalcheck.engine.checks import CHECKS
 from signalcheck.models import RULE_IDS
 from tests.conftest import SeriesFactory
@@ -83,3 +83,10 @@ def test_every_generator_analyses_cleanly(name: str, cfg: Config) -> None:
         assert v.direction in {"up", "down"}
     assert v.confidence in {"high", "medium", "low"}
     assert v.change_my_mind
+
+
+def test_analyse_detailed_matches_analyse(cfg: Config) -> None:
+    series = linear_trend(np.random.default_rng(1))
+    detailed = analyse_detailed(series, cfg)
+    assert asdict(detailed.verdict) == asdict(analyse(series, cfg))
+    assert len(detailed.filled.series.points) == len(detailed.pre.series.points)

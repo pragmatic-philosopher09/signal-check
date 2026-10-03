@@ -4,7 +4,7 @@
 
 A free, non-commercial web app that gives a deterministic, evidence-backed verdict (`TREND`, `FLUKE`, `SEASONAL`, `NO_CHANGE`, `INCONCLUSIVE`) on public attention data from Google Trends, Reddit, Wikipedia, Hacker News and (optionally) X.
 
-Status: Phase 4 (data models, preprocessing, HTTP/cache layer, CSV upload, the seven statistical checks, the R1–R6 decision table, confidence, "what would change my mind", cross-source comparison, the synthetic eval, and live adapters for Wikipedia, Hacker News, Google Trends, Reddit and X). No UI yet. The build specification is in [`COPILOT_BRIEF.md`](COPILOT_BRIEF.md).
+Status: Phase 4 (data models, preprocessing, HTTP/cache layer, CSV upload, the seven statistical checks, the R1–R6 decision table, confidence, "what would change my mind", cross-source comparison, the synthetic eval, and live adapters for Wikipedia, Hacker News, Google Trends, Reddit and X) plus Phase 5: the Streamlit UI. AI narration (Phase 6) is not wired up yet; cards show a labelled template summary instead. The build specification is in [`COPILOT_BRIEF.md`](COPILOT_BRIEF.md).
 
 ## Development
 
@@ -22,16 +22,26 @@ pytest -m live   # opt-in smoke tests against the real Wikipedia and Hacker News
 
 All engine thresholds live in [`config.yaml`](config.yaml); `signalcheck/config.py` validates it on load and fails fast on missing keys.
 
+## Running the app
+
+```bash
+streamlit run app.py
+```
+
+Type a topic, pick sources and a timeframe, then **Check signal**; or upload a CSV (date + value, or a Google Trends export; a column picker appears when the file has several series). The sample-topic chips load the committed snapshots in `data/samples/` instantly, with no network. Each source gets its own card (verdict, confidence, the rule that fired, evidence, an annotated chart, "what would change my mind" and caveats); a source that fails or is disabled degrades to a message on its card and never breaks the page. The **Methodology** expander is generated from the live `config.yaml`.
+
+UI logic lives in `signalcheck/ui/` (`runner.py` fetch + analyse orchestration, `view_models.py` card text, `charts.py` Plotly annotations, `methodology.py`) so it is unit-tested without Streamlit; `tests/test_app.py` drives `app.py` with Streamlit's `AppTest` and fake adapters.
+
 ## Engine
 
 ```python
-from signalcheck.engine import analyse, compare_sources
+from signalcheck.engine import analyse, analyse_detailed, compare_sources
 
 verdict = analyse(series)          # preprocess -> checks -> R1–R6 -> confidence -> change-my-mind
 summary = compare_sources({"wikipedia": v1, "reddit": v2})  # calendar-aligned one-liner + counts
 ```
 
-`analyse` never raises for a short series; it returns `INCONCLUSIVE` via rule R1.
+`analyse` never raises for a short series; it returns `INCONCLUSIVE` via rule R1. `analyse_detailed` returns the same verdict plus the preprocessed series (gaps, imputed points, dropped partial period) that the UI charts.
 
 ## Evaluation
 
