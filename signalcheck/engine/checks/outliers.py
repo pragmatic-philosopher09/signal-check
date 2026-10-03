@@ -81,6 +81,7 @@ def run(pre: Preprocessed, cfg: Config | None = None) -> Evidence:
         summary = f"No outliers: none of the {recent_text} reach {rule} ({max_text})."
     else:
         i_max = int(flagged[np.argmax(np.abs(z[flagged]))])
+        book.put("max_direction", "up" if z[i_max] > 0 else "down")
         peak = chart_value(recent[i_max], transform, cfg)
         where = (
             f"{max_text} on {book.date('max_date', ts[start + i_max])} "

@@ -121,12 +121,31 @@ display:
 verdict:
   # R2: seasonal share of the recent rise needed to call SEASONAL.
   seasonal_explained_min: 0.7
+  # R3 gap: on log-scale series a single spike often leaves too little total excess for the
+  # concentration check to run ("no meaningful excess"). When true, isolated outliers
+  # (at most checks.outliers.isolated_max_points flagged) stand in for concentration's fluke
+  # signal in that case, provided there is no trend and no sustained level shift.
+  fluke_from_isolated_outliers: true
 
 confidence:
+  # score = agreeing checks - contradicting checks - penalties (section 7).
   conf_high: 3
   conf_medium: 1
   # Penalise when history < history_multiple * min_history.
   history_multiple: 2
+
+# Section 8: "what would change my mind" conditions, in MADs on the working scale.
+change_my_mind:
+  # FLUKE (and INCONCLUSIVE): the next min_persist periods beyond median +/- exceed_mads * MAD
+  # would make it a trend.
+  exceed_mads: 2.0
+  # TREND (and INCONCLUSIVE): the next min_persist periods back within median +/- fallback_mads
+  # * MAD would make it a fluke.
+  fallback_mads: 1.0
+  # SEASONAL: next period beyond last year's same-period value by this many MADs.
+  seasonal_excess_mads: 2.0
+  # At most this many conditions per verdict.
+  max_conditions: 3
 
 eval:
   # Thresholds are tuned to keep the false-TREND rate on pure noise at or below this.

@@ -36,3 +36,5 @@ jobs:
         run: mypy signalcheck
       - name: Pytest
         run: pytest
+      - name: Eval smoke run
+        run: python -m eval.run_eval --sweep 0

@@ -340,12 +340,15 @@ def _fillable_gaps(values: pd.Series, max_run: int) -> pd.Series:
     return pd.Series(mask, index=values.index)
 
 
-def fill_gaps(pre: Preprocessed, cfg: Config | None = None) -> Preprocessed:
+def fill_gaps(
+    pre: Preprocessed, cfg: Config | None = None, for_checks: str | None = None
+) -> Preprocessed:
     """Linearly fill short interior gaps for checks that need a regular series.
 
     Only runs of at most ``gap_fill_max_consecutive`` missing periods are filled;
-    longer runs stay NaN. Filled points get ``imputed=True`` and a caveat. Windows
-    and baseline statistics are unchanged (they were computed on observed data).
+    longer runs stay NaN. Filled points get ``imputed=True`` and a caveat (scoped to
+    ``for_checks`` when given). Windows and baseline statistics are unchanged (they
+    were computed on observed data).
     """
     cfg = cfg if cfg is not None else get_config()
     max_run = int(cfg["preprocess"]["gap_fill_max_consecutive"])
@@ -364,8 +367,9 @@ def fill_gaps(pre: Preprocessed, cfg: Config | None = None) -> Preprocessed:
         points.loc[mask, "value"] = interpolated[mask]
         points.loc[mask, "imputed"] = True
         caveats.append(
-            f"Filled {_plural(n_filled, f'missing {word}')} by linear interpolation "
-            f"(gaps of at most {max_run}); these points are marked imputed."
+            f"Filled {_plural(n_filled, f'missing {word}')} by linear interpolation"
+            f"{f' for the {for_checks}' if for_checks else ''} (gaps of at most {max_run}); "
+            "these points are marked imputed."
         )
     if n_missing - n_filled:
         caveats.append(

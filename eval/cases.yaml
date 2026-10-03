@@ -1,0 +1,289 @@
+# Labelled synthetic eval cases (COPILOT_BRIEF.md section 10, Phase 3).
+#
+# Each case builds one series with a seeded generator from eval/generators.py.
+# The label is the truth by construction, not what the engine currently says.
+#   id         unique case id
+#   generator  key of eval.generators.GENERATORS
+#   params     keyword arguments for the generator
+#   seed       numpy default_rng seed
+#   label      TREND | FLUKE | SEASONAL | NO_CHANGE | INCONCLUSIVE
+#   direction  up | down for TREND (null otherwise)
+#   split      tune | test (~70/30, stratified by label; thresholds may only be tuned on "tune")
+#   noise      true for pure-noise series (no change of any kind); the false-TREND rate is
+#              measured on these
+#
+# Balance: TREND 12 (8 tune / 4 test), FLUKE 9 (6/3), SEASONAL 6 (4/2),
+#          NO_CHANGE 10 (7/3), INCONCLUSIVE 3 (2/1).
+
+cases:
+  # ----- TREND -----------------------------------------------------------------------------
+  - id: trend_up_daily
+    generator: linear_trend
+    params: {n: 120, freq: D, slope: 0.03, onset: -30, noise: 0.05}
+    seed: 101
+    label: TREND
+    direction: up
+    split: tune
+  - id: trend_up_daily_noisy
+    generator: linear_trend
+    params: {n: 120, freq: D, slope: 0.03, onset: -30, noise: 0.15}
+    seed: 102
+    label: TREND
+    direction: up
+    split: test
+  - id: trend_down_daily
+    generator: linear_trend
+    params: {n: 150, freq: D, slope: -0.015, onset: -30, noise: 0.05}
+    seed: 103
+    label: TREND
+    direction: down
+    split: tune
+  - id: trend_up_daily_short
+    generator: linear_trend
+    params: {n: 40, freq: D, slope: 0.04, onset: -10, noise: 0.05}
+    seed: 104
+    label: TREND
+    direction: up
+    split: tune
+  - id: trend_up_weekly
+    generator: linear_trend
+    params: {n: 104, freq: W, slope: 0.05, onset: -12, noise: 0.05}
+    seed: 105
+    label: TREND
+    direction: up
+    split: tune
+  - id: trend_down_weekly
+    generator: linear_trend
+    params: {n: 80, freq: W, slope: -0.03, onset: -13, noise: 0.08}
+    seed: 106
+    label: TREND
+    direction: down
+    split: test
+  - id: trend_up_monthly
+    generator: linear_trend
+    params: {n: 48, freq: M, slope: 0.06, onset: -6, noise: 0.05}
+    seed: 107
+    label: TREND
+    direction: up
+    split: tune
+  - id: step_up_daily
+    generator: step_change
+    params: {n: 120, freq: D, delta: 0.5, at: -20, noise: 0.05}
+    seed: 108
+    label: TREND
+    direction: up
+    split: tune
+  - id: step_down_weekly
+    generator: step_change
+    params: {n: 80, freq: W, delta: -0.4, at: -8, noise: 0.05}
+    seed: 109
+    label: TREND
+    direction: down
+    split: test
+  - id: step_up_monthly
+    generator: step_change
+    params: {n: 36, freq: M, delta: 0.4, at: -5, noise: 0.05}
+    seed: 110
+    label: TREND
+    direction: up
+    split: tune
+  - id: count_growth_daily
+    generator: poisson_growth
+    params: {n: 120, freq: D, lam: 30.0, growth: 0.03, onset: -28}
+    seed: 111
+    label: TREND
+    direction: up
+    split: tune
+  - id: trend_on_seasonal_weekly
+    generator: seasonal_wave
+    params: {n: 156, freq: W, amplitude: 0.2, peak_at: -30, trend: 0.01, power: 1.0}
+    seed: 112
+    label: TREND
+    direction: up
+    split: test
+
+  # ----- FLUKE -----------------------------------------------------------------------------
+  - id: spike_daily
+    generator: spike
+    params: {n: 120, freq: D, height: 3.0, at: -5, noise: 0.05}
+    seed: 201
+    label: FLUKE
+    split: tune
+  - id: spike_weekly
+    generator: spike
+    params: {n: 80, freq: W, height: 2.0, at: -2, noise: 0.08}
+    seed: 202
+    label: FLUKE
+    split: tune
+  - id: spike_monthly
+    generator: spike
+    params: {n: 36, freq: M, height: 2.0, at: -2, noise: 0.05}
+    seed: 203
+    label: FLUKE
+    split: test
+  - id: spike_pageviews_daily
+    generator: spike
+    params: {n: 120, freq: D, level: 1000.0, height: 4.0, at: -4, noise: 0.1, scale: pageviews}
+    seed: 204
+    label: FLUKE
+    split: tune
+  - id: dip_daily
+    generator: dip
+    params: {n: 120, freq: D, depth: 0.8, at: -5, noise: 0.05}
+    seed: 205
+    label: FLUKE
+    split: tune
+  - id: dip_weekly
+    generator: dip
+    params: {n: 80, freq: W, depth: 0.7, at: -3, noise: 0.05}
+    seed: 206
+    label: FLUKE
+    split: test
+  - id: decaying_spike_daily
+    generator: decaying_spike
+    params: {n: 120, freq: D, height: 2.0, at: -8, half_life: 1.0, noise: 0.05}
+    seed: 207
+    label: FLUKE
+    split: tune
+  - id: double_spike_daily
+    generator: double_spike
+    params: {n: 120, freq: D, height: 2.0, first: -12, second: -4, noise: 0.05}
+    seed: 208
+    label: FLUKE
+    split: test
+  - id: single_origin_daily
+    generator: single_origin_spike
+    params: {n: 90, freq: D, lam: 20.0, spike_mult: 30.0, at: -5}
+    seed: 209
+    label: FLUKE
+    split: tune
+
+  # ----- SEASONAL --------------------------------------------------------------------------
+  - id: seasonal_peak_weekly
+    generator: seasonal_wave
+    params: {n: 156, freq: W, amplitude: 0.4, peak_at: -4, power: 2.0, noise: 0.05}
+    seed: 301
+    label: SEASONAL
+    split: tune
+  - id: seasonal_cosine_weekly
+    generator: seasonal_wave
+    params: {n: 130, freq: W, amplitude: 0.3, peak_at: -6, power: 1.0, noise: 0.05}
+    seed: 302
+    label: SEASONAL
+    split: tune
+  - id: seasonal_trough_weekly
+    generator: seasonal_wave
+    params: {n: 156, freq: W, amplitude: 0.4, peak_at: -30, power: 1.0, noise: 0.05}
+    seed: 303
+    label: SEASONAL
+    split: test
+  - id: seasonal_monthly
+    generator: seasonal_wave
+    params: {n: 48, freq: M, amplitude: 0.4, period: 12, peak_at: -2, power: 1.0, noise: 0.05}
+    seed: 304
+    label: SEASONAL
+    split: tune
+  - id: seasonal_sharp_weekly
+    generator: seasonal_wave
+    params: {n: 156, freq: W, amplitude: 0.5, peak_at: -3, power: 6.0, noise: 0.05}
+    seed: 305
+    label: SEASONAL
+    split: test
+  - id: seasonal_daily
+    generator: seasonal_wave
+    params: {n: 800, freq: D, amplitude: 0.4, period: 364, peak_at: -20, power: 1.0, noise: 0.05}
+    seed: 306
+    label: SEASONAL
+    split: tune
+
+  # ----- NO_CHANGE (pure noise) ------------------------------------------------------------
+  - id: flat_daily
+    generator: flat_noise
+    params: {n: 120, freq: D, noise: 0.05}
+    seed: 401
+    label: NO_CHANGE
+    split: tune
+    noise: true
+  - id: flat_daily_noisy
+    generator: flat_noise
+    params: {n: 120, freq: D, noise: 0.2}
+    seed: 402
+    label: NO_CHANGE
+    split: test
+    noise: true
+  - id: flat_daily_short
+    generator: flat_noise
+    params: {n: 35, freq: D, noise: 0.1}
+    seed: 403
+    label: NO_CHANGE
+    split: tune
+    noise: true
+  - id: flat_weekly
+    generator: flat_noise
+    params: {n: 80, freq: W, noise: 0.1}
+    seed: 404
+    label: NO_CHANGE
+    split: tune
+    noise: true
+  - id: flat_monthly
+    generator: flat_noise
+    params: {n: 36, freq: M, noise: 0.1}
+    seed: 405
+    label: NO_CHANGE
+    split: test
+    noise: true
+  - id: flat_pageviews_daily
+    generator: flat_noise
+    params: {n: 120, freq: D, level: 500.0, noise: 0.1, scale: pageviews}
+    seed: 406
+    label: NO_CHANGE
+    split: tune
+    noise: true
+  - id: ar1_daily
+    generator: ar1_noise
+    params: {n: 120, freq: D, phi: 0.6, noise: 0.08}
+    seed: 407
+    label: NO_CHANGE
+    split: tune
+    noise: true
+  - id: ar1_weekly
+    generator: ar1_noise
+    params: {n: 104, freq: W, phi: 0.5, noise: 0.08}
+    seed: 408
+    label: NO_CHANGE
+    split: test
+    noise: true
+  - id: weekday_daily
+    generator: weekday_pattern
+    params: {n: 120, amplitude: 0.3, noise: 0.05}
+    seed: 409
+    label: NO_CHANGE
+    split: tune
+    noise: true
+  - id: low_count_daily
+    generator: low_count_poisson
+    params: {n: 90, freq: D, lam: 2.0}
+    seed: 410
+    label: NO_CHANGE
+    split: tune
+    noise: true
+
+  # ----- INCONCLUSIVE (not enough history) -------------------------------------------------
+  - id: short_daily
+    generator: flat_noise
+    params: {n: 20, freq: D, noise: 0.05}
+    seed: 501
+    label: INCONCLUSIVE
+    split: tune
+  - id: short_weekly_trend
+    generator: linear_trend
+    params: {n: 20, freq: W, slope: 0.05, onset: -8, noise: 0.05}
+    seed: 502
+    label: INCONCLUSIVE
+    split: tune
+  - id: short_monthly
+    generator: spike
+    params: {n: 18, freq: M, height: 2.0, at: -2, noise: 0.05}
+    seed: 503
+    label: INCONCLUSIVE
+    split: test

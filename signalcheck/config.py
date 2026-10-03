@@ -127,11 +127,18 @@ SCHEMA: dict[str, Any] = {
     },
     "verdict": {
         "seasonal_explained_min": NUMBER,
+        "fluke_from_isolated_outliers": bool,
     },
     "confidence": {
         "conf_high": int,
         "conf_medium": int,
         "history_multiple": NUMBER,
+    },
+    "change_my_mind": {
+        "exceed_mads": NUMBER,
+        "fallback_mads": NUMBER,
+        "seasonal_excess_mads": NUMBER,
+        "max_conditions": int,
     },
     "eval": {
         "target_false_trend_rate": NUMBER,
@@ -303,6 +310,40 @@ def _check_check_constraints(cfg: Config, require: Callable[[bool, str], None]) 
         require(value >= 0, f"display.{key}: must be >= 0")
     # With 0 decimals every p-value would display as "p < 1".
     require(cfg["display"]["p_decimals"] >= 1, "display.p_decimals: must be >= 1")
+    _check_verdict_constraints(cfg, require)
+
+
+def _check_verdict_constraints(cfg: Config, require: Callable[[bool, str], None]) -> None:
+    """Range checks for section 7-8 settings (verdict, confidence, change-my-mind, eval).
+
+    Shares and rates are fractions in (0, 1]; the confidence cut-offs must be
+    ordered (``conf_high >= conf_medium``) so "high" always implies "medium"; MAD
+    multipliers must be positive and the fluke fallback must sit inside the trend
+    band (``fallback_mads <= exceed_mads``); at least one condition is generated.
+    """
+    seasonal = cfg["verdict"]["seasonal_explained_min"]
+    require(0 < seasonal <= 1, "verdict.seasonal_explained_min: must be in (0, 1]")
+
+    conf = cfg["confidence"]
+    require(
+        conf["conf_high"] >= conf["conf_medium"],
+        "confidence.conf_high: must be >= confidence.conf_medium",
+    )
+    require(conf["history_multiple"] >= 1, "confidence.history_multiple: must be >= 1")
+
+    cmm = cfg["change_my_mind"]
+    for key in ("exceed_mads", "fallback_mads", "seasonal_excess_mads"):
+        require(cmm[key] > 0, f"change_my_mind.{key}: must be > 0")
+    require(
+        cmm["fallback_mads"] <= cmm["exceed_mads"],
+        "change_my_mind.fallback_mads: must be <= change_my_mind.exceed_mads",
+    )
+    require(cmm["max_conditions"] >= 1, "change_my_mind.max_conditions: must be >= 1")
+
+    rate = cfg["eval"]["target_false_trend_rate"]
+    require(0 < rate < 1, "eval.target_false_trend_rate: must be in (0, 1)")
+    overlap = cfg["cross_source"]["min_overlap"]
+    require(0 < overlap <= 1, "cross_source.min_overlap: must be in (0, 1]")
 
 
 def validate_config(raw: object) -> Config:

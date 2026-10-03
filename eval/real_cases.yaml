@@ -1,0 +1,193 @@
+# Hand-labelled real snapshots for the eval (COPILOT_BRIEF.md section 10, Phase 3).
+#
+# Fill in one entry per snapshot. A case is evaluated only when `label` is set and the
+# `snapshot` file exists; incomplete entries are listed as "skipped" by eval/run_eval.py.
+# Label from what actually happened (with hindsight), not from what the engine says.
+#
+#   id            unique case id (kebab or snake case)
+#   source        google_trends | reddit | wikipedia | hackernews | x | csv (where the data came from)
+#   query         topic / article / subreddit query that produced the series
+#   snapshot      CSV path relative to this file (e.g. snapshots/foo.csv); aggregates only
+#   value_column  CSV column holding the values (null = auto-detect)
+#   freq          D | W | M (null = infer from the timestamps)
+#   scale         relative_0_100 | count | pageviews | value (null = adapter default)
+#   upload_date   ISO date the snapshot was taken (drives the partial-last-period rule)
+#   last_period_incomplete  true if the last row is a partial period
+#   label         TREND | FLUKE | SEASONAL | NO_CHANGE | INCONCLUSIVE (null until labelled)
+#   direction     up | down for TREND, else null
+#   split         tune | test (keep ~70/30 per label; never tune thresholds on "test")
+#   event_date    optional ISO date of the real-world event behind the movement
+#   labelled_on   ISO date you assigned the label
+#   labelled_by   who labelled it
+#   notes         why this label (sources, what happened next)
+
+cases:
+  - id: real_01
+    source: google_trends
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: tune
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_02
+    source: wikipedia
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: tune
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_03
+    source: reddit
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: tune
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_04
+    source: hackernews
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: test
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_05
+    source: google_trends
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: tune
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_06
+    source: wikipedia
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: tune
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_07
+    source: reddit
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: test
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_08
+    source: hackernews
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: tune
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_09
+    source: csv
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: tune
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""
+
+  - id: real_10
+    source: google_trends
+    query: null
+    snapshot: null
+    value_column: null
+    freq: null
+    scale: null
+    upload_date: null
+    last_period_incomplete: false
+    label: null
+    direction: null
+    split: test
+    event_date: null
+    labelled_on: null
+    labelled_by: null
+    notes: ""

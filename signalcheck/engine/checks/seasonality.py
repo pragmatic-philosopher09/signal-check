@@ -154,6 +154,7 @@ def run(pre: Preprocessed, cfg: Config | None = None) -> Evidence:
     work = pre.work.to_numpy(dtype=float)
     n, need = len(work), int(conf["annual_min_points"][freq])
     if n < need:
+        book.put("skip_code", "history")
         years = book.count("min_years", years_of(need, freq, cfg))
         return skipped(
             CHECK,
@@ -164,6 +165,7 @@ def run(pre: Preprocessed, cfg: Config | None = None) -> Evidence:
         )
     missing = int((~np.isfinite(work)).sum())
     if missing:
+        book.put("skip_code", "gaps")
         return skipped(
             CHECK,
             f"the series has {book.count('n_missing', missing)} missing "
@@ -176,6 +178,7 @@ def run(pre: Preprocessed, cfg: Config | None = None) -> Evidence:
     rise = float(recent.mean()) - stats.median
     min_mads = float(conf["excess_min_mads"])
     if abs(rise) < min_mads * stats.mad:
+        book.put("skip_code", "no_rise")
         k = book.stat("excess_min_mads", min_mads)
         return skipped(
             CHECK,

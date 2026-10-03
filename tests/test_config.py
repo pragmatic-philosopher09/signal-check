@@ -224,3 +224,41 @@ def test_phase2_keys_present() -> None:
     cfg = load_config()
     assert cfg["checks"]["level_shift"]["recent_tolerance"] == {"D": 7, "W": 3, "M": 2}
     assert cfg["display"]["p_decimals"] == 3
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (
+            lambda c: c["verdict"].update(seasonal_explained_min=0),
+            "seasonal_explained_min: must be in",
+        ),
+        (lambda c: c["confidence"].update(conf_high=0), "conf_high: must be >= "),
+        (lambda c: c["confidence"].update(history_multiple=0.5), "history_multiple: must be >= 1"),
+        (lambda c: c["change_my_mind"].update(exceed_mads=0), "exceed_mads: must be > 0"),
+        (lambda c: c["change_my_mind"].update(fallback_mads=3), "fallback_mads: must be <="),
+        (lambda c: c["change_my_mind"].update(max_conditions=0), "max_conditions: must be >= 1"),
+        (lambda c: c["eval"].update(target_false_trend_rate=1.0), "target_false_trend_rate"),
+        (lambda c: c["cross_source"].update(min_overlap=0), "min_overlap: must be in"),
+    ],
+)
+def test_verdict_settings_out_of_range_fail(
+    raw_config: dict[str, Any], mutate: Any, message: str
+) -> None:
+    mutate(raw_config)
+    with pytest.raises(ConfigError, match=message):
+        validate_config(raw_config)
+
+
+def test_phase3_keys_present() -> None:
+    cfg = load_config()
+    assert cfg["verdict"]["fluke_from_isolated_outliers"] is True
+    assert cfg["confidence"]["conf_high"] >= cfg["confidence"]["conf_medium"]
+    assert cfg["change_my_mind"]["max_conditions"] == 3
+    assert cfg["cross_source"]["min_overlap"] == 0.5
+
+
+def test_fluke_toggle_must_be_bool(raw_config: dict[str, Any]) -> None:
+    raw_config["verdict"]["fluke_from_isolated_outliers"] = "yes"
+    with pytest.raises(ConfigError, match="fluke_from_isolated_outliers"):
+        validate_config(raw_config)

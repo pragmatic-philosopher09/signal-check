@@ -228,6 +228,86 @@ def single_origin_spike(
     return to_series(counts, freq=freq, scale="count", extra=extra)
 
 
+def ar1_noise(
+    rng: np.random.Generator,
+    *,
+    n: int = 120,
+    freq: str = "D",
+    level: float = 50.0,
+    phi: float = 0.6,
+    noise: float = 0.05,
+    scale: str = "relative_0_100",
+) -> Series:
+    """Constant level plus stationary AR(1) noise (autocorrelation ``phi``): a harder null.
+
+    The innovations are scaled so the marginal standard deviation is ``noise * level``.
+    Autocorrelated noise wanders in runs, which is what fools naive trend tests.
+    """
+    innovations = _noise(rng, n, level, noise) * np.sqrt(1 - phi**2)
+    values = np.empty(n)
+    values[0] = rng.normal(0.0, noise * level)
+    for t in range(1, n):
+        values[t] = phi * values[t - 1] + innovations[t]
+    return to_series(np.clip(level + values, 0, None), freq=freq, scale=scale)
+
+
+def decaying_spike(
+    rng: np.random.Generator,
+    *,
+    n: int = 120,
+    freq: str = "D",
+    level: float = 50.0,
+    height: float = 2.0,
+    at: int = -6,
+    half_life: float = 1.0,
+    noise: float = 0.05,
+    scale: str = "relative_0_100",
+) -> Series:
+    """A spike of ``height * level`` at ``at`` that decays with the given half-life (periods)."""
+    i = _index(at, n)
+    after = np.arange(n) - i
+    bump = np.where(after >= 0, height * level * 0.5 ** (np.clip(after, 0, None) / half_life), 0.0)
+    values = level + bump + _noise(rng, n, level, noise)
+    return to_series(np.clip(values, 0, None), freq=freq, scale=scale)
+
+
+def double_spike(
+    rng: np.random.Generator,
+    *,
+    n: int = 120,
+    freq: str = "D",
+    level: float = 50.0,
+    height: float = 2.0,
+    first: int = -9,
+    second: int = -3,
+    noise: float = 0.05,
+    scale: str = "relative_0_100",
+) -> Series:
+    """Flat noise with two separate periods raised by ``height * level``."""
+    values = level + _noise(rng, n, level, noise)
+    values[_index(first, n)] += height * level
+    values[_index(second, n)] += height * level
+    return to_series(np.clip(values, 0, None), freq=freq, scale=scale)
+
+
+def poisson_growth(
+    rng: np.random.Generator,
+    *,
+    n: int = 120,
+    freq: str = "D",
+    lam: float = 30.0,
+    growth: float = 0.03,
+    onset: int = -30,
+) -> Series:
+    """Poisson counts with mean ``lam`` growing by ``growth`` per period after ``onset``.
+
+    Negative ``growth`` gives a decline.
+    """
+    t0 = _index(onset, n)
+    rates = lam * (1 + growth) ** np.clip(np.arange(n) - t0, 0, None)
+    return to_series(rng.poisson(rates).astype(float), freq=freq, scale="count")
+
+
 Builder = Callable[..., Series]
 
 GENERATORS: dict[str, Builder] = {
@@ -240,4 +320,8 @@ GENERATORS: dict[str, Builder] = {
     "weekday_pattern": weekday_pattern,
     "low_count_poisson": low_count_poisson,
     "single_origin_spike": single_origin_spike,
+    "ar1_noise": ar1_noise,
+    "decaying_spike": decaying_spike,
+    "double_spike": double_spike,
+    "poisson_growth": poisson_growth,
 }
