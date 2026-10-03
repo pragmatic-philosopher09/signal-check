@@ -85,9 +85,10 @@ adapters:
     default_max_spend_usd: 5.0
     # Spend ledger file name inside cache.dir (gitignored).
     ledger_file: x_spend_ledger.json
-    # Optional breadth from post reads on the recent window (costs cost_post_read_usd per post).
+    # Optional breadth from post reads (search/recent, last 7 days only) on the engine's recent
+    # window: newest N posts per day, each billed at cost_post_read_usd.
     breadth_enabled: false
-    breadth_max_posts: 100
+    breadth_posts_per_day: 20
 
 # Topics refreshed by scripts/refresh_samples.py into data/samples/<source>/<slug>.json.
 samples:

@@ -277,6 +277,7 @@ def test_fluke_toggle_must_be_bool(raw_config: dict[str, Any]) -> None:
         ),
         (lambda c: c["adapters"]["x"].update(counts_endpoint="full"), "counts_endpoint"),
         (lambda c: c["adapters"]["x"].update(cost_counts_all_usd=-0.01), "cost_counts_all_usd"),
+        (lambda c: c["adapters"]["x"].update(breadth_posts_per_day=500), "breadth_posts_per_day"),
         (lambda c: c["samples"].update(topics=[]), "samples.topics"),
     ],
 )

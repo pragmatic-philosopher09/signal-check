@@ -108,7 +108,7 @@ SCHEMA: dict[str, Any] = {
             "default_max_spend_usd": NUMBER,
             "ledger_file": str,
             "breadth_enabled": bool,
-            "breadth_max_posts": int,
+            "breadth_posts_per_day": int,
         },
     },
     "samples": {
@@ -332,7 +332,8 @@ def _check_adapter_constraints(cfg: Config, require: Callable[[bool, str], None]
         1 <= x["counts_all_page_days"] <= 31, "adapters.x.counts_all_page_days: must be in [1, 31]"
     )
     require(
-        10 <= x["breadth_max_posts"] <= 1000, "adapters.x.breadth_max_posts: must be in [10, 1000]"
+        10 <= x["breadth_posts_per_day"] <= 100,
+        "adapters.x.breadth_posts_per_day: must be in [10, 100]",
     )
     require(bool(x["ledger_file"]), "adapters.x.ledger_file: must not be empty")
     for path, topics in (
