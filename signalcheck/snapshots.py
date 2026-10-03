@@ -112,13 +112,112 @@ def write_snapshot(series: Series, base: Path | None = None) -> Path:
     return write_snapshot_to(series, snapshot_path(series.source, series.query, base))
 
 
-def write_snapshot_to(series: Series, path: Path) -> Path:
-    """Write ``series`` atomically to ``path`` (aggregates + meta only)."""
+def _compact(value: Any, sort_keys: bool = True) -> str:
+    return json.dumps(value, sort_keys=sort_keys, separators=(",", ":"), allow_nan=False)
+
+
+def snapshot_text(data: dict[str, Any]) -> str:
+    """Deterministic snapshot JSON: sorted keys, compact, one point per line.
+
+    Point keys keep :func:`series_to_dict`'s fixed column order (``ts``, ``value``,
+    then the optional columns), which is already deterministic.
+
+    The same data always gives the same bytes, and a daily refresh that appends a
+    day changes only a few lines, so git diffs (and repo growth) stay small.
+    """
+    head = _compact({k: v for k, v in data.items() if k != "points"})
+    points = ",\n".join(_compact(p, sort_keys=False) for p in data["points"])
+    return f'{head[:-1]},"points":[\n{points}\n]}}\n'
+
+
+def _without_fetch_time(data: dict[str, Any]) -> dict[str, Any]:
+    meta = {k: v for k, v in (data.get("meta") or {}).items() if k != "fetched_at"}
+    return {**data, "meta": meta}
+
+
+def _write_atomic(path: Path, text: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(json.dumps(series_to_dict(series), indent=1) + "\n", encoding="utf-8")
+    tmp.write_text(text, encoding="utf-8")
     os.replace(tmp, path)
+
+
+def write_snapshot_to(series: Series, path: Path) -> Path:
+    """Write ``series`` atomically to ``path`` (aggregates + meta only)."""
+    _write_atomic(path, snapshot_text(series_to_dict(series)))
     return path
+
+
+def write_snapshot_if_changed(series: Series, path: Path) -> bool:
+    """Write ``series`` to ``path`` unless only ``meta.fetched_at`` would change.
+
+    Returns ``True`` when the file was (re)written. Leaving an unchanged snapshot
+    alone keeps the daily refresh free of churn; its older ``fetched_at`` still
+    truthfully dates the identical data.
+    """
+    text = snapshot_text(series_to_dict(series))
+    try:
+        previous = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        previous = None
+    if isinstance(previous, dict) and _without_fetch_time(previous) == _without_fetch_time(
+        json.loads(text)
+    ):
+        return False
+    _write_atomic(path, text)
+    return True
+
+
+# Meta keys that identify what a series measures; history is merged only when they match.
+_IDENTITY_META: tuple[str, ...] = ("article", "project", "agent", "tags", "resolved_query")
+
+
+def can_merge(previous: Series, fresh: Series) -> bool:
+    """Whether ``previous`` measures the same thing as ``fresh`` on the same scale.
+
+    Relative (0-100) series are rescaled per request, so they are never merged; nor
+    are series of a different article, project, agent filter or resolved query.
+    """
+    return (
+        previous.source == fresh.source
+        and previous.freq == fresh.freq
+        and previous.scale == fresh.scale
+        and fresh.scale != "relative_0_100"
+        and all(previous.meta.get(k) == fresh.meta.get(k) for k in _IDENTITY_META)
+    )
+
+
+def merge_history(previous: Series | None, fresh: Series, max_days: int) -> Series:
+    """``fresh`` extended back in time with ``previous`` points it no longer covers.
+
+    Fresh points always win: only previous points dated before the first fresh
+    point are kept, so a partial last day stored earlier is replaced by its complete
+    value. History is trimmed to the ``max_days`` days ending at the newest point.
+    Kept days are counted in ``meta.merged_days`` and named in a caveat (never
+    silently mixed in); gaps between them are left for preprocessing to report.
+    """
+    points = fresh.points.sort_values("ts", kind="stable").reset_index(drop=True)
+    meta = dict(fresh.meta)
+    if previous is not None and can_merge(previous, fresh) and not points.empty:
+        first = points["ts"].iloc[0]
+        older = previous.points[previous.points["ts"] < first]
+        if not older.empty:
+            points = pd.concat([older, points], ignore_index=True)
+            points = points.sort_values("ts", kind="stable").reset_index(drop=True)
+    if not points.empty:
+        cutoff = points["ts"].iloc[-1] - pd.Timedelta(days=max_days - 1)
+        points = points[points["ts"] >= cutoff].reset_index(drop=True)
+    if "imputed" in points.columns:
+        points["imputed"] = points["imputed"].astype("boolean").fillna(False).astype(bool)
+    merged = int((points["ts"] < fresh.points["ts"].min()).sum()) if len(fresh.points) else 0
+    meta.pop("merged_days", None)
+    if merged:
+        meta["merged_days"] = merged
+        meta["caveats"] = [
+            *meta.get("caveats", []),
+            f"{merged} earlier day(s) come from previous daily refreshes of this snapshot.",
+        ]
+    return Series(fresh.source, fresh.query, fresh.freq, points, fresh.scale, meta)
 
 
 def read_snapshot(path: Path) -> Series:
