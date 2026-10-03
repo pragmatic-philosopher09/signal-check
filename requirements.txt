@@ -1,0 +1,13 @@
+# Runtime dependencies (installed by Streamlit Community Cloud). Pinned for reproducibility.
+diskcache==5.6.3
+numpy==2.5.3
+pandas==3.0.6
+plotly==7.1.0
+pymannkendall==1.4.3
+python-dotenv==1.2.4
+PyYAML==6.0.3
+requests==2.34.2
+ruptures==1.1.10
+scipy==1.18.1
+statsmodels==0.15.0
+streamlit==1.65.0
