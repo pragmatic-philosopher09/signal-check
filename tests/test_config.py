@@ -262,3 +262,50 @@ def test_fluke_toggle_must_be_bool(raw_config: dict[str, Any]) -> None:
     raw_config["verdict"]["fluke_from_isolated_outliers"] = "yes"
     with pytest.raises(ConfigError, match="fluke_from_isolated_outliers"):
         validate_config(raw_config)
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda c: c["adapters"]["wikipedia"].update(history_days=0), "history_days: must be >= 1"),
+        (lambda c: c["adapters"]["hackernews"].update(max_hits_per_day=5000), "max_hits_per_day"),
+        (lambda c: c["adapters"]["reddit"].update(page_limit=101), "page_limit: must be in"),
+        (lambda c: c["adapters"]["reddit"].update(min_interval_s=-1), "min_interval_s"),
+        (
+            lambda c: c["adapters"]["google_trends"].update(daily_max_days=4000),
+            "daily_max_days",
+        ),
+        (lambda c: c["adapters"]["x"].update(counts_endpoint="full"), "counts_endpoint"),
+        (lambda c: c["adapters"]["x"].update(cost_counts_all_usd=-0.01), "cost_counts_all_usd"),
+        (lambda c: c["adapters"]["x"].update(breadth_posts_per_day=500), "breadth_posts_per_day"),
+        (lambda c: c["samples"].update(topics=[]), "samples.topics"),
+    ],
+)
+def test_adapter_settings_out_of_range_fail(
+    raw_config: dict[str, Any], mutate: Any, message: str
+) -> None:
+    mutate(raw_config)
+    with pytest.raises(ConfigError, match=message):
+        validate_config(raw_config)
+
+
+def test_phase4_keys_present() -> None:
+    cfg = load_config()
+    assert cfg["adapters"]["wikipedia"]["agent"] == "user"
+    assert cfg["adapters"]["reddit"]["result_cap"] == 1000
+    assert cfg["adapters"]["x"]["counts_endpoint"] == "all"
+    assert cfg["samples"]["topics"]
+
+
+def test_secret_flag(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(cfg_mod, "_streamlit_secret", lambda _name: None)
+    monkeypatch.delenv("SC_TEST_FLAG", raising=False)
+    assert cfg_mod.secret_flag("SC_TEST_FLAG") is None
+    for raw, expected in (("true", True), ("ON", True), ("1", True), ("false", False)):
+        monkeypatch.setenv("SC_TEST_FLAG", raw)
+        assert cfg_mod.secret_flag("SC_TEST_FLAG") is expected
+
+
+def test_resolve_path_is_repo_relative(tmp_path: Path) -> None:
+    assert cfg_mod.resolve_path("data/samples") == DEFAULT_CONFIG_PATH.parent / "data/samples"
+    assert cfg_mod.resolve_path(tmp_path) == tmp_path

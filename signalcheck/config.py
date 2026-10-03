@@ -65,6 +65,55 @@ SCHEMA: dict[str, Any] = {
         "csv": {
             "trends_lt1_value": NUMBER,
         },
+        "wikipedia": {
+            "project": str,
+            "access": str,
+            "agent": str,
+            "history_days": int,
+            "search_limit": int,
+        },
+        "hackernews": {
+            "history_days": int,
+            "tags": str,
+            "typo_tolerance": bool,
+            "max_hits_per_day": int,
+            "min_interval_s": NUMBER,
+        },
+        "google_trends": {
+            "live_enabled": bool,
+            "timeframe_days": int,
+            "daily_max_days": int,
+            "weekly_max_days": int,
+            "geo": str,
+            "snapshot_dir": str,
+            "snapshot_stale_days": NUMBER,
+        },
+        "reddit": {
+            "history_days": int,
+            "page_limit": int,
+            "result_cap": int,
+            "min_interval_s": NUMBER,
+            "collected_dir": str,
+            "collect_days": int,
+            "watchlist": list,
+        },
+        "x": {
+            "counts_endpoint": str,
+            "history_days": int,
+            "query_suffix": str,
+            "cost_counts_recent_usd": NUMBER,
+            "cost_counts_all_usd": NUMBER,
+            "cost_post_read_usd": NUMBER,
+            "counts_all_page_days": int,
+            "default_max_spend_usd": NUMBER,
+            "ledger_file": str,
+            "breadth_enabled": bool,
+            "breadth_posts_per_day": int,
+        },
+    },
+    "samples": {
+        "dir": str,
+        "topics": list,
     },
     "preprocess": {
         "min_history": FreqMap(int),
@@ -234,7 +283,67 @@ def _check_constraints(cfg: Config, errors: list[str]) -> None:
     require(cfg["cache"]["ttl_hours"] > 0, "cache.ttl_hours: must be > 0")
     lt1 = cfg["adapters"]["csv"]["trends_lt1_value"]
     require(0 < lt1 < 1, "adapters.csv.trends_lt1_value: must be in (0, 1)")
+    _check_adapter_constraints(cfg, require)
     _check_check_constraints(cfg, require)
+
+
+def _check_adapter_constraints(cfg: Config, require: Callable[[bool, str], None]) -> None:
+    """Range checks for the live adapters (section 4) and sample topics.
+
+    History lengths, page sizes and caps must be positive; pacing intervals and
+    costs non-negative; Google Trends granularity cut-offs ordered; the X counts
+    endpoint one of the two the API offers; topic lists non-empty strings.
+    """
+    ad = cfg["adapters"]
+    for name in ("wikipedia", "hackernews", "reddit", "x"):
+        require(ad[name]["history_days"] >= 1, f"adapters.{name}.history_days: must be >= 1")
+    for name in ("hackernews", "reddit"):
+        require(ad[name]["min_interval_s"] >= 0, f"adapters.{name}.min_interval_s: must be >= 0")
+    wiki = ad["wikipedia"]
+    require(1 <= wiki["search_limit"] <= 50, "adapters.wikipedia.search_limit: must be in [1, 50]")
+    require(bool(wiki["project"]), "adapters.wikipedia.project: must not be empty")
+    hn = ad["hackernews"]
+    require(
+        1 <= hn["max_hits_per_day"] <= 1000,
+        "adapters.hackernews.max_hits_per_day: must be in [1, 1000]",
+    )
+    gt = ad["google_trends"]
+    require(gt["timeframe_days"] >= 1, "adapters.google_trends.timeframe_days: must be >= 1")
+    require(
+        1 <= gt["daily_max_days"] <= gt["weekly_max_days"],
+        "adapters.google_trends.daily_max_days: must be >= 1 and <= weekly_max_days",
+    )
+    require(gt["snapshot_stale_days"] > 0, "adapters.google_trends.snapshot_stale_days: > 0")
+    rd = ad["reddit"]
+    require(1 <= rd["page_limit"] <= 100, "adapters.reddit.page_limit: must be in [1, 100]")
+    require(
+        rd["result_cap"] >= rd["page_limit"], "adapters.reddit.result_cap: must be >= page_limit"
+    )
+    require(rd["collect_days"] >= 1, "adapters.reddit.collect_days: must be >= 1")
+    x = ad["x"]
+    require(
+        x["counts_endpoint"] in ("all", "recent"),
+        "adapters.x.counts_endpoint: must be 'all' or 'recent'",
+    )
+    for key in ("cost_counts_recent_usd", "cost_counts_all_usd", "cost_post_read_usd"):
+        require(x[key] >= 0, f"adapters.x.{key}: must be >= 0")
+    require(x["default_max_spend_usd"] >= 0, "adapters.x.default_max_spend_usd: must be >= 0")
+    require(
+        1 <= x["counts_all_page_days"] <= 31, "adapters.x.counts_all_page_days: must be in [1, 31]"
+    )
+    require(
+        10 <= x["breadth_posts_per_day"] <= 100,
+        "adapters.x.breadth_posts_per_day: must be in [10, 100]",
+    )
+    require(bool(x["ledger_file"]), "adapters.x.ledger_file: must not be empty")
+    for path, topics in (
+        ("adapters.reddit.watchlist", rd["watchlist"]),
+        ("samples.topics", cfg["samples"]["topics"]),
+    ):
+        require(
+            bool(topics) and all(isinstance(t, str) and t.strip() for t in topics),
+            f"{path}: must be a non-empty list of non-empty strings",
+        )
 
 
 def _check_check_constraints(cfg: Config, require: Callable[[bool, str], None]) -> None:
@@ -381,6 +490,20 @@ def load_config(path: str | Path | None = None) -> Config:
 def get_config() -> Config:
     """Return the validated default config, loaded once per process."""
     return load_config()
+
+
+def resolve_path(path: str | Path) -> Path:
+    """Absolute path for a config path; relative paths are under the repo root."""
+    candidate = Path(path)
+    return candidate if candidate.is_absolute() else DEFAULT_CONFIG_PATH.parent / candidate
+
+
+def secret_flag(name: str) -> bool | None:
+    """Boolean env/secret flag (``1/true/yes/on`` vs ``0/false/no/off``); ``None`` if unset."""
+    value = get_secret(name)
+    if value is None:
+        return None
+    return value.strip().casefold() in ("1", "true", "yes", "on")
 
 
 @lru_cache(maxsize=1)
