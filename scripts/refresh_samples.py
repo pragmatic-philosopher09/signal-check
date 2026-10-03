@@ -2,12 +2,12 @@
 
 Usage::
 
-    python -m scripts.refresh_samples                       # samples.topics x free sources
+    python -m scripts.refresh_samples                       # watchlist x free sources
     python -m scripts.refresh_samples --sources wikipedia hackernews --topics "rust programming"
     python -m scripts.refresh_samples --import-trends-csv ~/Downloads/multiTimeline.csv \\
         --query "perplexity ai" [--fetched-at 2026-10-03T09:00:00Z]
 
-For each topic (``samples.topics`` in ``config.yaml`` unless ``--topics``) and
+For each topic (``watchlist`` in ``config.yaml`` unless ``--topics``) and
 each selected source, the adapter is called without the cache and the resulting
 series is written to ``data/samples/<source>/<slug>.json``: per-bucket aggregates
 and ``meta`` (including ``fetched_at``) only, never author names or post text.
@@ -41,6 +41,7 @@ from signalcheck.adapters.x_twitter import XAdapter
 from signalcheck.cache import NoCache
 from signalcheck.config import Config, get_config, resolve_path
 from signalcheck.snapshots import samples_dir, write_snapshot_to
+from signalcheck.watchlist import watchlist_topics
 
 log = logging.getLogger("refresh_samples")
 
@@ -133,7 +134,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     """CLI entry point."""
     cfg = get_config()
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("--topics", nargs="+", help="topics (default: samples.topics)")
+    parser.add_argument("--topics", nargs="+", help="topics (default: watchlist)")
     parser.add_argument("--sources", nargs="+", choices=sorted(ADAPTERS), help="sources")
     parser.add_argument("--out", type=Path, help="base dir (default: samples.dir)")
     parser.add_argument("--import-trends-csv", type=Path, metavar="CSV")
@@ -149,7 +150,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         log.info("wrote %s", out)
         return 0
 
-    topics = args.topics or list(cfg["samples"]["topics"])
+    topics = args.topics or watchlist_topics(cfg)
     sources = args.sources or default_sources(cfg)
     written, errors = refresh(topics, sources, cfg, args.out)
     for error in errors:

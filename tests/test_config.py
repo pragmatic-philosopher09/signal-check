@@ -278,7 +278,9 @@ def test_fluke_toggle_must_be_bool(raw_config: dict[str, Any]) -> None:
         (lambda c: c["adapters"]["x"].update(counts_endpoint="full"), "counts_endpoint"),
         (lambda c: c["adapters"]["x"].update(cost_counts_all_usd=-0.01), "cost_counts_all_usd"),
         (lambda c: c["adapters"]["x"].update(breadth_posts_per_day=500), "breadth_posts_per_day"),
-        (lambda c: c["samples"].update(topics=[]), "samples.topics"),
+        (lambda c: c.update(watchlist=[]), "watchlist: must list at least one topic"),
+        (lambda c: c["refresh"].update(max_history_days=0), "refresh.max_history_days"),
+        (lambda c: c["refresh"].update(manifest=""), "refresh.manifest"),
         (lambda c: c["ui"].update(timeframe_days=[]), "ui.timeframe_days"),
         (lambda c: c["ui"].update(timeframe_days=[90, 0]), "ui.timeframe_days"),
         (lambda c: c["ui"].update(chart_height_px=50), "ui.chart_height_px"),
@@ -298,7 +300,7 @@ def test_phase4_keys_present() -> None:
     assert cfg["adapters"]["wikipedia"]["agent"] == "user"
     assert cfg["adapters"]["reddit"]["result_cap"] == 1000
     assert cfg["adapters"]["x"]["counts_endpoint"] == "all"
-    assert cfg["samples"]["topics"]
+    assert cfg["watchlist"]
 
 
 def test_secret_flag(monkeypatch: pytest.MonkeyPatch) -> None:
@@ -344,3 +346,60 @@ def test_narration_keys_present() -> None:
     assert n["max_words"] == 120
     assert n["max_tokens"] >= n["max_words"]
     assert n["default_base_url"] == "https://api.openai.com/v1"
+
+
+@pytest.mark.parametrize(
+    ("entry", "message"),
+    [
+        ("chatgpt", r"watchlist\[0\]: expected a mapping"),
+        ({"wikipedia": True}, r"watchlist\[0\]\.topic: must be a non-empty string"),
+        ({"topic": "  ", "wikipedia": True}, r"\.topic: must be a non-empty string"),
+        ({"topic": "!!", "wikipedia": True}, "must contain a letter or digit"),
+        ({"topic": "x", "wikipedia": ""}, "wikipedia: must be true, false or an article title"),
+        ({"topic": "x", "wikipedia": 3}, "wikipedia: must be true, false or an article title"),
+        ({"topic": "x", "hackernews": "yes"}, "hackernews: must be a boolean"),
+        ({"topic": "x", "reddit": 1}, "reddit: must be a boolean"),
+        ({"topic": "x", "hackernew": True}, r"unknown key\(s\) \['hackernew'\]"),
+        ({"topic": "x", "x": True}, r"unknown key\(s\) \['x'\]"),
+        ({"topic": "x", "wikipedia": False}, "enable at least one of"),
+        ({"topic": "x"}, "enable at least one of"),
+    ],
+)
+def test_watchlist_entry_invalid(raw_config: dict[str, Any], entry: Any, message: str) -> None:
+    raw_config["watchlist"] = [entry]
+    with pytest.raises(ConfigError, match=message):
+        validate_config(raw_config)
+
+
+def test_watchlist_duplicate_slug_fails(raw_config: dict[str, Any]) -> None:
+    raw_config["watchlist"] = [
+        {"topic": "Rust programming", "hackernews": True},
+        {"topic": "rust  programming!", "wikipedia": True},
+    ]
+    with pytest.raises(ConfigError, match="duplicate topic \\(slug 'rust-programming'\\)"):
+        validate_config(raw_config)
+
+
+def test_watchlist_valid_shapes(raw_config: dict[str, Any]) -> None:
+    raw_config["watchlist"] = [
+        {"topic": "a", "wikipedia": True},
+        {"topic": "b", "wikipedia": "Some article", "hackernews": False, "reddit": True},
+        {"topic": "c", "hackernews": True},
+    ]
+    validate_config(raw_config)
+
+
+def test_shipped_watchlist() -> None:
+    from signalcheck.watchlist import topics_for, watchlist, watchlist_topics
+
+    cfg = load_config()
+    topics = watchlist_topics(cfg)
+    assert 8 <= len(topics) <= 12
+    # The original four sample topics stay on the watchlist.
+    assert {"perplexity ai", "chatgpt", "taylor swift", "rust programming"} <= set(topics)
+    items = {i.topic: i for i in watchlist(cfg)}
+    assert items["claude ai"].wiki_article == "Claude (language model)"
+    assert items["claude ai"].params("wikipedia") == {"article": "Claude (language model)"}
+    assert items["chatgpt"].params("wikipedia") == {}
+    assert items["chatgpt"].sources == ["wikipedia", "hackernews", "reddit"]
+    assert "taylor swift" not in topics_for("reddit", cfg)

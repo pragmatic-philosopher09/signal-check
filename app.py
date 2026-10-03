@@ -21,6 +21,7 @@ from signalcheck.ui.charts import build_chart
 from signalcheck.ui.methodology import methodology_sections
 from signalcheck.ui.runner import CsvResult, SourceOutcome, SourceStatus, TopicResult
 from signalcheck.ui.view_models import CardView, card_view, summary_view
+from signalcheck.watchlist import watchlist_topics
 
 cfg = get_config()
 TTL_SECONDS = int(float(cfg["cache"]["ttl_hours"]) * 3600)
@@ -117,7 +118,8 @@ def refetch_wiki() -> None:
 
 def render_topic_inputs(statuses: list[SourceStatus]) -> None:
     """Sample chips, then the topic form."""
-    topics: list[str] = list(cfg["samples"]["topics"])
+    # Watchlist topics that already have committed snapshots.
+    topics = [t for t in watchlist_topics(cfg) if runner.sample_sources(t, cfg)]
     st.caption("Try a sample topic (instant, from committed snapshots):")
     with st.container(horizontal=True, gap="small"):
         for topic in topics:

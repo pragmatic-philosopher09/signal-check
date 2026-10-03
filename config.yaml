@@ -65,10 +65,9 @@ adapters:
     # 100 queries/minute per OAuth client -> at least 0.6 s between requests.
     min_interval_s: 0.6
     collected_dir: data/collected/reddit
-    # Days the daily collector re-fetches (and upserts) on each run.
+    # Days the daily refresh re-fetches (and upserts) on each run for watchlist topics with
+    # reddit: true (scripts/refresh_data.py via scripts/collect_reddit.py).
     collect_days: 7
-    # Topics the daily collector (scripts/collect_reddit.py) accumulates history for.
-    watchlist: ["perplexity ai", "chatgpt", "claude ai", "rust programming", "nvidia"]
   x:
     # Counts endpoint: "all" (full archive, pay-per-use) or "recent" (last 7 days only).
     counts_endpoint: all
@@ -90,10 +89,35 @@ adapters:
     breadth_enabled: false
     breadth_posts_per_day: 20
 
-# Topics refreshed by scripts/refresh_samples.py into data/samples/<source>/<slug>.json.
+# Committed aggregate-only snapshots: data/samples/<source>/<slug>.json.
 samples:
   dir: data/samples
-  topics: ["perplexity ai", "chatgpt", "taylor swift", "rust programming"]
+
+# Topics refreshed daily by .github/workflows/refresh.yml (scripts/refresh_data.py) and shown
+# as sample chips. One line per topic; sources not listed are off:
+#   wikipedia: true (resolve the topic) | "Article title" (override) | false
+#   hackernews: true | false
+#   reddit: true | false   (only runs when the REDDIT_CLIENT_ID/SECRET secrets exist)
+# X is never refreshed (it costs money); Google Trends is refreshed from a residential
+# machine with scripts/refresh_trends_local.sh.
+watchlist:
+  - {topic: perplexity ai, wikipedia: true, hackernews: true, reddit: true}
+  - {topic: chatgpt, wikipedia: true, hackernews: true, reddit: true}
+  - {topic: taylor swift, wikipedia: true, hackernews: true}
+  - {topic: rust programming, wikipedia: true, hackernews: true, reddit: true}
+  - {topic: claude ai, wikipedia: "Claude (language model)", hackernews: true, reddit: true}
+  - {topic: nvidia, wikipedia: true, hackernews: true, reddit: true}
+  - {topic: deepseek, wikipedia: true, hackernews: true}
+  - {topic: bitcoin, wikipedia: true, hackernews: true}
+  - {topic: python programming, wikipedia: "Python (programming language)", hackernews: true}
+  - {topic: black friday, wikipedia: "Black Friday (shopping)"}
+
+# Daily data refresh (scripts/refresh_data.py).
+refresh:
+  # Last refresh time and per topic x source status (read by the Pages build).
+  manifest: data/manifest.json
+  # Merged history kept per snapshot; older points are dropped so the repo stays small.
+  max_history_days: 1095
 
 # Section 9: Streamlit UI (app.py).
 ui:
