@@ -57,6 +57,10 @@ checks:
     min_slope: 0.02
     # Band (in MADs around baseline median) for counting consecutive recent exceedances.
     band_mads: 2.0
+    # Fewest observed points the trend test will run on; fewer -> skipped.
+    min_points: 5
+    # Identity scale: slope is normalised by max(|baseline median|, slope_level_floor).
+    slope_level_floor: 1.0
   concentration:
     # Skip unless |sum of excess| >= excess_min_mads * MAD * n_recent.
     excess_min_mads: 1.0
@@ -74,11 +78,17 @@ checks:
     # Annual STL period per frequency (daily data is aggregated to weekly first).
     annual_period: {D: 52, W: 52, M: 12}
     stl_robust: true
+    # STL seasonal smoother degree: 0 averages each phase across years (near-periodic),
+    # which keeps a recent step or trend from being absorbed as "seasonal" with few cycles.
+    stl_seasonal_deg: 0
     # Skip unless |rise| >= excess_min_mads * MAD.
     excess_min_mads: 1.0
   outliers:
     # Flag recent points with |robust z| >= outlier_z.
     outlier_z: 3.5
+    # At most this many flagged recent points count as isolated spikes (supports fluke);
+    # more flagged points mean the whole window moved, which other checks judge.
+    isolated_max_points: 2
   level_shift:
     # PELT penalty = pen_beta * log(n) on the robust-standardised series.
     pen_beta: 3.0
@@ -86,6 +96,8 @@ checks:
     min_persist: {D: 7, W: 3, M: 2}
     # Share of post-change points that must sit on the new side of the midpoint.
     hold_fraction: 0.8
+    # A change point up to this many periods before the recent window counts as "just before".
+    recent_tolerance: {D: 7, W: 3, M: 2}
   low_count:
     # Active when baseline mean per bucket is below this (count series only).
     low_count_threshold: 5.0
@@ -96,6 +108,14 @@ checks:
     breadth_top_share_max: 0.5
     # Fluke if recent contributors per item fall below this ratio.
     breadth_min_contrib_ratio: 0.3
+
+# Rounding used in Evidence.summary / Evidence.numbers (the narration validator
+# matches narrated numbers against these displayed values).
+display:
+  value_decimals: 1 # values on the original scale (medians, bands, levels)
+  pct_decimals: 1 # percentages (slopes, shares)
+  stat_decimals: 2 # z-scores, rate ratios and their intervals, penalties
+  p_decimals: 3 # p-values; smaller ones are shown as "p < 0.001"
 
 # Section 7: verdict, confidence, cross-source
 verdict:
