@@ -138,6 +138,20 @@ def test_r4_blocked_by_disagreeing_directions(cfg: Config) -> None:
     assert "disagree on the direction" in d.reason
 
 
+def test_r4_blocked_when_departure_runs_against_the_trend(cfg: Config) -> None:
+    # A decaying burst: still far above baseline, but sliding back towards it.
+    departure_up = ev("concentration", "neutral", direction="up")
+    d = decide(base(persistence=TREND_DOWN, concentration=departure_up), OK, cfg)
+    assert (d.label, d.rule) == ("INCONCLUSIVE", "R6")
+    assert "recent departure from the baseline" in d.reason
+
+
+def test_r4_holds_when_departure_agrees(cfg: Config) -> None:
+    departure_down = ev("concentration", "neutral", direction="down")
+    d = decide(base(persistence=TREND_DOWN, concentration=departure_down), OK, cfg)
+    assert (d.label, d.rule, d.direction) == ("TREND", "R4", "down")
+
+
 def test_r4_low_count_trend_must_agree(cfg: Config) -> None:
     low = ev("low_count", "supports_trend", active=True, too_few_to_call=False, direction="down")
     assert decide(base(persistence=TREND_UP, low_count=low), OK, cfg).rule == "R6"
@@ -154,6 +168,14 @@ def test_low_count_trend_alone_does_not_trigger_r4(cfg: Config) -> None:
 def test_r5_no_change(cfg: Config) -> None:
     d = decide(base(), OK, cfg)
     assert (d.label, d.rule, d.direction) == ("NO_CHANGE", "R5", None)
+
+
+def test_r5_accepts_a_significant_but_negligible_slope(cfg: Config) -> None:
+    tiny = ev(
+        "persistence", "supports_no_change", direction="up", significant=True, negligible=True
+    )
+    d = decide(base(persistence=tiny), OK, cfg)
+    assert (d.label, d.rule) == ("NO_CHANGE", "R5")
 
 
 def test_r5_allows_skipped_level_shift(cfg: Config) -> None:

@@ -6,8 +6,10 @@ series it was computed from, so the UI can chart exactly what the checks saw.
 preprocess -> checks -> decision table -> confidence -> change-my-mind. Short
 gaps are linearly filled (and flagged) only for the checks that need a regular
 series (level shift, seasonality); the other checks see the observed data with
-gaps left as missing. A series that is too short never raises: every check is
-skipped and rule R1 returns ``INCONCLUSIVE`` with the history shortfall.
+gaps left as missing. For daily data the outlier check scores the
+de-weekly-ised series (day-of-week pattern removed, section 6.3), so a regular
+weekend dip is not flagged as an extreme day. A series that is too short never raises:
+every check is skipped and rule R1 returns ``INCONCLUSIVE`` with the history shortfall.
 """
 
 from __future__ import annotations
@@ -16,7 +18,8 @@ from dataclasses import dataclass
 
 from signalcheck.config import Config, get_config
 from signalcheck.engine.change_my_mind import change_my_mind
-from signalcheck.engine.checks import CHECKS
+from signalcheck.engine.checks import CHECKS, outliers
+from signalcheck.engine.checks.seasonality import deweekly
 from signalcheck.engine.confidence import score_confidence
 from signalcheck.engine.preprocess import fill_gaps, preprocess
 from signalcheck.engine.verdict import decide
@@ -27,8 +30,21 @@ REGULAR_SCOPE = "level-shift and seasonality checks"
 
 
 def run_checks(pre: Preprocessed, filled: Preprocessed, cfg: Config) -> list[Evidence]:
-    """Run every check in section 6 order, on the gap-filled series where required."""
-    return [check(filled if name in NEEDS_REGULAR else pre, cfg) for name, check in CHECKS.items()]
+    """Run every check in section 6 order, on the gap-filled series where required.
+
+    The outlier check gets the de-weekly-ised (gap-filled) series when one applies.
+    """
+    weekly_free = None
+    if pre.windows is not None:
+        start = pre.windows.recent.start_idx
+        weekly_free = deweekly(filled.work, filled.series.freq, cfg, recent_start=start)
+    out: list[Evidence] = []
+    for name, check in CHECKS.items():
+        if name == outliers.CHECK and weekly_free is not None:
+            out.append(outliers.run(pre, cfg, values=weekly_free.to_numpy(dtype=float)))
+        else:
+            out.append(check(filled if name in NEEDS_REGULAR else pre, cfg))
+    return out
 
 
 def dedupe(items: list[str]) -> list[str]:

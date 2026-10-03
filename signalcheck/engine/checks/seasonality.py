@@ -27,8 +27,12 @@ pattern, and is anything left once that pattern is removed?
   ``x - S``; both results are reported in ``numbers``.
 
 Stance: ``seasonal_share >= seasonal_explained_min`` with no significant trend and
-no sustained level shift left after adjustment supports "seasonal". Otherwise it
-is neutral (a trend on top of seasonality is left to the other checks).
+no sustained level shift left after adjustment *in the direction of the rise (or
+drop)* supports "seasonal". Otherwise it is neutral (a trend on top of seasonality
+is left to the other checks). A residual trend or shift that runs *against* the
+change means the usual pattern alone would predict an even larger move (this
+season is weaker than usual), so it cannot be what makes the change real; it is
+reported (``residual_with_change`` is False) but does not block "seasonal".
 """
 
 from __future__ import annotations
@@ -71,19 +75,44 @@ def stl_seasonal(values: np.ndarray, period: int, cfg: Config) -> np.ndarray:
     return np.asarray(stl.fit().seasonal, dtype=float)
 
 
-def deweekly(work: pd.Series, freq: str, cfg: Config) -> pd.Series | None:
+def deweekly(
+    work: pd.Series, freq: str, cfg: Config, recent_start: int | None = None
+) -> pd.Series | None:
     """Daily series with the day-of-week component removed, or ``None`` if not applicable.
 
     Only daily data with at least ``weekly_min_weeks`` weeks and no missing values
     qualify. This is nuisance removal for other checks; it is never evidence of
-    seasonality.
+    seasonality. With ``recent_start`` the STL weekly component is replaced by a
+    fixed day-of-week profile: its mean per weekday over the baseline (positions
+    before ``recent_start``), subtracted from every day. The same correction then
+    applies to baseline and recent days, so the baseline spread is not shrunk by
+    STL fitting its noise, and a recent spike cannot shape its own correction.
+    A baseline shorter than one cycle keeps the plain STL component.
     """
     conf = cfg["checks"]["seasonality"]
     period = int(conf["weekly_period"])
     if freq != "D" or len(work) < int(conf["weekly_min_weeks"]) * period or work.isna().any():
         return None
     seasonal = stl_seasonal(work.to_numpy(dtype=float), period, cfg)
+    if recent_start is not None and recent_start >= period:
+        phase = np.arange(len(seasonal)) % period
+        base = phase[:recent_start]
+        profile = np.array([seasonal[:recent_start][base == k].mean() for k in range(period)])
+        seasonal = profile[phase]
     return work - seasonal
+
+
+def residual_with_change(
+    change_direction: str, trend_direction: str | None, shift_direction: str | None
+) -> bool:
+    """Whether the seasonally adjusted series still moves the way the recent change did.
+
+    ``trend_direction`` / ``shift_direction`` are the directions of a supporting
+    adjusted trend or sustained adjusted level shift (``None`` if there is none). A
+    residual that runs *against* the change (e.g. the level fell while the annual peak
+    lifted the recent window) cannot have produced it, so it does not count.
+    """
+    return change_direction in (trend_direction, shift_direction)
 
 
 def block_ids(n: int, block: int) -> np.ndarray:
@@ -199,13 +228,19 @@ def run(pre: Preprocessed, cfg: Config | None = None) -> Evidence:
     shift = detect_shift(adjusted, windows, adj_stats, freq, cfg)
     adj_trend = trend is not None and trend.supports_trend
     adj_shift = shift is not None and shift.sustained
+    left_over = residual_with_change(
+        "up" if rise > 0 else "down",
+        trend.direction if adj_trend and trend is not None else None,
+        shift.direction if adj_shift and shift is not None else None,
+    )
     explained = share >= float(cfg["verdict"]["seasonal_explained_min"])
-    seasonal_call = explained and not adj_trend and not adj_shift
+    seasonal_call = explained and not left_over
 
     book.put("adjusted_trend", adj_trend)
     book.put("adjusted_trend_direction", trend.direction if trend is not None else None)
     book.put("adjusted_level_shift", adj_shift)
     book.put("adjusted_level_shift_direction", shift.direction if shift is not None else None)
+    book.put("residual_with_change", left_over)
     change = "rise" if rise > 0 else "drop"
     level = book.value("recent_level", chart_value(float(recent.mean()), transform, cfg))
     median = book.value("baseline_median", chart_value(stats.median, transform, cfg))
@@ -214,6 +249,8 @@ def run(pre: Preprocessed, cfg: Config | None = None) -> Evidence:
         f"{change} (recent level {level} vs baseline median {median})"
     )
     tail = _adjusted_text(trend, shift, book, word)
+    if (adj_trend or adj_shift) and not left_over:
+        tail += f", which runs against the {change}, so the annual pattern explains all of it"
     if seasonal_call:
         stance = "supports_seasonal"
         summary = f"Seasonal: {head}; after removing it, {tail}."

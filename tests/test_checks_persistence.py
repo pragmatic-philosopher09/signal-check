@@ -44,13 +44,36 @@ def test_single_spike_does_not_support_trend(rng: np.random.Generator, cfg: Conf
 
 
 def test_significant_but_small_slope_is_neutral(rng: np.random.Generator, cfg: Config) -> None:
+    cfg["checks"]["persistence"]["min_slope"] = 0.02
+    cfg["checks"]["persistence"]["negligible_slope"] = 0.005
     ev = persistence.run(preprocess(gen.linear_trend(rng, slope=-0.015), cfg), cfg)
     assert ev.numbers["significant"] is True
+    assert ev.numbers["negligible"] is False
+    assert ev.stance == "neutral"
+
+
+def test_significant_but_negligible_slope_supports_no_change(
+    rng: np.random.Generator, cfg: Config
+) -> None:
+    ev = persistence.run(preprocess(gen.linear_trend(rng, slope=0.003, noise=0.005), cfg), cfg)
+    assert ev.numbers["significant"] is True
+    assert ev.numbers["negligible"] is True
+    assert ev.stance == "supports_no_change"
+    assert "counts as a practical change" in ev.summary
+
+
+def test_negligible_slope_comes_from_config(rng: np.random.Generator, cfg: Config) -> None:
+    pre = preprocess(gen.linear_trend(rng, slope=0.003, noise=0.005), cfg)
+    cfg["checks"]["persistence"]["negligible_slope"] = 0.0
+    ev = persistence.run(pre, cfg)
+    assert ev.numbers["negligible"] is False
     assert ev.stance == "neutral"
 
 
 def test_min_slope_comes_from_config(rng: np.random.Generator, cfg: Config) -> None:
     pre = preprocess(gen.linear_trend(rng, slope=-0.015), cfg)
+    cfg["checks"]["persistence"]["min_slope"] = 0.02
+    assert persistence.run(pre, cfg).stance == "neutral"
     cfg["checks"]["persistence"]["min_slope"] = 0.01
     assert persistence.run(pre, cfg).stance == "supports_trend"
 

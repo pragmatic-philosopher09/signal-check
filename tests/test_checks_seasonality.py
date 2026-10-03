@@ -49,6 +49,36 @@ def test_step_change_is_not_explained_by_season(rng: np.random.Generator, cfg: C
     assert ev.numbers["seasonal_share_pct"] < 100 * cfg["verdict"]["seasonal_explained_min"]
 
 
+@pytest.mark.parametrize(
+    ("change", "trend", "shift", "expected"),
+    [
+        ("up", None, None, False),
+        ("up", "up", None, True),
+        ("up", None, "up", True),
+        ("up", "down", None, False),
+        ("up", None, "down", False),
+        ("down", "down", "up", True),
+    ],
+)
+def test_residual_with_change_needs_the_same_direction(
+    change: str, trend: str | None, shift: str | None, expected: bool
+) -> None:
+    assert seasonality.residual_with_change(change, trend, shift) is expected
+
+
+def test_residual_against_the_rise_leaves_it_seasonal(cfg: Config) -> None:
+    # The annual peak lifts the recent window while the underlying level fell: the
+    # adjusted shift runs against the rise, so it cannot be what produced the rise.
+    series = gen.seasonal_wave(np.random.default_rng(1), n=208)
+    series.points.loc[series.points.index[-30:], "value"] -= 20.0
+    ev = seasonality.run(preprocess(series, cfg), cfg)
+    assert ev.numbers["adjusted_level_shift"] is True
+    assert ev.numbers["adjusted_level_shift_direction"] == "down"
+    assert ev.numbers["residual_with_change"] is False
+    assert ev.stance == "supports_seasonal"
+    assert "runs against the rise" in ev.summary
+
+
 def test_explained_min_comes_from_config(rng: np.random.Generator, cfg: Config) -> None:
     pre = preprocess(gen.seasonal_wave(rng), cfg)
     cfg["verdict"]["seasonal_explained_min"] = 0.99
@@ -65,10 +95,16 @@ def test_short_history_is_skipped(rng: np.random.Generator, cfg: Config) -> None
 
 
 def test_flat_series_has_nothing_to_explain(rng: np.random.Generator, cfg: Config) -> None:
+    cfg["checks"]["seasonality"]["excess_min_mads"] = 1.0
     ev = seasonality.run(preprocess(gen.flat_noise(rng, n=156, freq="W"), cfg), cfg)
     assert ev.stance == "skipped"
     assert ev.skip_reason is not None
     assert "no rise to explain" in ev.skip_reason
+
+
+def test_flat_series_is_never_seasonal(rng: np.random.Generator, cfg: Config) -> None:
+    ev = seasonality.run(preprocess(gen.flat_noise(rng, n=156, freq="W"), cfg), cfg)
+    assert ev.stance in {"skipped", "neutral"}
 
 
 def test_gaps_are_skipped(rng: np.random.Generator, cfg: Config) -> None:
@@ -106,6 +142,30 @@ def test_deweekly_only_applies_to_long_daily_series(cfg: Config) -> None:
     assert seasonality.deweekly(weekly, "W", cfg) is None
     short = pd.Series(np.ones(7 * cfg["checks"]["seasonality"]["weekly_min_weeks"] - 1))
     assert seasonality.deweekly(short, "D", cfg) is None
+
+
+def test_deweekly_with_recent_start_uses_a_fixed_baseline_profile(
+    rng: np.random.Generator, cfg: Config
+) -> None:
+    series = gen.weekday_pattern(rng, n=140)
+    work = series.points.set_index("ts")["value"].copy()
+    work.iloc[-5] *= 4
+    cleaned = seasonality.deweekly(work, "D", cfg, recent_start=112)
+    assert cleaned is not None
+    correction = (work - cleaned).to_numpy()
+    period = cfg["checks"]["seasonality"]["weekly_period"]
+    assert np.allclose(correction[period:], correction[:-period])
+    # The spike keeps its full height and does not leak into the same weekday earlier.
+    assert cleaned.iloc[-5] > 3 * cleaned.iloc[:112].median()
+    assert abs(cleaned.iloc[-12] - cleaned.iloc[:112].median()) < 0.25 * cleaned.iloc[:112].median()
+
+
+def test_deweekly_short_baseline_keeps_stl_component(rng: np.random.Generator, cfg: Config) -> None:
+    work = gen.weekday_pattern(rng, n=140).points.set_index("ts")["value"]
+    plain = seasonality.deweekly(work, "D", cfg)
+    short = seasonality.deweekly(work, "D", cfg, recent_start=3)
+    assert plain is not None and short is not None
+    assert np.allclose(plain.to_numpy(), short.to_numpy())
 
 
 def test_seasonal_expectation_uses_only_earlier_cycles() -> None:

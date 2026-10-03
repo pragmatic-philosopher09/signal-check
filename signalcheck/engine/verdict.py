@@ -27,9 +27,15 @@ stances and the machine-readable flags they record in ``Evidence.numbers``.
 - **R4** (persistence supports a trend *or* a sustained level shift) *and*
   concentration does not support a fluke -> ``TREND`` with direction. Blocked
   (falls through) when the low-count check says there are too few events to
-  call, or when the trend-supporting checks disagree on the direction.
-- **R5** Persistence ran and is not significant, no recent outliers and no
-  change point in (or just before) the recent window -> ``NO_CHANGE``. A skipped
+  call, or when the trend-supporting checks disagree on the direction. When the
+  recent window departs meaningfully from the baseline (the concentration check
+  ran), that departure's direction must agree too: a significant fall while the
+  level is still far *above* the baseline is a decay back towards it after a
+  spike, not a downward trend (and vice versa).
+- **R5** Persistence ran and supports "no change" (not significant, or a
+  significant slope below ``negligible_slope``: a minimum effect size), no recent
+  outliers and no change point in (or just before) the recent window ->
+  ``NO_CHANGE``. A skipped
   level-shift check (gaps left after filling) does not block this row.
 - **R6** Otherwise -> ``INCONCLUSIVE``, listing the checks that disagree.
 """
@@ -54,7 +60,8 @@ RULES: dict[str, str] = {
         "Significant trend or sustained level shift that is not concentrated, with enough "
         "events -> TREND"
     ),
-    "R5": "No significant slope, no outliers and no recent level shift -> NO_CHANGE",
+    "R5": "No significant (or only a negligible) slope, no outliers and no recent level shift "
+    "-> NO_CHANGE",
     "R6": "Anything else -> INCONCLUSIVE (conflicting checks listed)",
 }
 
@@ -97,6 +104,7 @@ class Signals:
     persistence_ran: bool
     persistence_trend: bool
     persistence_significant: bool
+    persistence_no_change: bool
     persistence_direction: str | None
     concentration_ran: bool
     concentration_fluke: bool
@@ -151,6 +159,7 @@ def extract_signals(evidence: Sequence[Evidence]) -> Signals:
         persistence_ran=ran(per),
         persistence_trend=_stance(per, "supports_trend"),
         persistence_significant=_flag(per, "significant"),
+        persistence_no_change=_stance(per, "supports_no_change"),
         persistence_direction=_direction(per, "direction"),
         concentration_ran=ran(conc),
         concentration_fluke=_stance(conc, "supports_fluke"),
@@ -173,11 +182,17 @@ def extract_signals(evidence: Sequence[Evidence]) -> Signals:
 
 
 def trend_directions(s: Signals) -> list[str]:
-    """Directions claimed by every check that supports a trend (R4 needs them to agree)."""
+    """Directions R4 needs to agree: every trend-supporting check's, plus the departure.
+
+    The departure is the direction of the recent window's excess over the
+    baseline median, included only when it is meaningful (the concentration
+    check ran rather than skipping for lack of excess).
+    """
     claims = [
         (s.persistence_trend, s.persistence_direction),
         (s.shift_sustained, s.shift_direction),
         (s.low_count_trend, s.low_count_direction),
+        (s.concentration_ran, s.concentration_direction),
     ]
     return [d for supports, d in claims if supports and d is not None]
 
@@ -215,7 +230,14 @@ def rule_r4(s: Signals) -> tuple[str | None, str | None, str | None]:
         return None, None, "low count: too few events to call"
     directions = set(trend_directions(s))
     if len(directions) != 1:
-        return None, None, "the trend-supporting checks disagree on the direction"
+        return (
+            None,
+            None,
+            (
+                "the trend-supporting checks and the recent departure from the baseline "
+                "disagree on the direction"
+            ),
+        )
     direction = directions.pop()
     parts = []
     if s.persistence_trend:
@@ -226,10 +248,10 @@ def rule_r4(s: Signals) -> tuple[str | None, str | None, str | None]:
 
 
 def rule_r5(s: Signals) -> bool:
-    """R5: no significant slope, no outliers and no recent change point."""
+    """R5: no practical slope, no outliers and no recent change point."""
     return (
         s.persistence_ran
-        and not s.persistence_significant
+        and s.persistence_no_change
         and s.outliers_ran
         and s.n_outliers == 0
         and not s.shift_in_recent

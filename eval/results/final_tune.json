@@ -1,0 +1,843 @@
+{
+  "target_false_trend_rate": 0.05,
+  "sweep_seeds": 20,
+  "splits": {
+    "tune": {
+      "synthetic": {
+        "n": 27,
+        "correct": 26,
+        "accuracy": 0.9629629629629629,
+        "confusion": {
+          "TREND": {
+            "TREND": 8,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "FLUKE": {
+            "TREND": 0,
+            "FLUKE": 6,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "SEASONAL": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 4,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "NO_CHANGE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 6,
+            "INCONCLUSIVE": 1
+          },
+          "INCONCLUSIVE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 2
+          }
+        },
+        "recall": {
+          "TREND": 1.0,
+          "FLUKE": 1.0,
+          "SEASONAL": 1.0,
+          "NO_CHANGE": 0.8571428571428571,
+          "INCONCLUSIVE": 1.0
+        },
+        "false_trend": {
+          "n": 7,
+          "false_trend": 0,
+          "rate": 0.0
+        },
+        "cases": [
+          {
+            "id": "trend_up_daily",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_down_daily",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_up_daily_short",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_up_weekly",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_up_monthly",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "step_up_daily",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "step_up_monthly",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "count_growth_daily",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "spike_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "spike_weekly",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "spike_pageviews_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "isolated outliers with no trend and no lasting level shift (the change was too small overall for the concentration check to run)"
+          },
+          {
+            "id": "dip_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "isolated outliers with no trend and no lasting level shift (the change was too small overall for the concentration check to run)"
+          },
+          {
+            "id": "decaying_spike_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "single_origin_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a single origin drives most of the recent volume"
+          },
+          {
+            "id": "seasonal_peak_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_cosine_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_monthly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_daily",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "flat_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_daily_short",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_weekly",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_pageviews_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "ar1_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "weekday_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "low_count_daily",
+            "expected": "NO_CHANGE",
+            "got": "INCONCLUSIVE",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: no change; outliers: no change; level shift: neutral; low count: neutral)"
+          },
+          {
+            "id": "short_daily",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R1",
+            "reason": "not enough history: 20 days observed, need at least 28 days"
+          },
+          {
+            "id": "short_weekly_trend",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R1",
+            "reason": "not enough history: 20 weeks observed, need at least 26 weeks"
+          }
+        ],
+        "failures": [
+          {
+            "id": "low_count_daily",
+            "expected": "NO_CHANGE",
+            "got": "INCONCLUSIVE",
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: no change; outliers: no change; level shift: neutral; low count: neutral)"
+          }
+        ],
+        "noise_sweep": {
+          "n": 140,
+          "false_trend": 2,
+          "rate": 0.014285714285714285,
+          "trend_ids": [
+            "flat_daily_short#16",
+            "ar1_daily#15"
+          ]
+        }
+      },
+      "real": {
+        "n": 6,
+        "correct": 4,
+        "accuracy": 0.6666666666666666,
+        "confusion": {
+          "TREND": {
+            "TREND": 1,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 1
+          },
+          "FLUKE": {
+            "TREND": 1,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "SEASONAL": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 1,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "NO_CHANGE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 1,
+            "INCONCLUSIVE": 0
+          },
+          "INCONCLUSIVE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 1
+          }
+        },
+        "recall": {
+          "TREND": 0.5,
+          "FLUKE": 0.0,
+          "SEASONAL": 1.0,
+          "NO_CHANGE": 1.0,
+          "INCONCLUSIVE": 1.0
+        },
+        "false_trend": {
+          "n": 0,
+          "false_trend": 0,
+          "rate": null
+        },
+        "cases": [
+          {
+            "id": "chatgpt_launch_hn",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: neutral; level shift: trend; breadth: neutral); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "clubhouse_decline_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a significant, practically large trend that is not concentrated in a single spike"
+          },
+          {
+            "id": "suez_blockage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "halloween_daily",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "coffee_steady",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "bluesky_election_surge",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: neutral; level shift: no change); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          }
+        ],
+        "failures": [
+          {
+            "id": "chatgpt_launch_hn",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: neutral; level shift: trend; breadth: neutral); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "suez_blockage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          }
+        ]
+      },
+      "combined": {
+        "n": 33,
+        "correct": 30,
+        "accuracy": 0.9090909090909091,
+        "confusion": {
+          "TREND": {
+            "TREND": 9,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 1
+          },
+          "FLUKE": {
+            "TREND": 1,
+            "FLUKE": 6,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "SEASONAL": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 5,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "NO_CHANGE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 7,
+            "INCONCLUSIVE": 1
+          },
+          "INCONCLUSIVE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 3
+          }
+        },
+        "recall": {
+          "TREND": 0.9,
+          "FLUKE": 0.8571428571428571,
+          "SEASONAL": 1.0,
+          "NO_CHANGE": 0.875,
+          "INCONCLUSIVE": 1.0
+        },
+        "false_trend": {
+          "n": 7,
+          "false_trend": 0,
+          "rate": 0.0
+        },
+        "cases": [
+          {
+            "id": "trend_up_daily",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_down_daily",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_up_daily_short",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_up_weekly",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_up_monthly",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "step_up_daily",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "step_up_monthly",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "count_growth_daily",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "spike_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "spike_weekly",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "spike_pageviews_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "isolated outliers with no trend and no lasting level shift (the change was too small overall for the concentration check to run)"
+          },
+          {
+            "id": "dip_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "isolated outliers with no trend and no lasting level shift (the change was too small overall for the concentration check to run)"
+          },
+          {
+            "id": "decaying_spike_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "single_origin_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a single origin drives most of the recent volume"
+          },
+          {
+            "id": "seasonal_peak_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_cosine_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_monthly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_daily",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "flat_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_daily_short",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_weekly",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_pageviews_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "ar1_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "weekday_daily",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "low_count_daily",
+            "expected": "NO_CHANGE",
+            "got": "INCONCLUSIVE",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: no change; outliers: no change; level shift: neutral; low count: neutral)"
+          },
+          {
+            "id": "short_daily",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R1",
+            "reason": "not enough history: 20 days observed, need at least 28 days"
+          },
+          {
+            "id": "short_weekly_trend",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R1",
+            "reason": "not enough history: 20 weeks observed, need at least 26 weeks"
+          },
+          {
+            "id": "chatgpt_launch_hn",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: neutral; level shift: trend; breadth: neutral); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "clubhouse_decline_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a significant, practically large trend that is not concentrated in a single spike"
+          },
+          {
+            "id": "suez_blockage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "halloween_daily",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "coffee_steady",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "bluesky_election_surge",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: neutral; level shift: no change); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          }
+        ],
+        "failures": [
+          {
+            "id": "low_count_daily",
+            "expected": "NO_CHANGE",
+            "got": "INCONCLUSIVE",
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: no change; outliers: no change; level shift: neutral; low count: neutral)"
+          },
+          {
+            "id": "chatgpt_launch_hn",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: neutral; level shift: trend; breadth: neutral); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "suez_blockage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          }
+        ],
+        "noise_sweep": {
+          "n": 140,
+          "false_trend": 2,
+          "rate": 0.014285714285714285,
+          "trend_ids": [
+            "flat_daily_short#16",
+            "ar1_daily#15"
+          ]
+        }
+      }
+    }
+  },
+  "real_cases_skipped": []
+}

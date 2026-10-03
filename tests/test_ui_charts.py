@@ -100,7 +100,7 @@ def test_ranked_excess_points_share_one_legend_entry(cfg: Config) -> None:
 
 
 def test_far_threshold_is_left_off_so_the_series_stays_readable(cfg: Config) -> None:
-    analysis = sample_analysis(cfg, "taylor swift", "hackernews")
+    analysis = sample_analysis(cfg, "rust programming", "hackernews")
     full = build_chart(analysis)
     upper = max(s.y0 for s in full.layout.shapes if s.name == "outlier threshold")
     peak = float(analysis.pre.series.points["value"].max())

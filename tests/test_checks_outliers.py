@@ -9,6 +9,7 @@ from eval import generators as gen
 from signalcheck.config import Config
 from signalcheck.engine.checks import outliers
 from signalcheck.engine.checks.common import iso
+from signalcheck.engine.checks.seasonality import deweekly
 from signalcheck.engine.preprocess import preprocess
 
 
@@ -59,3 +60,33 @@ def test_robust_z() -> None:
     np.testing.assert_allclose(z[:3], [0.0, 1.5, -3.0])
     assert np.isnan(z[3])
     assert z[1] == pytest.approx(1.5)
+
+
+def test_day_of_week_pattern_is_not_an_outlier_once_removed(
+    rng: np.random.Generator, cfg: Config
+) -> None:
+    pre = preprocess(gen.weekday_pattern(rng, amplitude=0.5, noise=0.02), cfg)
+    assert pre.windows is not None
+    plain = outliers.run(pre, cfg)
+    assert plain.numbers["n_flagged"] >= 2
+    adjusted = deweekly(pre.work, "D", cfg, recent_start=pre.windows.recent.start_idx)
+    assert adjusted is not None
+    ev = outliers.run(pre, cfg, values=adjusted.to_numpy())
+    assert ev.numbers["deweekly"] is True
+    assert ev.numbers["n_flagged"] == 0
+    assert "day-of-week pattern is removed" in ev.summary
+
+
+def test_spike_survives_day_of_week_removal(rng: np.random.Generator, cfg: Config) -> None:
+    series = gen.weekday_pattern(rng)
+    series.points.loc[series.points.index[-6], "value"] *= 5
+    pre = preprocess(series, cfg)
+    assert pre.windows is not None
+    adjusted = deweekly(pre.work, "D", cfg, recent_start=pre.windows.recent.start_idx)
+    assert adjusted is not None
+    ev = outliers.run(pre, cfg, values=adjusted.to_numpy())
+    assert ev.stance == "supports_fluke"
+    assert ev.numbers["n_flagged"] == 1
+    assert ev.numbers["max_value"] == pytest.approx(
+        float(series.points["value"].iloc[-6]), rel=0.01
+    )

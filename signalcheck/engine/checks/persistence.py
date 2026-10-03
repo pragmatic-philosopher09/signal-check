@@ -17,8 +17,11 @@ is both statistically significant and practically large?
   ``baseline_median +/- band_mads * MAD`` in the trend's direction.
 
 Supports a trend when ``p < mk_alpha`` and ``|normalised slope| >= min_slope``.
-A non-significant test supports "no change"; a significant but tiny slope is
-neutral.
+A non-significant test supports "no change". A significant slope below
+``negligible_slope`` also supports "no change": with long or smooth series the
+rank test detects drifts far too small to matter, and statistical significance
+alone is not a practical change (a minimum effect size). A significant slope
+between ``negligible_slope`` and ``min_slope`` is neutral.
 """
 
 from __future__ import annotations
@@ -71,6 +74,7 @@ class TrendResult:
     slope_norm: float
     significant: bool
     large_enough: bool
+    negligible: bool
     direction: str
     run_length: int
 
@@ -78,6 +82,11 @@ class TrendResult:
     def supports_trend(self) -> bool:
         """Significant and practically large."""
         return self.significant and self.large_enough
+
+    @property
+    def no_change(self) -> bool:
+        """Not significant, or significant but practically negligible."""
+        return not self.significant or self.negligible
 
 
 def segment_start(windows: Windows, cfg: Config) -> int:
@@ -166,18 +175,19 @@ def assess_trend(
         slope_norm=slope_norm,
         significant=p_value < float(per["mk_alpha"]),
         large_enough=abs(slope_norm) >= float(per["min_slope"]),
+        negligible=abs(slope_norm) < float(per["negligible_slope"]),
         direction=direction,
         run_length=run,
     )
 
 
 def stance_for(result: TrendResult) -> str:
-    """``supports_trend`` / ``neutral`` (significant but tiny) / ``supports_no_change``."""
+    """``supports_trend`` / ``supports_no_change`` (not significant or negligible) / ``neutral``."""
     if result.supports_trend:
         return "supports_trend"
-    if result.significant:
-        return "neutral"
-    return "supports_no_change"
+    if result.no_change:
+        return "supports_no_change"
+    return "neutral"
 
 
 def run(pre: Preprocessed, cfg: Config | None = None, values: np.ndarray | None = None) -> Evidence:
@@ -217,6 +227,7 @@ def _evidence(
     book.put("direction", result.direction)
     book.put("significant", result.significant)
     book.put("supports_trend", result.supports_trend)
+    book.put("negligible", result.significant and result.negligible)
     book.fixed("slope_norm_pct", 100.0 * result.slope_norm, int(cfg["display"]["pct_decimals"]))
 
     first, last = ts[result.start_idx], ts[-1]
@@ -233,6 +244,12 @@ def _evidence(
         summary = (
             f"Values {verb} {slope_text} over the last {window_text}; "
             f"the Mann-Kendall trend test is significant ({p_text})"
+        )
+    elif result.significant and result.negligible:
+        tiny_text = book.pct("negligible_slope_pct", float(per["negligible_slope"]))
+        summary = (
+            f"Values {verb} over the last {window_text} ({p_text}), but only {slope_text}, "
+            f"below the {tiny_text} that counts as a practical change"
         )
     elif result.significant:
         min_text = book.pct("min_slope_pct", float(per["min_slope"]))
