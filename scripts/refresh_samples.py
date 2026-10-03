@@ -35,6 +35,7 @@ from pathlib import Path
 from signalcheck.adapters.base import Adapter, LiveAdapter, fetch_safely, slugify
 from signalcheck.adapters.google_trends import GoogleTrendsAdapter, series_from_trends_csv
 from signalcheck.adapters.hackernews import HackerNewsAdapter
+from signalcheck.adapters.reddit import RedditAdapter
 from signalcheck.adapters.wikipedia import WikipediaAdapter
 from signalcheck.cache import NoCache
 from signalcheck.config import Config, get_config, resolve_path
@@ -48,6 +49,7 @@ ADAPTERS: dict[str, AdapterFactory] = {
     "wikipedia": lambda cfg: WikipediaAdapter(cfg, cache=NoCache()),
     "hackernews": lambda cfg: HackerNewsAdapter(cfg, cache=NoCache()),
     "google_trends": lambda cfg: GoogleTrendsAdapter(cfg, cache=NoCache()),
+    "reddit": lambda cfg: RedditAdapter(cfg, cache=NoCache()),
 }
 # Sources refreshed only when named explicitly (they cost money).
 OPT_IN_SOURCES: frozenset[str] = frozenset({"x"})
