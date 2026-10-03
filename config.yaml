@@ -26,6 +26,73 @@ adapters:
   csv:
     # Google Trends reports tiny interest as "<1"; such cells get this value and imputed=True.
     trends_lt1_value: 0.5
+  # Live adapters (Phase 4). Paths are relative to the repo root. History lengths are in days.
+  wikipedia:
+    project: en.wikipedia
+    access: all-access
+    # "user" excludes traffic Wikimedia classifies as spiders or automated.
+    agent: user
+    # >= 730 daily points so the annual seasonality check can run.
+    history_days: 800
+    # Search candidates offered for the article override.
+    search_limit: 5
+  hackernews:
+    history_days: 90
+    # Algolia tags filter: stories and comments.
+    tags: "(story,comment)"
+    # false = exact word matching, so day counts and breadth hits use the same matching.
+    typo_tolerance: false
+    # Algolia returns at most 1,000 hits per query (paginationLimitedTo).
+    max_hits_per_day: 1000
+    # Minimum seconds between requests (Algolia allows 10,000 requests/hour per IP).
+    min_interval_s: 0.1
+  google_trends:
+    # Try the optional live fetcher (pytrends, if installed) before the snapshot.
+    live_enabled: true
+    # Google picks granularity from the timeframe: <= daily_max_days -> daily, <= weekly_max_days -> weekly.
+    timeframe_days: 90
+    daily_max_days: 90
+    weekly_max_days: 1825
+    geo: ""
+    snapshot_dir: data/samples/google_trends
+    # Add a "snapshot is stale" caveat when older than this.
+    snapshot_stale_days: 14
+  reddit:
+    history_days: 30
+    # Reddit listings return at most 100 items per page and search stops at ~1,000 results.
+    page_limit: 100
+    result_cap: 1000
+    # 100 queries/minute per OAuth client -> at least 0.6 s between requests.
+    min_interval_s: 0.6
+    collected_dir: data/collected/reddit
+    # Days the daily collector re-fetches (and upserts) on each run.
+    collect_days: 7
+    # Topics the daily collector (scripts/collect_reddit.py) accumulates history for.
+    watchlist: ["perplexity ai", "chatgpt", "claude ai", "rust programming", "nvidia"]
+  x:
+    # Counts endpoint: "all" (full archive, pay-per-use) or "recent" (last 7 days only).
+    counts_endpoint: all
+    history_days: 90
+    # Appended to every query so reposts do not inflate counts.
+    query_suffix: "-is:retweet"
+    # USD per request (counts) or per post returned (post reads); see docs.x.com pricing.
+    cost_counts_recent_usd: 0.005
+    cost_counts_all_usd: 0.010
+    cost_post_read_usd: 0.005
+    # Days per counts/all page at day granularity.
+    counts_all_page_days: 31
+    # Budget when X_MAX_SPEND_USD is unset.
+    default_max_spend_usd: 5.0
+    # Spend ledger file name inside cache.dir (gitignored).
+    ledger_file: x_spend_ledger.json
+    # Optional breadth from post reads on the recent window (costs cost_post_read_usd per post).
+    breadth_enabled: false
+    breadth_max_posts: 100
+
+# Topics refreshed by scripts/refresh_samples.py into data/samples/<source>/<slug>.json.
+samples:
+  dir: data/samples
+  topics: ["perplexity ai", "chatgpt", "taylor swift", "rust programming"]
 
 # Section 5: preprocessing
 preprocess:

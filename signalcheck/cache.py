@@ -18,7 +18,7 @@ from typing import Any, TypeVar
 
 import diskcache
 
-from signalcheck.config import DEFAULT_CONFIG_PATH, Config, get_config
+from signalcheck.config import Config, get_config, resolve_path
 
 T = TypeVar("T")
 _MISSING = object()
@@ -67,10 +67,7 @@ class Cache:
     def from_config(cls, cfg: Config | None = None) -> Cache:
         """Cache at ``cache.dir`` (relative paths are under the repo root), ``ttl_hours``."""
         cfg = cfg if cfg is not None else get_config()
-        directory = Path(cfg["cache"]["dir"])
-        if not directory.is_absolute():
-            directory = DEFAULT_CONFIG_PATH.parent / directory
-        return cls(directory, float(cfg["cache"]["ttl_hours"]) * 3600)
+        return cls(resolve_path(cfg["cache"]["dir"]), float(cfg["cache"]["ttl_hours"]) * 3600)
 
     def get(self, key: str, default: Any = None) -> Any:
         """Cached value for ``key`` or ``default`` if absent/expired."""
@@ -107,6 +104,26 @@ class Cache:
     def close(self) -> None:
         """Close the underlying database handle."""
         self._cache.close()
+
+
+class NoCache:
+    """Pass-through stand-in for :class:`Cache` (always fetches, stores nothing).
+
+    Used by the refresh/collect scripts, which must see fresh data.
+    """
+
+    def get_or_fetch(
+        self,
+        source: str,
+        query: str,
+        params: Mapping[str, Any] | None,
+        fetch: Callable[[], T],
+    ) -> T:
+        """Call ``fetch`` and return its result."""
+        return fetch()
+
+
+CacheLike = Cache | NoCache
 
 
 @lru_cache(maxsize=1)

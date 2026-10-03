@@ -11,7 +11,7 @@ import numpy as np
 import pytest
 import responses
 
-from signalcheck import cache as cache_mod
+from signalcheck import config as config_mod
 from signalcheck import http
 from signalcheck.cache import Cache, make_key, normalise_params, normalise_query
 from signalcheck.config import Config
@@ -49,7 +49,7 @@ def test_ttl_from_config(cache: Cache, cfg: Config) -> None:
 def test_relative_dir_resolves_under_repo_root(
     cfg: Config, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    monkeypatch.setattr(cache_mod, "DEFAULT_CONFIG_PATH", tmp_path / "config.yaml")
+    monkeypatch.setattr(config_mod, "DEFAULT_CONFIG_PATH", tmp_path / "config.yaml")
     cfg["cache"]["dir"] = ".cache/signalcheck"
     c = Cache.from_config(cfg)
     try:
