@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from collections.abc import Iterator
 from pathlib import Path
 
@@ -9,7 +10,10 @@ import pytest
 import streamlit as st
 from streamlit.testing.v1 import AppTest
 
+from signalcheck import narrate as narrate_mod
 from signalcheck.adapters.base import AdapterError
+from signalcheck.cache import Cache
+from signalcheck.narrate import OpenAICompatibleNarrator, template_narration
 from signalcheck.ui import runner
 from tests.ui_fakes import FakeAdapter, no_network_factories, snapshot_as_live
 
@@ -62,7 +66,8 @@ def test_sample_chip_renders_cards_offline() -> None:
     assert ":green-badge[" in markdown
     captions = "\n".join(texts(at.caption))
     assert "Sample topic: committed snapshots" in captions
-    assert "template text" in captions
+    assert "Summary (template)" in captions
+    assert "AI-written" not in captions
     assert at.text_input(key="topic").value == "rust programming"
 
 
@@ -116,3 +121,24 @@ def test_methodology_lists_live_thresholds() -> None:
     markdown = "\n".join(texts(at.markdown))
     assert "`outlier_z` = 3.5" in markdown
     assert "| R6 |" in markdown
+
+
+def test_ai_summary_replaces_the_template_when_valid(
+    monkeypatch: pytest.MonkeyPatch, tmp_path: Path
+) -> None:
+    def fake_complete(self: OpenAICompatibleNarrator, system: str, user: str) -> str:
+        payload = json.loads(user.split("\n", 1)[1])
+        return template_narration(payload).replace("Why:", "This is because")
+
+    monkeypatch.setenv("LLM_PROVIDER", "openai")
+    monkeypatch.setenv("LLM_API_KEY", "sk-test")
+    monkeypatch.setattr(OpenAICompatibleNarrator, "complete", fake_complete)
+    monkeypatch.setattr(narrate_mod, "get_cache", lambda: Cache(tmp_path / "cache", 60))
+    at = start()
+    at.button(key="sample_rust-programming").click().run()
+    assert not at.exception
+    captions = "\n".join(texts(at.caption))
+    assert captions.count("AI-written summary of the findings above") == 2
+    assert "Summary (template)" not in captions
+    markdown = "\n".join(texts(at.markdown))
+    assert "This is because" in markdown and "Why:" not in markdown

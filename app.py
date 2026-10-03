@@ -15,7 +15,7 @@ import streamlit as st
 
 from signalcheck.adapters.base import slugify
 from signalcheck.config import APP_NAME, APP_VERSION, get_config
-from signalcheck.narrate import TEMPLATE_LABEL, template_summary
+from signalcheck.narrate import Narration, narration_enabled
 from signalcheck.ui import runner
 from signalcheck.ui.charts import build_chart
 from signalcheck.ui.methodology import methodology_sections
@@ -211,13 +211,27 @@ def render_failure(view: CardView, outcome: SourceOutcome) -> None:
         render_wiki_box(view, outcome)
 
 
-def render_card(outcome: SourceOutcome) -> None:
-    """One source card: verdict, chart, evidence, change-my-mind, caveats, narration."""
+NARRATION_ICONS = {"llm": ":material/auto_awesome:", "template": ":material/notes:"}
+
+
+def fill_narration(slot: Any, narration: Narration) -> None:
+    """Show ``narration`` in a card's narration placeholder, labelled by how it was made."""
+    with slot.container():
+        st.caption(f"{NARRATION_ICONS[narration.path]} {narration.label}")
+        st.markdown(narration.text)
+
+
+def render_card(outcome: SourceOutcome, narration: Narration | None = None) -> Any | None:
+    """One source card: verdict, chart, evidence, change-my-mind, caveats, narration.
+
+    Returns the narration placeholder (showing ``narration`` for now) so the caller
+    can swap in the AI summary once it arrives; ``None`` for failure cards.
+    """
     view = card_view(outcome)
     with st.container(border=True, key=f"card_{outcome.source}"):
         if view.badge is None or outcome.analysis is None:
             render_failure(view, outcome)
-            return
+            return None
         with st.container(horizontal=True, vertical_alignment="center", gap="small"):
             st.markdown(f"**{view.title}**")
             st.badge(view.badge.text, icon=view.badge.icon, color=view.badge.color)
@@ -254,8 +268,10 @@ def render_card(outcome: SourceOutcome) -> None:
         if view.caveats:
             st.markdown("**Caveats**")
             st.caption("\n".join(f"- {c}" for c in view.caveats))
-        st.caption(f":material/notes: {TEMPLATE_LABEL}")
-        st.markdown(template_summary(outcome.analysis.verdict, outcome.label))
+        slot = st.empty()
+        if narration is not None:
+            fill_narration(slot, narration)
+        return slot
 
 
 def render_summary(result: TopicResult) -> None:
@@ -279,10 +295,25 @@ def render_summary(result: TopicResult) -> None:
 
 
 def render_result(result: TopicResult) -> None:
-    """Summary card, then one card per source."""
+    """Summary card, then one card per source, then the AI summaries (if enabled).
+
+    Cards render with their template narration first, so a slow or failing LLM
+    never delays or breaks a card; validated AI text replaces it when ready.
+    """
     render_summary(result)
+    templates = runner.template_narrations(result.outcomes, cfg)
+    slots = {}
     for outcome in result.outcomes:
-        render_card(outcome)
+        slot = render_card(outcome, templates.get(outcome.source))
+        if slot is not None:
+            slots[outcome.source] = slot
+    if not slots or not narration_enabled():
+        return
+    with st.spinner("Writing AI summaries\u2026"):
+        narrations = runner.narrate_outcomes(result.outcomes, cfg)
+    for source, narration in narrations.items():
+        if source in slots and narration.path == "llm":
+            fill_narration(slots[source], narration)
 
 
 def run_topic_request(request: dict[str, Any]) -> None:

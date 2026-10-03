@@ -2,12 +2,15 @@
 
 from __future__ import annotations
 
+import threading
+import time
 from typing import Any
 
 import pytest
 
 from signalcheck.adapters.base import AdapterError
 from signalcheck.config import Config
+from signalcheck.narrate import TEMPLATE_LABEL, Narration, ProviderSettings
 from signalcheck.ui import runner
 from tests.ui_fakes import FakeAdapter, factory, no_network_factories, snapshot_as_live
 
@@ -191,3 +194,56 @@ def test_unreadable_csv_is_a_card_message(cfg: Config) -> None:
     (outcome,) = out.result.outcomes
     assert outcome.analysis is None
     assert outcome.message is not None and outcome.message.startswith("Couldn't fetch CSV upload:")
+
+
+ENABLED = ProviderSettings("openai", "sk-test", None, None)
+
+
+def sample_outcomes(cfg: Config) -> list[runner.SourceOutcome]:
+    result = runner.run_topic("rust programming", ["wikipedia", "hackernews"], cfg, sample=True)
+    failed = runner.SourceOutcome("reddit", "Reddit", message="Couldn't fetch Reddit")
+    return [*result.outcomes, failed]
+
+
+def test_narrations_are_templates_when_no_provider(cfg: Config) -> None:
+    def never(*_a: Any, **_k: Any) -> Narration:
+        raise AssertionError("narrate must not be called")
+
+    result = runner.narrate_outcomes(
+        sample_outcomes(cfg),
+        cfg,
+        settings=ProviderSettings(None, None, None, None),
+        narrate_fn=never,
+    )
+    assert set(result) == {"wikipedia", "hackernews"}
+    assert all(n.path == "template" and n.label == TEMPLATE_LABEL for n in result.values())
+    assert result["wikipedia"].text.startswith("Wikipedia shows a sustained upward trend")
+
+
+def test_narrations_run_concurrently_with_fallbacks(cfg: Config) -> None:
+    def fake(verdict: Any, meta: dict[str, Any], **_k: Any) -> Narration:
+        if meta["source"] == "hackernews":
+            raise RuntimeError("boom")
+        assert meta == {"source": "wikipedia", "source_label": "Wikipedia", "freq": "D"}
+        return Narration(f"AI says {verdict.label}", "llm")
+
+    result = runner.narrate_outcomes(sample_outcomes(cfg), cfg, settings=ENABLED, narrate_fn=fake)
+    assert result["wikipedia"] == Narration("AI says TREND", "llm")
+    assert (result["hackernews"].path, result["hackernews"].failure) == ("template", "error")
+
+
+def test_slow_narration_times_out_to_template(cfg: Config) -> None:
+    release = threading.Event()
+
+    def slow(*_a: Any, **_k: Any) -> Narration:
+        release.wait(5)
+        return Narration("late", "llm")
+
+    started = time.monotonic()
+    result = runner.narrate_outcomes(
+        sample_outcomes(cfg), cfg, settings=ENABLED, narrate_fn=slow, timeout_s=0.05
+    )
+    release.set()
+    assert time.monotonic() - started < 2
+    assert {n.failure for n in result.values()} == {"timeout"}
+    assert all(n.path == "template" for n in result.values())

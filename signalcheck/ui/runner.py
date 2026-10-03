@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import logging
 from collections.abc import Callable, Mapping, Sequence
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import Future, ThreadPoolExecutor, wait
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -34,6 +34,7 @@ from signalcheck.config import Config
 from signalcheck.engine.cross_source import CrossSourceSummary, compare_sources
 from signalcheck.engine.pipeline import Analysis, analyse_detailed
 from signalcheck.models import Series, Verdict
+from signalcheck.narrate import Narration, ProviderSettings, narrate, template_only
 from signalcheck.snapshots import load_snapshot, samples_dir, snapshot_path
 
 log = logging.getLogger(__name__)
@@ -276,6 +277,72 @@ def run_topic(
                         )
                     )
     return TopicResult(query, outcomes, summarise(outcomes, cfg), sample=sample)
+
+
+NarrateFn = Callable[..., Narration]
+
+
+def series_meta(outcome: SourceOutcome) -> dict[str, Any]:
+    """The source facts the narration payload needs (id, display label, frequency)."""
+    freq = outcome.series.freq if outcome.series is not None else None
+    return {"source": outcome.source, "source_label": outcome.label, "freq": freq}
+
+
+def template_narrations(outcomes: Sequence[SourceOutcome], cfg: Config) -> dict[str, Narration]:
+    """Template narration for every analysed outcome (instant; no provider involved)."""
+    return {
+        o.source: template_only(o.analysis.verdict, series_meta(o), cfg)
+        for o in outcomes
+        if o.analysis is not None
+    }
+
+
+def narrate_outcomes(
+    outcomes: Sequence[SourceOutcome],
+    cfg: Config,
+    *,
+    settings: ProviderSettings | None = None,
+    narrate_fn: NarrateFn | None = None,
+    timeout_s: float | None = None,
+) -> dict[str, Narration]:
+    """Narration per analysed outcome, keyed by source; never raises or blocks for long.
+
+    With no provider configured every card gets its template immediately. Otherwise
+    the LLM calls run concurrently (``narration.max_workers``) and the page waits at
+    most ``narration.total_timeout_s``; unfinished or failed narrations fall back to
+    the template (category ``timeout``/``error``).
+    """
+    settings = settings if settings is not None else ProviderSettings.from_secrets()
+    templates = template_narrations(outcomes, cfg)
+    if not settings.enabled or not templates:
+        return templates
+    n = cfg["narration"]
+    timeout = float(n["total_timeout_s"]) if timeout_s is None else timeout_s
+    narrate_fn = narrate_fn if narrate_fn is not None else narrate
+    warm_shared_clients()
+    pool = ThreadPoolExecutor(max_workers=max(1, min(int(n["max_workers"]), len(templates))))
+    futures: dict[str, Future[Narration]] = {
+        o.source: pool.submit(
+            narrate_fn, o.analysis.verdict, series_meta(o), cfg=cfg, settings=settings
+        )
+        for o in outcomes
+        if o.analysis is not None
+    }
+    wait(futures.values(), timeout=timeout)
+    pool.shutdown(wait=False, cancel_futures=True)
+    results: dict[str, Narration] = {}
+    for source, future in futures.items():
+        fallback = templates[source]
+        if not future.done():
+            log.info("narration fell back to template: timeout")
+            results[source] = Narration(fallback.text, "template", "timeout")
+            continue
+        try:
+            results[source] = future.result()
+        except Exception:
+            log.info("narration fell back to template: error")
+            results[source] = Narration(fallback.text, "template", "error")
+    return results
 
 
 def run_csv(

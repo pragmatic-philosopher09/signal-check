@@ -22,6 +22,16 @@ SEED = 20261003
 SeriesFactory = Callable[..., Series]
 
 
+LLM_ENV_VARS: tuple[str, ...] = ("LLM_PROVIDER", "LLM_API_KEY", "LLM_MODEL", "LLM_BASE_URL")
+
+
+@pytest.fixture(autouse=True)
+def no_llm_provider(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Blank the LLM settings so no test narrates via a developer's .env (no network)."""
+    for name in LLM_ENV_VARS:
+        monkeypatch.setenv(name, "")
+
+
 @pytest.fixture
 def cfg() -> Config:
     """A fresh deep copy of the repo config (tests may mutate it)."""
