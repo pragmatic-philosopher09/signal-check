@@ -136,3 +136,33 @@ def test_get_secret_loads_dotenv(monkeypatch: pytest.MonkeyPatch, tmp_path: Path
         assert get_secret("SIGNALCHECK_DOTENV_SECRET") == "from-dotenv"
     finally:
         os.environ.pop("SIGNALCHECK_DOTENV_SECRET", None)
+
+
+@pytest.mark.parametrize(
+    ("mutate", "message"),
+    [
+        (lambda c: c["preprocess"].update(recent_frac=1.0), "recent_frac: must be in"),
+        (
+            lambda c: c["preprocess"]["recent_min"].update(D=30),
+            "recent_min.D: must be <= recent_max",
+        ),
+        (lambda c: c["preprocess"]["recent_min"].update(M=0), "recent_min.M: must be >= 1"),
+        (lambda c: c["preprocess"].update(recent_frac=0.99), "leaves no baseline"),
+        (lambda c: c["preprocess"].update(mad_floor=0), "mad_floor: must be > 0"),
+        (lambda c: c["preprocess"].update(log_scales=["count", "bytes"]), "unknown scale"),
+        (lambda c: c["http"].update(read_timeout_s=0), "read_timeout_s: must be > 0"),
+        (lambda c: c["http"].update(backoff_max_s=0.1), "backoff_max_s: must be >="),
+        (lambda c: c["cache"].update(ttl_hours=0), "ttl_hours: must be > 0"),
+        (lambda c: c["adapters"]["csv"].update(trends_lt1_value=1), "trends_lt1_value"),
+    ],
+)
+def test_out_of_range_values_fail(raw_config: dict[str, Any], mutate: Any, message: str) -> None:
+    mutate(raw_config)
+    with pytest.raises(ConfigError, match=message):
+        validate_config(raw_config)
+
+
+def test_phase1_keys_present() -> None:
+    cfg = load_config()
+    assert cfg["preprocess"]["log_scales"] == ["count", "pageviews"]
+    assert cfg["adapters"]["csv"]["trends_lt1_value"] == 0.5

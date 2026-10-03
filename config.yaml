@@ -22,6 +22,11 @@ cache:
   ttl_hours: 6
   dir: .cache/signalcheck
 
+adapters:
+  csv:
+    # Google Trends reports tiny interest as "<1"; such cells get this value and imputed=True.
+    trends_lt1_value: 0.5
+
 # Section 5: preprocessing
 preprocess:
   # Minimum points of history; fewer -> INCONCLUSIVE (R1).
@@ -36,6 +41,8 @@ preprocess:
   mad_scale: 1.4826
   # If MAD == 0, use max(MAD, mad_floor * max(median, 1)).
   mad_floor: 0.05
+  # Scales analysed on log1p(values); every other scale is analysed as-is.
+  log_scales: [count, pageviews]
 
 # Section 6: checks
 checks:
