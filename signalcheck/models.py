@@ -27,6 +27,7 @@ STANCES: tuple[str, ...] = (
 LABELS: tuple[str, ...] = ("TREND", "FLUKE", "SEASONAL", "NO_CHANGE", "INCONCLUSIVE")
 DIRECTIONS: tuple[str, ...] = ("up", "down")
 CONFIDENCES: tuple[str, ...] = ("low", "medium", "high")
+RULE_IDS: tuple[str, ...] = ("R1", "R2", "R3", "R4", "R5", "R6")
 
 REQUIRED_COLUMNS: tuple[str, ...] = ("ts", "value")
 OPTIONAL_COLUMNS: tuple[str, ...] = ("contributors", "top_share", "raw_count", "imputed")
@@ -98,7 +99,15 @@ class Evidence:
 
 @dataclass(frozen=True)
 class Verdict:
-    """Decision-table result for one series; ``rule_fired`` is the matching row id."""
+    """Decision-table result for one series; ``rule_fired`` is the matching row id.
+
+    ``reason`` is a plain-language explanation of why that row matched (the R1
+    history shortfall, the R6 conflicting checks, ...). ``window`` is
+    :meth:`Windows.to_dict` or empty when the history was too short to split.
+    ``change_my_mind`` items are strings; the engine produces
+    :class:`~signalcheck.engine.change_my_mind.Condition` strings that also carry
+    their displayed numbers in ``.numbers``.
+    """
 
     label: str
     direction: str | None
@@ -108,10 +117,12 @@ class Verdict:
     change_my_mind: list[str]
     caveats: list[str]
     window: dict[str, Any]
+    reason: str = ""
 
     def __post_init__(self) -> None:
         _require_member("label", self.label, LABELS)
         _require_member("confidence", self.confidence, CONFIDENCES)
+        _require_member("rule_fired", self.rule_fired, RULE_IDS)
         if self.direction is not None:
             _require_member("direction", self.direction, DIRECTIONS)
         if self.label == "TREND" and self.direction is None:
