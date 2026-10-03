@@ -1,0 +1,571 @@
+{
+  "target_false_trend_rate": 0.05,
+  "sweep_seeds": 20,
+  "splits": {
+    "test": {
+      "synthetic": {
+        "n": 13,
+        "correct": 12,
+        "accuracy": 0.9230769230769231,
+        "confusion": {
+          "TREND": {
+            "TREND": 3,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 1,
+            "INCONCLUSIVE": 0
+          },
+          "FLUKE": {
+            "TREND": 0,
+            "FLUKE": 3,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "SEASONAL": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 2,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "NO_CHANGE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 3,
+            "INCONCLUSIVE": 0
+          },
+          "INCONCLUSIVE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 1
+          }
+        },
+        "recall": {
+          "TREND": 0.75,
+          "FLUKE": 1.0,
+          "SEASONAL": 1.0,
+          "NO_CHANGE": 1.0,
+          "INCONCLUSIVE": 1.0
+        },
+        "false_trend": {
+          "n": 3,
+          "false_trend": 0,
+          "rate": 0.0
+        },
+        "cases": [
+          {
+            "id": "trend_up_daily_noisy",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_down_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "step_down_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_on_seasonal_weekly",
+            "expected": "TREND up",
+            "got": "NO_CHANGE",
+            "correct": false,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "spike_monthly",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "dip_weekly",
+            "expected": "FLUKE",
+            "got": "FLUKE down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "double_spike_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "seasonal_trough_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_sharp_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "flat_daily_noisy",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_monthly",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "ar1_weekly",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "short_monthly",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R1",
+            "reason": "not enough history: 18 months observed, need at least 24 months"
+          }
+        ],
+        "failures": [
+          {
+            "id": "trend_on_seasonal_weekly",
+            "expected": "TREND up",
+            "got": "NO_CHANGE",
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          }
+        ],
+        "noise_sweep": {
+          "n": 60,
+          "false_trend": 1,
+          "rate": 0.016666666666666666,
+          "trend_ids": [
+            "ar1_weekly#2"
+          ]
+        }
+      },
+      "real": {
+        "n": 5,
+        "correct": 3,
+        "accuracy": 0.6,
+        "confusion": {
+          "TREND": {
+            "TREND": 1,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 1
+          },
+          "FLUKE": {
+            "TREND": 1,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "SEASONAL": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 1,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "NO_CHANGE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 1,
+            "INCONCLUSIVE": 0
+          },
+          "INCONCLUSIVE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          }
+        },
+        "recall": {
+          "TREND": 0.5,
+          "FLUKE": 0.0,
+          "SEASONAL": 1.0,
+          "NO_CHANGE": 1.0,
+          "INCONCLUSIVE": null
+        },
+        "false_trend": {
+          "n": 0,
+          "false_trend": 0,
+          "rate": null
+        },
+        "cases": [
+          {
+            "id": "openai_rise_weekly",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: fluke; level shift: no change); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "nft_decline_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a significant, practically large trend that is not concentrated in a single spike"
+          },
+          {
+            "id": "crowdstrike_outage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "super_bowl_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "python_hn_steady",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          }
+        ],
+        "failures": [
+          {
+            "id": "openai_rise_weekly",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: fluke; level shift: no change); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "crowdstrike_outage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          }
+        ]
+      },
+      "combined": {
+        "n": 18,
+        "correct": 15,
+        "accuracy": 0.8333333333333334,
+        "confusion": {
+          "TREND": {
+            "TREND": 4,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 1,
+            "INCONCLUSIVE": 1
+          },
+          "FLUKE": {
+            "TREND": 1,
+            "FLUKE": 3,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "SEASONAL": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 3,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 0
+          },
+          "NO_CHANGE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 4,
+            "INCONCLUSIVE": 0
+          },
+          "INCONCLUSIVE": {
+            "TREND": 0,
+            "FLUKE": 0,
+            "SEASONAL": 0,
+            "NO_CHANGE": 0,
+            "INCONCLUSIVE": 1
+          }
+        },
+        "recall": {
+          "TREND": 0.6666666666666666,
+          "FLUKE": 0.75,
+          "SEASONAL": 1.0,
+          "NO_CHANGE": 1.0,
+          "INCONCLUSIVE": 1.0
+        },
+        "false_trend": {
+          "n": 3,
+          "false_trend": 0,
+          "rate": 0.0
+        },
+        "cases": [
+          {
+            "id": "trend_up_daily_noisy",
+            "expected": "TREND up",
+            "got": "TREND up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_down_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "step_down_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R4",
+            "reason": "a significant, practically large trend and a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "trend_on_seasonal_weekly",
+            "expected": "TREND up",
+            "got": "NO_CHANGE",
+            "correct": false,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "spike_monthly",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "dip_weekly",
+            "expected": "FLUKE",
+            "got": "FLUKE down",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "double_spike_daily",
+            "expected": "FLUKE",
+            "got": "FLUKE up",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R3",
+            "reason": "a short-lived spike or dip carries most of the change and there is no trend"
+          },
+          {
+            "id": "seasonal_trough_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "seasonal_sharp_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "flat_daily_noisy",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "flat_monthly",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "ar1_weekly",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "short_monthly",
+            "expected": "INCONCLUSIVE",
+            "got": "INCONCLUSIVE",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R1",
+            "reason": "not enough history: 18 months observed, need at least 24 months"
+          },
+          {
+            "id": "openai_rise_weekly",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: fluke; level shift: no change); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "nft_decline_weekly",
+            "expected": "TREND down",
+            "got": "TREND down",
+            "correct": true,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a significant, practically large trend that is not concentrated in a single spike"
+          },
+          {
+            "id": "crowdstrike_outage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "correct": false,
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          },
+          {
+            "id": "super_bowl_weekly",
+            "expected": "SEASONAL",
+            "got": "SEASONAL",
+            "correct": true,
+            "confidence": "medium",
+            "rule": "R2",
+            "reason": "the usual annual pattern explains the recent change and nothing is left after removing it"
+          },
+          {
+            "id": "python_hn_steady",
+            "expected": "NO_CHANGE",
+            "got": "NO_CHANGE",
+            "correct": true,
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          }
+        ],
+        "failures": [
+          {
+            "id": "trend_on_seasonal_weekly",
+            "expected": "TREND up",
+            "got": "NO_CHANGE",
+            "confidence": "high",
+            "rule": "R5",
+            "reason": "no significant slope, no outliers and no level shift in the recent window"
+          },
+          {
+            "id": "openai_rise_weekly",
+            "expected": "TREND up",
+            "got": "INCONCLUSIVE",
+            "confidence": "low",
+            "rule": "R6",
+            "reason": "the checks do not line up (persistence: trend; concentration: neutral; outliers: fluke; level shift: no change); the trend-supporting checks and the recent departure from the baseline disagree on the direction"
+          },
+          {
+            "id": "crowdstrike_outage",
+            "expected": "FLUKE",
+            "got": "TREND up",
+            "confidence": "low",
+            "rule": "R4",
+            "reason": "a sustained level shift that is not concentrated in a single spike"
+          }
+        ],
+        "noise_sweep": {
+          "n": 60,
+          "false_trend": 1,
+          "rate": 0.016666666666666666,
+          "trend_ids": [
+            "ar1_weekly#2"
+          ]
+        }
+      }
+    }
+  },
+  "real_cases_skipped": []
+}

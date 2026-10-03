@@ -180,3 +180,31 @@ under 3%. That would be fitting one case, and it lowers sensitivity to real tren
 
 Recorded below after a single run of `python -m eval.run_eval --split test --sweep 20 --save
 final_test`. No tuning happened after it.
+
+| Test | Accuracy | False-TREND (noise cases) | False-TREND (sweep) |
+| --- | --- | --- | --- |
+| synthetic | 92.3% (12/13) | 0/3 | 1/60 (1.7%) |
+| real | 60.0% (3/5) | - | - |
+| combined | 83.3% (15/18) | 0/3 | 1/60 (1.7%) |
+
+For reference, the synthetic test split was 84.6% (11/13) at baseline. See the disclosures: that
+number had been seen, but it was not used for tuning.
+
+Test failures (diagnosed only, nothing re-tuned):
+- **trend_on_seasonal_weekly** (TREND up → NO_CHANGE, R5): the underlying trend is slow (about
+  0.7%/week on the adjusted series) and the recent window sits in a seasonal trough. Raw
+  persistence over the window is flat, and the recent mean is within 1 MAD of a baseline that
+  spans whole cycles. The engine only looks for change *in the recent window*. A slow trend that
+  needs the whole history to see is outside what the checks test for. This is a known limitation:
+  seasonal-trough handling and comparison against the same period last year are not implemented.
+- **openai_rise_weekly** (TREND up → INCONCLUSIVE, R6): pageviews peaked with GPT-4 (March 2023)
+  and were sliding back at `as_of`, about 3.4%/week down, while still about 10× the pre-ChatGPT
+  baseline. E4 blocks "TREND down" because the departure is up. Without E4 the result would have
+  been TREND *down*, which is also wrong.
+  - *Label note:* "TREND up" is right versus the baseline, but the window shows a post-peak
+    decline. INCONCLUSIVE is a defensible reading.
+- **crowdstrike_outage** (FLUKE → TREND up, R4): the same failure mode as suez_blockage. Attention
+  was still well above baseline at `as_of`, and a second level shift (2024-08-03) held for 9 days.
+  - *Label note:* the label assumes hindsight. Both event cases suggest that "fluke" needs an
+    `as_of` far enough after the event for the decay to show, or a decay-aware check. That would
+    be future work.
