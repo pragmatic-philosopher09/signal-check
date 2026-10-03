@@ -8,10 +8,11 @@ Usage::
 Steps (all deterministic except ``generated_at`` and snapshot ages):
 
 1. Run the engine natively over the committed snapshots in ``data/samples/`` for
-   every ``samples.topics`` entry and write ``results/<slug>.json`` (the exact
+   every ``watchlist`` topic and write ``results/<slug>.json`` (the exact
    JSON the in-browser engine produces), so sample chips render instantly.
 2. Write ``site.json``: methodology built from the shipped ``config.yaml``, the
-   R1-R6 table, label colours, source availability and the sample index.
+   R1-R6 table, label colours, source availability, the sample index and the
+   last daily data refresh from ``data/manifest.json`` (``refresh.manifest``).
 3. Zip the ``signalcheck`` package, ``config.yaml`` and ``data/samples`` into
    ``py/signalcheck-<hash>.zip`` for Pyodide, and download the pure-Python
    wheels Pyodide does not ship (``pymannkendall``, verified by SHA-256).
@@ -34,9 +35,10 @@ from pathlib import Path
 from typing import Any
 
 from signalcheck.adapters.base import slugify
-from signalcheck.config import DEFAULT_CONFIG_PATH, Config, get_config
+from signalcheck.config import DEFAULT_CONFIG_PATH, Config, get_config, resolve_path
 from signalcheck.snapshots import samples_dir
 from signalcheck.ui import runner
+from signalcheck.watchlist import watchlist_topics
 from signalcheck.web.export import result_json, site_json, with_static_cards
 
 log = logging.getLogger("build_web")
@@ -63,7 +65,7 @@ def build_results(cfg: Config, out: Path, now: datetime) -> list[dict[str, Any]]
     results_dir = out / "results"
     results_dir.mkdir(parents=True, exist_ok=True)
     index: list[dict[str, Any]] = []
-    for topic in cfg["samples"]["topics"]:
+    for topic in watchlist_topics(cfg):
         sources = runner.sample_sources(topic, cfg)
         if not sources:
             log.warning("no snapshots for sample topic %r; skipped", topic)
@@ -76,6 +78,19 @@ def build_results(cfg: Config, out: Path, now: datetime) -> list[dict[str, Any]]
         index.append({"query": topic, "slug": slug, "sources": sources})
         log.info("sample %s: %s", topic, ", ".join(sources))
     return index
+
+
+def data_freshness(manifest_path: Path) -> dict[str, Any] | None:
+    """Last daily refresh (time, overall and per-source status) from ``data/manifest.json``."""
+    try:
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        return {
+            "refreshed_at": str(manifest["refreshed_at"]),
+            "status": str(manifest["status"]),
+            "sources": {s: str(v["status"]) for s, v in sorted(manifest["sources"].items())},
+        }
+    except (OSError, ValueError, KeyError, TypeError, AttributeError):
+        return None
 
 
 def bundle_files(root: Path, cfg: Config) -> list[Path]:
@@ -153,6 +168,7 @@ def build(out: Path, *, wheels: bool = True, now: datetime | None = None) -> dic
     samples = build_results(cfg, out, when)
     site = site_json(cfg, samples)
     site["generated_at"] = when.isoformat(timespec="seconds")
+    site["data"] = data_freshness(resolve_path(cfg["refresh"]["manifest"]))
     write_json(out / "site.json", site)
     manifest = build_python(cfg, out, ROOT, wheels)
     return {"samples": [s["slug"] for s in samples], **manifest}

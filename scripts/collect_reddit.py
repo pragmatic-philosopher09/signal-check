@@ -3,10 +3,13 @@
 Reddit search has no time-series endpoint, no historical backfill and stops at
 about 1,000 results, so long histories must be collected over time. Each run
 re-fetches the last ``adapters.reddit.collect_days`` complete UTC days for every
-topic in ``adapters.reddit.watchlist`` and upserts them into
+``watchlist`` topic with ``reddit: true`` and upserts them into
 ``data/collected/reddit/<slug>.csv`` (columns ``date,count,contributors,top_share``).
 Only aggregates are written; author names and post text never reach disk. Days
 before the earliest fully covered day of a capped search are not written.
+
+The daily ``scripts/refresh_data.py`` run calls :func:`collect_topic` for every
+such topic; this CLI is for one-off backfills.
 
 Usage::
 
@@ -35,6 +38,7 @@ from signalcheck.adapters.reddit import (
 from signalcheck.cache import NoCache
 from signalcheck.config import Config, get_config
 from signalcheck.http import HttpError
+from signalcheck.watchlist import topics_for
 
 log = logging.getLogger("collect_reddit")
 
@@ -87,13 +91,15 @@ def main(argv: Sequence[str] | None = None) -> int:
     """CLI entry point."""
     cfg = get_config()
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
-    parser.add_argument("--topics", nargs="+", help="topics (default: adapters.reddit.watchlist)")
+    parser.add_argument(
+        "--topics", nargs="+", help="topics (default: watchlist topics with reddit: true)"
+    )
     parser.add_argument(
         "--out", type=Path, help="directory (default: adapters.reddit.collected_dir)"
     )
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(message)s")
-    topics = args.topics or list(cfg["adapters"]["reddit"]["watchlist"])
+    topics = args.topics or topics_for("reddit", cfg)
     ok, errors = collect(topics, cfg, args.out)
     for error in errors:
         log.error("failed %s", error)

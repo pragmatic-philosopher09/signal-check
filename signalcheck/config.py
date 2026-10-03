@@ -8,6 +8,7 @@ so a bad config can never silently fall back to a hidden default.
 from __future__ import annotations
 
 import os
+import re
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -29,6 +30,8 @@ APP_VERSION = "0.1.0"
 DEFAULT_CONFIG_PATH = Path(__file__).resolve().parent.parent / "config.yaml"
 FREQS: tuple[str, ...] = ("D", "W", "M")
 SCALES: tuple[str, ...] = ("relative_0_100", "count", "pageviews", "value")
+# Sources a watchlist topic can enable for the daily refresh (X is never refreshed).
+WATCHLIST_SOURCES: tuple[str, ...] = ("wikipedia", "hackernews", "reddit")
 
 Config = dict[str, Any]
 
@@ -100,7 +103,6 @@ SCHEMA: dict[str, Any] = {
             "min_interval_s": NUMBER,
             "collected_dir": str,
             "collect_days": int,
-            "watchlist": list,
         },
         "x": {
             "counts_endpoint": str,
@@ -118,7 +120,11 @@ SCHEMA: dict[str, Any] = {
     },
     "samples": {
         "dir": str,
-        "topics": list,
+    },
+    "watchlist": list,
+    "refresh": {
+        "manifest": str,
+        "max_history_days": int,
     },
     "ui": {
         "timeframe_days": list,
@@ -317,7 +323,7 @@ def _check_adapter_constraints(cfg: Config, require: Callable[[bool, str], None]
 
     History lengths, page sizes and caps must be positive; pacing intervals and
     costs non-negative; Google Trends granularity cut-offs ordered; the X counts
-    endpoint one of the two the API offers; topic lists non-empty strings.
+    endpoint one of the two the API offers; the refresh watchlist well formed.
     """
     ad = cfg["adapters"]
     for name in ("wikipedia", "hackernews", "reddit", "x"):
@@ -371,14 +377,50 @@ def _check_adapter_constraints(cfg: Config, require: Callable[[bool, str], None]
     )
     require(ui["chart_height_px"] >= 120, "ui.chart_height_px: must be >= 120")
     require(ui["threshold_headroom"] >= 1, "ui.threshold_headroom: must be >= 1")
-    for path, topics in (
-        ("adapters.reddit.watchlist", rd["watchlist"]),
-        ("samples.topics", cfg["samples"]["topics"]),
-    ):
+    require(bool(cfg["refresh"]["manifest"]), "refresh.manifest: must not be empty")
+    require(cfg["refresh"]["max_history_days"] >= 1, "refresh.max_history_days: must be >= 1")
+    _check_watchlist(cfg["watchlist"], require)
+
+
+def _check_watchlist(entries: list[Any], require: Callable[[bool, str], None]) -> None:
+    """``watchlist``: one mapping per topic, unique slugs, known sources, at least one on.
+
+    ``wikipedia`` is ``true``/``false`` or an article title (an override);
+    ``hackernews`` and ``reddit`` are booleans. Unknown keys are rejected so a typo
+    can't silently switch a source off.
+    """
+    require(bool(entries), "watchlist: must list at least one topic")
+    seen: set[str] = set()
+    for i, entry in enumerate(entries):
+        path = f"watchlist[{i}]"
+        if not isinstance(entry, dict):
+            require(False, f"{path}: expected a mapping like {{topic: ..., wikipedia: true}}")
+            continue
+        topic = entry.get("topic")
+        if not (isinstance(topic, str) and topic.strip()):
+            require(False, f"{path}.topic: must be a non-empty string")
+            continue
+        path = f"watchlist[{i}] ({topic})"
+        unknown = sorted(set(entry) - {"topic", *WATCHLIST_SOURCES})
+        require(not unknown, f"{path}: unknown key(s) {unknown}; known: {WATCHLIST_SOURCES}")
+        wiki = entry.get("wikipedia", False)
         require(
-            bool(topics) and all(isinstance(t, str) and t.strip() for t in topics),
-            f"{path}: must be a non-empty list of non-empty strings",
+            isinstance(wiki, bool) or (isinstance(wiki, str) and bool(wiki.strip())),
+            f"{path}.wikipedia: must be true, false or an article title",
         )
+        for source in ("hackernews", "reddit"):
+            require(
+                isinstance(entry.get(source, False), bool), f"{path}.{source}: must be a boolean"
+            )
+        require(
+            any(entry.get(s) not in (None, False) for s in WATCHLIST_SOURCES),
+            f"{path}: enable at least one of {WATCHLIST_SOURCES}",
+        )
+        # Same rule as adapters.base.slugify (snapshot file names).
+        slug = re.sub(r"[^a-z0-9]+", "-", " ".join(topic.split()).casefold()).strip("-")
+        require(bool(slug), f"{path}.topic: must contain a letter or digit")
+        require(slug not in seen, f"{path}: duplicate topic (slug {slug!r})")
+        seen.add(slug)
 
 
 def _check_check_constraints(cfg: Config, require: Callable[[bool, str], None]) -> None:

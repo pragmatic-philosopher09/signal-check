@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  launchd template: refresh the Google Trends snapshots daily from this Mac.
+  NOT installed by default. Replace __REPO_PATH__ with the absolute path of your
+  signal-check checkout (on branch main, with .venv set up and git push working),
+  then install it as described in README.md, "Google Trends from your Mac".
+  Runs at 01:45 local time (if the Mac was asleep, launchd runs it on wake);
+  logs go to /tmp/signalcheck-trends.log.
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.signalcheck.refresh-trends</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/bin/bash</string>
+    <string>__REPO_PATH__/scripts/refresh_trends_local.sh</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>__REPO_PATH__</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>PATH</key>
+    <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+  <key>StartCalendarInterval</key>
+  <dict>
+    <key>Hour</key>
+    <integer>1</integer>
+    <key>Minute</key>
+    <integer>45</integer>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>ProcessType</key>
+  <string>Background</string>
+  <key>StandardOutPath</key>
+  <string>/tmp/signalcheck-trends.log</string>
+  <key>StandardErrorPath</key>
+  <string>/tmp/signalcheck-trends.log</string>
+</dict>
+</plist>

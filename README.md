@@ -67,6 +67,7 @@ flowchart LR
     XS --> EX["signalcheck/web/export<br/>JSON contract"]
     N --> EX
     EX --> WEB
+    CRON["refresh.yml (daily cron)<br/>scripts.refresh_data"] -->|"adapters → aggregate snapshots<br/>data/samples + manifest.json"| EX
     subgraph Browser["GitHub Pages (static)"]
         WEB["React app<br/>web/"] <-->|postMessage| WK["Web Worker<br/>Pyodide + signalcheck"]
         WK -->|"XHR, 6h IndexedDB cache"| API["Wikipedia / HN APIs"]
@@ -74,7 +75,8 @@ flowchart LR
 ```
 
 The same package powers both frontends. The Streamlit app imports it directly. The static site
-gets precomputed sample results (JSON written by the engine at build time) and, for live queries
+gets precomputed sample results (JSON written by the engine at build time from snapshots that a
+daily GitHub Actions job refreshes) and, for live queries
 and CSV uploads, runs the unchanged package inside [Pyodide](https://pyodide.org) in a Web Worker.
 
 The engine never knows which source a series came from. Each adapter turns its source into a
@@ -235,7 +237,7 @@ build time or in your browser.
 
 | | Static demo | Server deployment (Streamlit) |
 | :- | :- | :- |
-| Sample topics | ✅ instant (precomputed at build time) | ✅ instant (snapshots) |
+| Watchlist topics | ✅ instant (precomputed at build time, data refreshed daily) | ✅ instant (snapshots) |
 | Wikipedia, Hacker News | ✅ live, fetched from your browser | ✅ live |
 | Google Trends | CSV upload only | CSV upload (+ snapshots, best-effort live fetch) |
 | CSV upload | ✅ analysed in the browser, never uploaded | ✅ |
@@ -261,6 +263,98 @@ How it works:
   adapter's 90+ politely paced requests. Repeat queries come from the cache in a few seconds.
 
 The Streamlit app is unaffected and still deploys to Streamlit Community Cloud as described below.
+
+### Daily data refresh
+
+There is no server: [`.github/workflows/refresh.yml`](.github/workflows/refresh.yml) runs every day
+at 02:30 UTC (and on demand). It:
+
+1. Runs `python -m scripts.refresh_data`, which fetches every topic × source in the `watchlist` in
+   [`config.yaml`](config.yaml) through the normal adapters. Each snapshot
+   `data/samples/<source>/<slug>.json` is rewritten in place (one file per topic × source, no
+   per-day files) and merged with its earlier days, so series keep growing (up to
+   `refresh.max_history_days`). Reddit day aggregates go to `data/collected/reddit/<slug>.csv`.
+   Only aggregates are written, never post text or author names.
+2. Writes `data/manifest.json` (last refresh time, per-source and per-topic status, `fetched_at`)
+   and a topic × source table (✅ updated / ⚪ unchanged / ❌ failed / ⏭️ skipped) to the run summary.
+3. Commits `data/` as `github-actions[bot]` only if something changed.
+4. Calls [`pages.yml`](.github/workflows/pages.yml) (reusable) to rebuild the site from that commit,
+   so sample verdicts are recomputed and the header shows "Data refreshed … (UTC date)". Each card
+   shows when its source was fetched.
+
+If a source fails, its previous snapshot is kept and the error is recorded in the manifest and the
+summary. The job fails only if every attempted source failed. Unchanged data produces no snapshot
+churn: files are written deterministically (sorted keys, compact JSON) and only when the data
+differs. Only `manifest.json`'s timestamp changes.
+
+**Editing the watchlist.** Add a line under `watchlist:` in `config.yaml`:
+
+```yaml
+watchlist:
+  - {topic: "claude ai", wikipedia: "Claude (language model)", hackernews: true, reddit: true}
+  - {topic: "bitcoin", wikipedia: true, hackernews: true}
+```
+
+`wikipedia` is `true` (resolve the article from the topic) or an exact article title. The config is
+validated on load: unknown keys, duplicate slugs and topics with no source are rejected. New topics
+appear as chips after their first refresh.
+
+**Reddit** runs only when the repository secrets `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET`
+exist (optional: `REDDIT_USERNAME`, `SIGNALCHECK_CONTACT_EMAIL`, used in the User-Agent).
+Otherwise it shows as skipped. X is never used by the cron.
+
+**Run it now:**
+
+```bash
+gh workflow run refresh.yml --repo pragmatic-philosopher09/signal-check --ref main
+gh run watch --repo pragmatic-philosopher09/signal-check \
+  "$(gh run list --repo pragmatic-philosopher09/signal-check --workflow refresh.yml --limit 1 --json databaseId -q '.[0].databaseId')"
+```
+
+Locally: `python -m scripts.refresh_data [--topics bitcoin] [--sources wikipedia]`.
+
+**Scheduled workflows stop after 60 days of inactivity.** In public repositories GitHub disables
+scheduled workflows when there has been no repository activity for 60 days. The daily data commit
+normally counts as activity, but if no data changes for a long time (or the workflow fails), the
+refresh can be disabled. You'll get an email and see a banner in the **Actions** tab. To re-enable it,
+open **Actions → Refresh data → Enable workflow**, or run:
+
+```bash
+gh workflow enable refresh.yml --repo pragmatic-philosopher09/signal-check
+```
+
+### Google Trends from your Mac
+
+Google Trends has no keyless API and blocks CI IPs, so the cron doesn't fetch it.
+[`scripts/refresh_trends_local.sh`](scripts/refresh_trends_local.sh) refreshes the Trends snapshots
+for the watchlist from your machine. It needs a checkout on `main` with `.venv` set up,
+`pip install pytrends` (archived, best effort) and working `git push`. It activates `.venv`, pulls,
+runs `python -m scripts.refresh_samples --sources google_trends`, then commits and pushes only
+`data/samples/google_trends/`, and only if something changed. `--dry-run` fetches without
+committing. The next daily refresh redeploys the site with the new data.
+
+To run it daily with launchd (optional; nothing is installed for you), fill in the template
+[`ops/macos/com.signalcheck.refresh-trends.plist`](ops/macos/com.signalcheck.refresh-trends.plist)
+and load it:
+
+```bash
+REPO="$HOME/code/signal-check"   # your checkout
+sed "s|__REPO_PATH__|$REPO|g" "$REPO/ops/macos/com.signalcheck.refresh-trends.plist" \
+  > ~/Library/LaunchAgents/com.signalcheck.refresh-trends.plist
+launchctl bootstrap "gui/$(id -u)" ~/Library/LaunchAgents/com.signalcheck.refresh-trends.plist
+launchctl kickstart -k "gui/$(id -u)/com.signalcheck.refresh-trends"   # optional: run once now
+tail -f /tmp/signalcheck-trends.log
+```
+
+It runs daily at 01:45 local time, or on wake if the Mac was asleep. To uninstall:
+
+```bash
+launchctl bootout "gui/$(id -u)/com.signalcheck.refresh-trends"
+rm ~/Library/LaunchAgents/com.signalcheck.refresh-trends.plist
+```
+
+Without pytrends you can still download a CSV from trends.google.com and import it with
+`refresh_samples --import-trends-csv` (see below).
 
 ## Deploying to Streamlit Community Cloud
 
@@ -342,7 +436,8 @@ so a failing source never breaks the page. Caveats are recorded in `series.meta[
 | X | `ENABLE_X=true`, `X_BEARER_TOKEN`, `X_MAX_SPEND_USD` | Off by default. Uses the counts endpoint, billed per request. Spend is tracked in `<cache.dir>/x_spend_ledger.json`, and any request that would exceed the budget is refused. |
 
 **Sample snapshots.** `python -m scripts.refresh_samples` refreshes
-`data/samples/<source>/<slug>.json` for `samples.topics`. Pass `--sources x` to opt in to X,
+`data/samples/<source>/<slug>.json` for the `watchlist` topics (it does not merge history; the daily
+[`refresh_data`](#daily-data-refresh) does). Pass `--sources x` to opt in to X,
 which spends from the budget.
 
 To import a Trends CSV downloaded from trends.google.com:
@@ -353,10 +448,10 @@ python -m scripts.refresh_samples --import-trends-csv ~/Downloads/multiTimeline.
 ```
 
 **Reddit history collector.** `python -m scripts.collect_reddit` appends complete-day aggregates
-for `adapters.reddit.watchlist` to `data/collected/reddit/<slug>.csv`.
-[`.github/workflows/collect.yml`](.github/workflows/collect.yml) runs it daily once these
-repository secrets exist: `REDDIT_CLIENT_ID`, `REDDIT_CLIENT_SECRET`, and optionally
-`REDDIT_USERNAME` and `SIGNALCHECK_CONTACT_EMAIL`.
+for the watchlist topics with `reddit: true` to `data/collected/reddit/<slug>.csv`. The daily
+[`refresh.yml`](.github/workflows/refresh.yml) does the same (via `scripts.refresh_data`) once the
+repository secrets `REDDIT_CLIENT_ID` and `REDDIT_CLIENT_SECRET` exist (optionally
+`REDDIT_USERNAME` and `SIGNALCHECK_CONTACT_EMAIL`).
 
 ## License
 

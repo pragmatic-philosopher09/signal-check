@@ -1,3 +1,4 @@
+import { fetchedText } from '../lib/freshness'
 import { ACCENT_CLASSES, BADGE_CLASSES, cardMessage, confidenceLevel, refreshSnapshotCaveat, STANCE_CLASSES, stanceKind } from '../lib/viewModel'
 import type { Badge, Card, Summary } from '../types'
 import { Chart } from './Chart'
@@ -117,6 +118,7 @@ export function SourceCard({
   }
 
   const caveats = card.caveats.map((c) => refreshSnapshotCaveat(c))
+  const fetched = fetchedText(card.fetched_at)
   return (
     <article className="card relative overflow-hidden" aria-label={`${card.title}: ${card.badge.text}`}>
       <span className={`absolute inset-y-0 left-0 w-1 ${ACCENT_CLASSES[card.badge.color]}`} aria-hidden />
@@ -127,6 +129,7 @@ export function SourceCard({
               {card.title}
               {card.snapshot && <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-500 dark:bg-slate-800 dark:text-slate-400">snapshot</span>}
             </h3>
+            {fetched && <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">{fetched}</p>}
             <WikiPicker card={card} onArticle={onArticle} busy={busy} />
           </div>
           <div className="flex flex-col items-end gap-1.5">

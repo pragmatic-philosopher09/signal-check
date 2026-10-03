@@ -1,4 +1,6 @@
 import type { EngineStatus } from '../engine/protocol'
+import { dataRefreshedText, isStale, utcDateTime } from '../lib/freshness'
+import type { DataFreshness } from '../types'
 import { REPO_URL } from '../lib/hooks'
 import { useTheme } from '../lib/theme'
 import { Icon } from './Icon'
@@ -65,6 +67,28 @@ export function EnginePill({ status }: { status: EngineStatus }) {
         <Icon name="cpu" className="size-3.5 shrink-0" />
       )}
       <span className="truncate">{text}</span>
+    </span>
+  )
+}
+
+const SOURCE_NAMES: Record<string, string> = { wikipedia: 'Wikipedia', hackernews: 'Hacker News', reddit: 'Reddit' }
+
+/** "Data refreshed 5 hours ago (3 Oct 2026 UTC)" from the daily refresh manifest. */
+export function DataPill({ data, now }: { data: DataFreshness | null | undefined; now?: Date }) {
+  const text = dataRefreshedText(data?.refreshed_at, now)
+  if (!data || !text) return null
+  const warn = data.status !== 'ok' || isStale(data.refreshed_at, now)
+  const detail = Object.entries(data.sources)
+    .map(([s, status]) => `${SOURCE_NAMES[s] ?? s}: ${status}`)
+    .join(' · ')
+  return (
+    <span
+      title={`Daily refresh at ${utcDateTime(data.refreshed_at)} · ${detail}`}
+      className="inline-flex max-w-full items-center gap-2 rounded-full bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/15 dark:bg-slate-800 dark:text-slate-300 dark:ring-slate-600/40"
+    >
+      <span className={`size-2 shrink-0 rounded-full ${warn ? 'bg-amber-500' : 'bg-emerald-500'}`} aria-hidden />
+      <span className="truncate">{text}</span>
+      {warn && <span className="sr-only"> (some sources were not refreshed)</span>}
     </span>
   )
 }

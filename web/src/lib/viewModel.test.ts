@@ -19,6 +19,7 @@ function card(overrides: Partial<Card>): Card {
     message: null,
     disabled: false,
     snapshot: false,
+    fetched_at: null,
     badge: null,
     label: null,
     direction: null,
