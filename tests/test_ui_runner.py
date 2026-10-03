@@ -239,9 +239,10 @@ def test_slow_narration_times_out_to_template(cfg: Config) -> None:
         release.wait(5)
         return Narration("late", "llm")
 
+    outcomes = sample_outcomes(cfg)
     started = time.monotonic()
     result = runner.narrate_outcomes(
-        sample_outcomes(cfg), cfg, settings=ENABLED, narrate_fn=slow, timeout_s=0.05
+        outcomes, cfg, settings=ENABLED, narrate_fn=slow, timeout_s=0.05
     )
     release.set()
     assert time.monotonic() - started < 2
