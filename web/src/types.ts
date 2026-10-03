@@ -85,6 +85,8 @@ export interface Card {
   message: string | null
   disabled: boolean
   snapshot: boolean
+  /** When this source's data was fetched (ISO, UTC); null for disabled sources. */
+  fetched_at: string | null
   badge: Badge | null
   label: string | null
   direction: string | null
@@ -148,6 +150,14 @@ export interface Site {
     template_label: string
   }
   samples: { query: string; slug: string; sources: string[] }[]
+  /** Last daily data refresh (data/manifest.json); null before the first run. */
+  data: DataFreshness | null
+}
+
+export interface DataFreshness {
+  refreshed_at: string
+  status: 'ok' | 'partial' | 'failed' | 'skipped'
+  sources: Record<string, string>
 }
 
 export interface PyManifest {

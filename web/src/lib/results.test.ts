@@ -34,6 +34,12 @@ describe('precomputed samples', () => {
         }
       })
 
+      it('records when each analysed source was fetched', () => {
+        for (const c of result.cards.filter((c) => c.badge)) {
+          expect(c.fetched_at).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\+00:00$/)
+        }
+      })
+
       it('gives every analysed card a consistent badge, a template narration and a drawable chart', () => {
         for (const c of result.cards.filter((c) => c.badge)) {
           const badge = c.badge!

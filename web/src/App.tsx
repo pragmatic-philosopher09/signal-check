@@ -1,11 +1,12 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { CardSkeleton, SourceCard, SummaryCard, VerdictBadge } from './components/Cards'
 import type { DocsTab } from './components/DocsDrawer'
-import { EnginePill, Header } from './components/Header'
+import { DataPill, EnginePill, Header } from './components/Header'
 import { Icon } from './components/Icon'
 import { CsvPanel, ModeTabs, SearchPanel, type CsvRequest, type Mode } from './components/Inputs'
 import { engine } from './engine/client'
 import { loadSample, loadSite, parseReply } from './lib/data'
+import { dataRefreshedText } from './lib/freshness'
 import { REPO_URL, useEngineStatus } from './lib/hooks'
 import { LABEL_COLORS, orderCards, resultMeta } from './lib/viewModel'
 import type { LabelKey, Result, Site } from './types'
@@ -210,7 +211,10 @@ export default function App() {
         <section className="card p-4 sm:p-6" aria-label="Analyse">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
             <ModeTabs mode={mode} onMode={setMode} />
-            <EnginePill status={status} />
+            <div className="flex flex-wrap items-center gap-2">
+              <DataPill data={site?.data} />
+              <EnginePill status={status} />
+            </div>
           </div>
           {mode === 'topic' ? (
             <SearchPanel
@@ -300,6 +304,11 @@ export default function App() {
           </a>
         </p>
         <p className="mt-1">Data: Wikimedia pageviews (CC0), Hacker News via Algolia. Not affiliated with either.</p>
+        {site?.data && (
+          <p className="mt-1">
+            {dataRefreshedText(site.data.refreshed_at)} by a daily GitHub Actions job; sample verdicts are recomputed on every refresh.
+          </p>
+        )}
       </footer>
 
       {docs.open && (
