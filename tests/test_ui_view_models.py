@@ -108,7 +108,7 @@ def test_card_view_for_a_sample(cfg: Config) -> None:
     assert view.window_text is not None and view.window_text.startswith("Recent 2026-09-05")
     ran = {e.check for e in view.evidence}
     skipped = {s.name for s in view.skipped}
-    assert "persistence" in ran and "Seasonality" in skipped
+    assert "persistence" in ran and "Breadth" in skipped
     assert len(ran) + len(skipped) == 7
     assert view.change_my_mind and all(isinstance(c, str) for c in view.change_my_mind)
     assert any("snapshot" in c for c in view.caveats)

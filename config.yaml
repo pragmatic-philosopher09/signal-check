@@ -132,8 +132,12 @@ checks:
     hamed_rao_min_n: 10
     # Mann-Kendall significance level.
     mk_alpha: 0.05
-    # Minimum |Theil-Sen slope| as a fraction of baseline level per period (0.02 = 2%).
-    min_slope: 0.02
+    # Minimum |Theil-Sen slope| as a fraction of baseline level per period (0.0125 = 1.25%).
+    # Phase 7: 0.02 -> 0.0125 (tune split; noise-sweep false-TREND 1.4%, target 5%).
+    min_slope: 0.0125
+    # A significant |slope| below this is practically negligible and supports "no change"
+    # (minimum effect size); between this and min_slope the check is neutral.
+    negligible_slope: 0.005
     # Band (in MADs around baseline median) for counting consecutive recent exceedances.
     band_mads: 2.0
     # Fewest observed points the trend test will run on; fewer -> skipped.
@@ -144,7 +148,9 @@ checks:
     # Skip unless |sum of excess| >= excess_min_mads * MAD * n_recent.
     excess_min_mads: 1.0
     # Fluke if the top period carries >= this share of directional excess.
-    conc_top1_max: 0.6
+    # Phase 7: 0.6 -> 0.4; a decaying spike (half-life ~1 period) puts only ~45-50%
+    # of its excess on the first period, so 0.6 caught near-single-point spikes only.
+    conc_top1_max: 0.4
     # Fluke if the top two periods carry >= this share of directional excess.
     conc_top2_max: 0.8
   seasonality:
@@ -161,7 +167,9 @@ checks:
     # which keeps a recent step or trend from being absorbed as "seasonal" with few cycles.
     stl_seasonal_deg: 0
     # Skip unless |rise| >= excess_min_mads * MAD.
-    excess_min_mads: 1.0
+    # Phase 7: 1.0 -> 0.5; the MAD is scaled (x1.4826), so a cosine peak-window mean
+    # (~0.86 x amplitude) could never clear 1.0 MAD and "no rise" blocked SEASONAL.
+    excess_min_mads: 0.5
   outliers:
     # Flag recent points with |robust z| >= outlier_z.
     outlier_z: 3.5

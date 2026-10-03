@@ -136,6 +136,7 @@ SCHEMA: dict[str, Any] = {
             "hamed_rao_min_n": int,
             "mk_alpha": NUMBER,
             "min_slope": NUMBER,
+            "negligible_slope": NUMBER,
             "band_mads": NUMBER,
             "min_points": int,
             "slope_level_floor": NUMBER,
@@ -388,6 +389,10 @@ def _check_check_constraints(cfg: Config, require: Callable[[bool, str], None]) 
     require(per["hamed_rao_min_n"] >= 3, "checks.persistence.hamed_rao_min_n: must be >= 3")
     require(0 < per["mk_alpha"] < 1, "checks.persistence.mk_alpha: must be in (0, 1)")
     require(per["min_slope"] >= 0, "checks.persistence.min_slope: must be >= 0")
+    require(
+        0 <= per["negligible_slope"] <= per["min_slope"],
+        "checks.persistence.negligible_slope: must be between 0 and min_slope",
+    )
     require(per["band_mads"] > 0, "checks.persistence.band_mads: must be > 0")
     require(per["min_points"] >= 3, "checks.persistence.min_points: must be >= 3")
     require(per["slope_level_floor"] > 0, "checks.persistence.slope_level_floor: must be > 0")

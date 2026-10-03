@@ -1,0 +1,664 @@
+{
+ "schema": 1,
+ "source": "hackernews",
+ "query": "chatgpt",
+ "freq": "D",
+ "scale": "count",
+ "meta": {
+  "fetched_at": "2026-10-03T13:44:12.259241+00:00",
+  "caveats": [
+   "Hacker News counts are stories and comments containing the query words (full-text match), which can include unrelated uses of the words."
+  ],
+  "resolved_query": "chatgpt",
+  "truncated_before": null,
+  "partial_rule": "fetched_at",
+  "tags": "(story,comment)",
+  "breadth_days": 18
+ },
+ "points": [
+  {
+   "ts": "2022-10-01",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-02",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-03",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-04",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-05",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-06",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-07",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-08",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-09",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-10",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-11",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-12",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-13",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-14",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-15",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-16",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-17",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-18",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-19",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-20",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-21",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-22",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-23",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-24",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-25",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-26",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-27",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-28",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-29",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-30",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-10-31",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-01",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-02",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-03",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-04",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-05",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-06",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-07",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-08",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-09",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-10",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-11",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-12",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-13",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-14",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-15",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-16",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-17",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-18",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-19",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-20",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-21",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-22",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-23",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-24",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-25",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-26",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-27",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-28",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-29",
+   "value": 0.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-11-30",
+   "value": 12.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-01",
+   "value": 89.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-02",
+   "value": 96.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-03",
+   "value": 153.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-04",
+   "value": 525.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-05",
+   "value": 560.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-06",
+   "value": 425.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-07",
+   "value": 233.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-08",
+   "value": 180.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-09",
+   "value": 217.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-10",
+   "value": 177.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-11",
+   "value": 228.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-12",
+   "value": 199.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-13",
+   "value": 98.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2022-12-14",
+   "value": 102.0,
+   "contributors": 94.0,
+   "top_share": 0.0196078431372549,
+   "raw_count": 102.0
+  },
+  {
+   "ts": "2022-12-15",
+   "value": 133.0,
+   "contributors": 121.0,
+   "top_share": 0.022556390977443608,
+   "raw_count": 133.0
+  },
+  {
+   "ts": "2022-12-16",
+   "value": 114.0,
+   "contributors": 100.0,
+   "top_share": 0.02631578947368421,
+   "raw_count": 114.0
+  },
+  {
+   "ts": "2022-12-17",
+   "value": 151.0,
+   "contributors": 126.0,
+   "top_share": 0.033112582781456956,
+   "raw_count": 151.0
+  },
+  {
+   "ts": "2022-12-18",
+   "value": 75.0,
+   "contributors": 69.0,
+   "top_share": 0.04,
+   "raw_count": 75.0
+  },
+  {
+   "ts": "2022-12-19",
+   "value": 123.0,
+   "contributors": 108.0,
+   "top_share": 0.024390243902439025,
+   "raw_count": 123.0
+  },
+  {
+   "ts": "2022-12-20",
+   "value": 101.0,
+   "contributors": 93.0,
+   "top_share": 0.0297029702970297,
+   "raw_count": 101.0
+  },
+  {
+   "ts": "2022-12-21",
+   "value": 122.0,
+   "contributors": 105.0,
+   "top_share": 0.040983606557377046,
+   "raw_count": 122.0
+  },
+  {
+   "ts": "2022-12-22",
+   "value": 94.0,
+   "contributors": 85.0,
+   "top_share": 0.031914893617021274,
+   "raw_count": 94.0
+  },
+  {
+   "ts": "2022-12-23",
+   "value": 169.0,
+   "contributors": 148.0,
+   "top_share": 0.01775147928994083,
+   "raw_count": 169.0
+  },
+  {
+   "ts": "2022-12-24",
+   "value": 198.0,
+   "contributors": 164.0,
+   "top_share": 0.025252525252525252,
+   "raw_count": 198.0
+  },
+  {
+   "ts": "2022-12-25",
+   "value": 223.0,
+   "contributors": 180.0,
+   "top_share": 0.04035874439461883,
+   "raw_count": 223.0
+  },
+  {
+   "ts": "2022-12-26",
+   "value": 187.0,
+   "contributors": 164.0,
+   "top_share": 0.0213903743315508,
+   "raw_count": 187.0
+  },
+  {
+   "ts": "2022-12-27",
+   "value": 82.0,
+   "contributors": 75.0,
+   "top_share": 0.036585365853658534,
+   "raw_count": 82.0
+  },
+  {
+   "ts": "2022-12-28",
+   "value": 76.0,
+   "contributors": 63.0,
+   "top_share": 0.05263157894736842,
+   "raw_count": 76.0
+  },
+  {
+   "ts": "2022-12-29",
+   "value": 111.0,
+   "contributors": 101.0,
+   "top_share": 0.036036036036036036,
+   "raw_count": 111.0
+  },
+  {
+   "ts": "2022-12-30",
+   "value": 150.0,
+   "contributors": 129.0,
+   "top_share": 0.02666666666666667,
+   "raw_count": 150.0
+  },
+  {
+   "ts": "2022-12-31",
+   "value": 27.0,
+   "contributors": 25.0,
+   "top_share": 0.07407407407407407,
+   "raw_count": 27.0
+  }
+ ]
+}

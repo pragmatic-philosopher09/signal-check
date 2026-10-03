@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from eval.generators import GENERATORS, linear_trend, seasonal_wave
+from eval.generators import GENERATORS, linear_trend, seasonal_wave, weekday_pattern
 from signalcheck.config import Config
 from signalcheck.engine import analyse, analyse_detailed
 from signalcheck.engine.checks import CHECKS
@@ -90,3 +90,13 @@ def test_analyse_detailed_matches_analyse(cfg: Config) -> None:
     detailed = analyse_detailed(series, cfg)
     assert asdict(detailed.verdict) == asdict(analyse(series, cfg))
     assert len(detailed.filled.series.points) == len(detailed.pre.series.points)
+
+
+def test_daily_outliers_score_the_deweekly_series(cfg: Config, rng: np.random.Generator) -> None:
+    daily = analyse(weekday_pattern(rng, amplitude=0.5, noise=0.02), cfg)
+    (out,) = [e for e in daily.evidence if e.check == "outliers"]
+    assert out.numbers["deweekly"] is True
+    assert out.numbers["n_flagged"] == 0
+    weekly = analyse(seasonal_wave(rng), cfg)
+    (out_w,) = [e for e in weekly.evidence if e.check == "outliers"]
+    assert out_w.numbers["deweekly"] is False
