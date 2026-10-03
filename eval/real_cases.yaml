@@ -1,193 +1,233 @@
-# Hand-labelled real snapshots for the eval (COPILOT_BRIEF.md section 10, Phase 3).
+# Real events for the eval, labelled BEFORE the engine was run on them (pre-registered).
 #
-# Fill in one entry per snapshot. A case is evaluated only when `label` is set and the
-# `snapshot` file exists; incomplete entries are listed as "skipped" by eval/run_eval.py.
-# Label from what actually happened (with hindsight), not from what the engine says.
+# Labels come from world knowledge of what happened (with hindsight), never from the engine's
+# output. They were committed together with the data snapshots, before any verdict was computed,
+# and are not changed afterwards: if a label looks wrong once results are known, it stays and the
+# disagreement is noted in eval/TUNING_LOG.md. Every label is agent-assigned and awaits human review.
 #
-#   id            unique case id (kebab or snake case)
-#   source        google_trends | reddit | wikipedia | hackernews | x | csv (where the data came from)
-#   query         topic / article / subreddit query that produced the series
-#   snapshot      CSV path relative to this file (e.g. snapshots/foo.csv); aggregates only
-#   value_column  CSV column holding the values (null = auto-detect)
-#   freq          D | W | M (null = infer from the timestamps)
-#   scale         relative_0_100 | count | pageviews | value (null = adapter default)
-#   upload_date   ISO date the snapshot was taken (drives the partial-last-period rule)
-#   last_period_incomplete  true if the last row is a partial period
-#   label         TREND | FLUKE | SEASONAL | NO_CHANGE | INCONCLUSIVE (null until labelled)
-#   direction     up | down for TREND, else null
-#   split         tune | test (keep ~70/30 per label; never tune thresholds on "test")
-#   event_date    optional ISO date of the real-world event behind the movement
-#   labelled_on   ISO date you assigned the label
-#   labelled_by   who labelled it
-#   notes         why this label (sources, what happened next)
+# Data are aggregate-only JSON snapshots (same format as data/samples/) written by
+# `python -m eval.fetch_real` into eval/real_data/<id>.json. Wikipedia uses agent=user pageviews;
+# Hacker News uses daily story+comment counts (breadth on the recent window). Weekly cases are
+# Monday-Sunday sums of the daily pageviews.
+#
+#   id           unique case id (snake case); the snapshot is real_data/<id>.json
+#   source       wikipedia | hackernews (live adapter used by eval/fetch_real.py)
+#   query        topic passed to the adapter
+#   article      Wikipedia article override (exact title), null for other sources
+#   freq         D | W (W = Monday-Sunday weekly sums of the daily data)
+#   start        first day fetched (a Monday for weekly cases)
+#   end          last day fetched; days after as_of are hindsight for reviewers only
+#   as_of        the engine sees data up to and including this day (a Sunday for weekly cases),
+#                chosen so the event sits in the recent window
+#   label        TREND | FLUKE | SEASONAL | NO_CHANGE | INCONCLUSIVE
+#   direction    up | down for TREND, else null
+#   split        tune | test (stratified ~50/50 by label; thresholds are never tuned on test)
+#   event_date   ISO date of the real-world event behind the movement (if any)
+#   rationale    one line: why this label
+#   labelled_on  date the label was assigned
+#   labelled_by  who assigned it
 
 cases:
-  - id: real_01
-    source: google_trends
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
-    split: tune
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
-
-  - id: real_02
-    source: wikipedia
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
-    split: tune
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
-
-  - id: real_03
-    source: reddit
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
-    split: tune
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
-
-  - id: real_04
+  # --- TREND -------------------------------------------------------------------------------
+  - id: chatgpt_launch_hn
     source: hackernews
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
-    split: test
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
-
-  - id: real_05
-    source: google_trends
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
+    query: chatgpt
+    article: null
+    freq: D
+    start: "2022-10-01"
+    end: "2022-12-31"
+    as_of: "2022-12-31"
+    label: TREND
+    direction: up
     split: tune
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
+    event_date: "2022-11-30"
+    rationale: >-
+      ChatGPT launched on 30 Nov 2022 and HN discussion of it went from zero to a sustained,
+      growing daily volume that kept rising through 2023; a lasting rise, not a one-off spike.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
 
-  - id: real_06
+  - id: openai_rise_weekly
     source: wikipedia
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
+    query: openai
+    article: OpenAI
+    freq: W
+    start: "2022-01-03"
+    end: "2023-12-31"
+    as_of: "2023-06-25"
+    label: TREND
+    direction: up
+    split: test
+    event_date: "2022-11-30"
+    rationale: >-
+      OpenAI went from a niche lab to a household name after ChatGPT (30 Nov 2022) and GPT-4
+      (Mar 2023); by mid-2023 weekly views were far above the 2022 level and stayed there.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  - id: clubhouse_decline_weekly
+    source: wikipedia
+    query: clubhouse app
+    article: Clubhouse (app)
+    freq: W
+    start: "2021-03-01"
+    end: "2022-08-28"
+    as_of: "2022-02-27"
+    label: TREND
+    direction: down
+    split: tune
+    event_date: "2021-02-01"
+    rationale: >-
+      Clubhouse peaked in early 2021 and faded steadily through 2021 as usage collapsed;
+      by early 2022 interest was well below its 2021 level and never recovered.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  - id: nft_decline_weekly
+    source: wikipedia
+    query: nft
+    article: Non-fungible token
+    freq: W
+    start: "2022-01-03"
+    end: "2023-09-24"
+    as_of: "2023-03-26"
+    label: TREND
+    direction: down
+    split: test
+    event_date: "2022-05-01"
+    rationale: >-
+      NFT hype peaked in early 2022 and the market collapsed through 2022 (crypto winter);
+      by Q1 2023 interest was persistently far below the 2022 level.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  # --- FLUKE -------------------------------------------------------------------------------
+  - id: suez_blockage
+    source: wikipedia
+    query: suez canal
+    article: Suez Canal
+    freq: D
+    start: "2020-10-01"
+    end: "2021-06-30"
+    as_of: "2021-04-18"
+    label: FLUKE
+    direction: null
+    split: tune
+    event_date: "2021-03-23"
+    rationale: >-
+      The Ever Given blocked the Suez Canal from 23 to 29 Mar 2021; views of the canal article
+      spiked for about a week and returned to normal once the ship was freed.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  - id: crowdstrike_outage
+    source: wikipedia
+    query: crowdstrike
+    article: CrowdStrike
+    freq: D
+    start: "2024-02-01"
+    end: "2024-10-31"
+    as_of: "2024-08-11"
+    label: FLUKE
+    direction: null
+    split: test
+    event_date: "2024-07-19"
+    rationale: >-
+      The 19 Jul 2024 CrowdStrike update crashed Windows machines worldwide; views of the
+      company article spiked for a few days and decayed back towards normal within weeks.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  # --- SEASONAL ----------------------------------------------------------------------------
+  - id: halloween_daily
+    source: wikipedia
+    query: halloween
+    article: Halloween
+    freq: D
+    start: "2022-08-01"
+    end: "2024-12-31"
+    as_of: "2024-10-31"
+    label: SEASONAL
+    direction: null
+    split: tune
+    event_date: "2024-10-31"
+    rationale: >-
+      Halloween interest builds every October and peaks on 31 Oct before collapsing; the
+      Oct 2024 rise is the same annual pattern as 2022 and 2023.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  - id: super_bowl_weekly
+    source: wikipedia
+    query: super bowl
+    article: Super Bowl
+    freq: W
+    start: "2021-03-01"
+    end: "2024-06-30"
+    as_of: "2024-02-18"
+    label: SEASONAL
+    direction: null
+    split: test
+    event_date: "2024-02-11"
+    rationale: >-
+      The Super Bowl is played every February and interest peaks that week each year;
+      the Feb 2024 (Super Bowl LVIII) peak repeats the 2022 and 2023 pattern.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  # --- NO_CHANGE ---------------------------------------------------------------------------
+  - id: coffee_steady
+    source: wikipedia
+    query: coffee
+    article: Coffee
+    freq: D
+    start: "2023-01-01"
+    end: "2023-12-31"
+    as_of: "2023-09-30"
+    label: NO_CHANGE
     direction: null
     split: tune
     event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
+    rationale: >-
+      Coffee is an evergreen topic with no notable news in 2023; daily views should only
+      wobble around a steady level (as_of is the day before International Coffee Day).
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
 
-  - id: real_07
-    source: reddit
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
-    split: test
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
-
-  - id: real_08
+  - id: python_hn_steady
     source: hackernews
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
-    split: tune
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
-
-  - id: real_09
-    source: csv
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
-    direction: null
-    split: tune
-    event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
-
-  - id: real_10
-    source: google_trends
-    query: null
-    snapshot: null
-    value_column: null
-    freq: null
-    scale: null
-    upload_date: null
-    last_period_incomplete: false
-    label: null
+    query: python
+    article: null
+    freq: D
+    start: "2024-01-01"
+    end: "2024-04-30"
+    as_of: "2024-04-30"
+    label: NO_CHANGE
     direction: null
     split: test
     event_date: null
-    labelled_on: null
-    labelled_by: null
-    notes: ""
+    rationale: >-
+      Python is a perennial HN topic; early 2024 had no release or event that changed how
+      much it is discussed, so daily counts should follow a steady weekday rhythm.
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)
+
+  # --- INCONCLUSIVE (hard case) ------------------------------------------------------------
+  - id: bluesky_election_surge
+    source: wikipedia
+    query: bluesky
+    article: Bluesky
+    freq: D
+    start: "2024-06-01"
+    end: "2025-03-31"
+    as_of: "2024-12-15"
+    label: INCONCLUSIVE
+    direction: null
+    split: tune
+    event_date: "2024-11-06"
+    rationale: >-
+      Bluesky surged after the 5 Nov 2024 US election and was decaying by mid-December but
+      still well above its old level; with data only to as_of, a lasting shift and a
+      decaying burst are both plausible, so the honest call is "can't tell yet".
+    labelled_on: "2026-10-03"
+    labelled_by: agent (pending human review)

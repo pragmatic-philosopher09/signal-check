@@ -1,0 +1,1854 @@
+{
+ "schema": 1,
+ "source": "wikipedia",
+ "query": "coffee",
+ "freq": "D",
+ "scale": "pageviews",
+ "meta": {
+  "fetched_at": "2026-10-03T13:45:09.679105+00:00",
+  "caveats": [
+   "Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.",
+   "Views of redirects to this article are not included."
+  ],
+  "resolved_query": "Coffee",
+  "truncated_before": null,
+  "partial_rule": "fetched_at",
+  "article": "Coffee",
+  "article_overridden": true,
+  "candidates": [
+   "Coffee",
+   "Starbucks",
+   "History of coffee",
+   "List of coffee drinks"
+  ],
+  "project": "en.wikipedia",
+  "agent": "user"
+ },
+ "points": [
+  {
+   "ts": "2023-01-01",
+   "value": 2649.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-02",
+   "value": 3433.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-03",
+   "value": 3534.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-04",
+   "value": 3564.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-05",
+   "value": 3452.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-06",
+   "value": 3531.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-07",
+   "value": 3199.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-08",
+   "value": 3313.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-09",
+   "value": 3694.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-10",
+   "value": 3565.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-11",
+   "value": 3754.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-12",
+   "value": 3707.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-13",
+   "value": 3547.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-14",
+   "value": 3352.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-15",
+   "value": 3434.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-16",
+   "value": 4006.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-17",
+   "value": 3935.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-18",
+   "value": 3973.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-19",
+   "value": 3989.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-20",
+   "value": 4124.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-21",
+   "value": 4277.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-22",
+   "value": 4241.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-23",
+   "value": 4164.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-24",
+   "value": 4228.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-25",
+   "value": 4205.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-26",
+   "value": 3819.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-27",
+   "value": 3783.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-28",
+   "value": 3518.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-29",
+   "value": 3944.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-30",
+   "value": 4066.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-01-31",
+   "value": 4224.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-01",
+   "value": 3942.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-02",
+   "value": 4035.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-03",
+   "value": 3847.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-04",
+   "value": 3478.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-05",
+   "value": 3548.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-06",
+   "value": 3753.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-07",
+   "value": 3977.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-08",
+   "value": 3885.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-09",
+   "value": 4199.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-10",
+   "value": 3781.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-11",
+   "value": 3490.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-12",
+   "value": 3536.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-13",
+   "value": 3879.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-14",
+   "value": 3990.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-15",
+   "value": 3966.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-16",
+   "value": 4030.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-17",
+   "value": 3628.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-18",
+   "value": 3558.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-19",
+   "value": 3622.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-20",
+   "value": 3757.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-21",
+   "value": 4121.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-22",
+   "value": 3761.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-23",
+   "value": 3975.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-24",
+   "value": 3818.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-25",
+   "value": 3876.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-26",
+   "value": 3835.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-27",
+   "value": 3993.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-02-28",
+   "value": 4146.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-01",
+   "value": 4009.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-02",
+   "value": 4094.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-03",
+   "value": 3767.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-04",
+   "value": 3499.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-05",
+   "value": 3796.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-06",
+   "value": 3958.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-07",
+   "value": 3808.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-08",
+   "value": 3881.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-09",
+   "value": 3957.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-10",
+   "value": 3617.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-11",
+   "value": 3698.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-12",
+   "value": 3773.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-13",
+   "value": 4012.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-14",
+   "value": 4031.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-15",
+   "value": 4079.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-16",
+   "value": 3864.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-17",
+   "value": 3759.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-18",
+   "value": 3455.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-19",
+   "value": 4885.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-20",
+   "value": 5209.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-21",
+   "value": 4739.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-22",
+   "value": 4173.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-23",
+   "value": 3915.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-24",
+   "value": 3516.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-25",
+   "value": 3434.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-26",
+   "value": 3545.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-27",
+   "value": 3974.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-28",
+   "value": 3883.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-29",
+   "value": 3774.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-30",
+   "value": 3909.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-03-31",
+   "value": 3379.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-01",
+   "value": 3387.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-02",
+   "value": 3333.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-03",
+   "value": 3736.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-04",
+   "value": 3407.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-05",
+   "value": 2813.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-06",
+   "value": 2779.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-07",
+   "value": 2597.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-08",
+   "value": 2397.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-09",
+   "value": 2609.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-10",
+   "value": 2748.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-11",
+   "value": 2936.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-12",
+   "value": 3058.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-13",
+   "value": 2853.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-14",
+   "value": 2822.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-15",
+   "value": 2290.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-16",
+   "value": 2511.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-17",
+   "value": 2813.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-18",
+   "value": 2852.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-19",
+   "value": 3038.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-20",
+   "value": 3584.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-21",
+   "value": 3397.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-22",
+   "value": 3086.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-23",
+   "value": 3283.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-24",
+   "value": 3698.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-25",
+   "value": 3665.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-26",
+   "value": 3844.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-27",
+   "value": 3524.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-28",
+   "value": 3312.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-29",
+   "value": 3069.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-04-30",
+   "value": 3253.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-01",
+   "value": 3494.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-02",
+   "value": 3506.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-03",
+   "value": 3534.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-04",
+   "value": 3700.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-05",
+   "value": 3578.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-06",
+   "value": 3242.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-07",
+   "value": 3377.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-08",
+   "value": 3566.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-09",
+   "value": 3684.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-10",
+   "value": 3724.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-11",
+   "value": 3614.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-12",
+   "value": 3392.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-13",
+   "value": 3198.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-14",
+   "value": 3298.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-15",
+   "value": 3590.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-16",
+   "value": 3859.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-17",
+   "value": 3791.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-18",
+   "value": 3828.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-19",
+   "value": 3336.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-20",
+   "value": 3328.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-21",
+   "value": 3419.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-22",
+   "value": 3713.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-23",
+   "value": 3732.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-24",
+   "value": 3583.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-25",
+   "value": 3557.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-26",
+   "value": 3344.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-27",
+   "value": 3055.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-28",
+   "value": 3263.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-29",
+   "value": 3388.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-30",
+   "value": 3652.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-05-31",
+   "value": 3479.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-01",
+   "value": 3304.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-02",
+   "value": 3220.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-03",
+   "value": 3143.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-04",
+   "value": 3224.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-05",
+   "value": 3450.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-06",
+   "value": 3326.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-07",
+   "value": 3359.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-08",
+   "value": 3186.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-09",
+   "value": 3146.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-10",
+   "value": 3144.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-11",
+   "value": 3316.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-12",
+   "value": 3762.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-13",
+   "value": 3400.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-14",
+   "value": 3402.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-15",
+   "value": 3884.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-16",
+   "value": 3229.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-17",
+   "value": 3087.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-18",
+   "value": 3184.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-19",
+   "value": 3256.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-20",
+   "value": 3141.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-21",
+   "value": 3642.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-22",
+   "value": 3107.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-23",
+   "value": 2996.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-24",
+   "value": 2934.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-25",
+   "value": 3065.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-26",
+   "value": 3208.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-27",
+   "value": 3352.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-28",
+   "value": 3084.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-29",
+   "value": 3127.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-06-30",
+   "value": 2971.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-01",
+   "value": 2833.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-02",
+   "value": 3152.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-03",
+   "value": 3161.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-04",
+   "value": 3256.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-05",
+   "value": 3336.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-06",
+   "value": 3219.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-07",
+   "value": 3047.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-08",
+   "value": 3174.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-09",
+   "value": 3160.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-10",
+   "value": 4553.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-11",
+   "value": 3519.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-12",
+   "value": 3291.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-13",
+   "value": 3216.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-14",
+   "value": 3182.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-15",
+   "value": 3217.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-16",
+   "value": 3100.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-17",
+   "value": 3257.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-18",
+   "value": 3628.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-19",
+   "value": 4970.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-20",
+   "value": 3589.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-21",
+   "value": 3553.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-22",
+   "value": 3399.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-23",
+   "value": 3374.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-24",
+   "value": 3579.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-25",
+   "value": 3411.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-26",
+   "value": 3618.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-27",
+   "value": 3421.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-28",
+   "value": 3326.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-29",
+   "value": 3266.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-30",
+   "value": 3272.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-07-31",
+   "value": 3335.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-01",
+   "value": 3405.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-02",
+   "value": 3292.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-03",
+   "value": 3448.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-04",
+   "value": 3359.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-05",
+   "value": 3299.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-06",
+   "value": 3233.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-07",
+   "value": 3370.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-08",
+   "value": 3713.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-09",
+   "value": 3774.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-10",
+   "value": 3685.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-11",
+   "value": 3572.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-12",
+   "value": 3351.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-13",
+   "value": 3454.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-14",
+   "value": 3381.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-15",
+   "value": 3474.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-16",
+   "value": 3639.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-17",
+   "value": 3529.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-18",
+   "value": 3937.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-19",
+   "value": 3349.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-20",
+   "value": 3394.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-21",
+   "value": 3625.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-22",
+   "value": 3675.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-23",
+   "value": 3529.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-24",
+   "value": 3203.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-25",
+   "value": 3303.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-26",
+   "value": 3138.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-27",
+   "value": 3348.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-28",
+   "value": 3247.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-29",
+   "value": 3332.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-30",
+   "value": 3238.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-08-31",
+   "value": 3410.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-01",
+   "value": 4019.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-02",
+   "value": 3532.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-03",
+   "value": 3462.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-04",
+   "value": 3341.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-05",
+   "value": 3362.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-06",
+   "value": 3429.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-07",
+   "value": 3444.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-08",
+   "value": 3357.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-09",
+   "value": 3178.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-10",
+   "value": 3260.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-11",
+   "value": 3601.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-12",
+   "value": 3713.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-13",
+   "value": 3772.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-14",
+   "value": 3488.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-15",
+   "value": 3375.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-16",
+   "value": 3285.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-17",
+   "value": 3218.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-18",
+   "value": 3367.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-19",
+   "value": 3534.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-20",
+   "value": 3751.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-21",
+   "value": 3649.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-22",
+   "value": 3554.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-23",
+   "value": 3256.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-24",
+   "value": 3330.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-25",
+   "value": 3659.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-26",
+   "value": 3723.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-27",
+   "value": 3703.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-28",
+   "value": 3502.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-29",
+   "value": 3732.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-09-30",
+   "value": 3358.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-01",
+   "value": 4582.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-02",
+   "value": 4061.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-03",
+   "value": 3754.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-04",
+   "value": 3940.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-05",
+   "value": 3708.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-06",
+   "value": 3372.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-07",
+   "value": 3313.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-08",
+   "value": 3160.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-09",
+   "value": 3933.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-10",
+   "value": 3566.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-11",
+   "value": 3750.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-12",
+   "value": 3853.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-13",
+   "value": 3385.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-14",
+   "value": 3018.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-15",
+   "value": 3375.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-16",
+   "value": 3742.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-17",
+   "value": 3623.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-18",
+   "value": 3844.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-19",
+   "value": 3779.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-20",
+   "value": 3516.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-21",
+   "value": 3317.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-22",
+   "value": 3314.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-23",
+   "value": 3506.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-24",
+   "value": 3641.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-25",
+   "value": 3677.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-26",
+   "value": 3877.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-27",
+   "value": 3824.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-28",
+   "value": 3481.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-29",
+   "value": 3491.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-30",
+   "value": 3765.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-10-31",
+   "value": 3715.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-01",
+   "value": 4171.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-02",
+   "value": 3998.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-03",
+   "value": 3841.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-04",
+   "value": 3400.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-05",
+   "value": 3449.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-06",
+   "value": 3621.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-07",
+   "value": 3608.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-08",
+   "value": 3836.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-09",
+   "value": 3845.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-10",
+   "value": 3434.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-11",
+   "value": 3378.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-12",
+   "value": 3280.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-13",
+   "value": 3605.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-14",
+   "value": 3929.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-15",
+   "value": 3514.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-16",
+   "value": 3924.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-17",
+   "value": 3460.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-18",
+   "value": 3239.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-19",
+   "value": 3336.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-20",
+   "value": 3878.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-21",
+   "value": 3591.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-22",
+   "value": 3639.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-23",
+   "value": 3329.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-24",
+   "value": 3414.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-25",
+   "value": 3346.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-26",
+   "value": 3354.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-27",
+   "value": 3736.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-28",
+   "value": 3681.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-29",
+   "value": 3615.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-11-30",
+   "value": 3572.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-01",
+   "value": 3715.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-02",
+   "value": 3773.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-03",
+   "value": 3326.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-04",
+   "value": 3398.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-05",
+   "value": 3525.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-06",
+   "value": 3762.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-07",
+   "value": 3477.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-08",
+   "value": 3425.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-09",
+   "value": 3230.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-10",
+   "value": 3437.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-11",
+   "value": 3726.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-12",
+   "value": 3776.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-13",
+   "value": 3704.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-14",
+   "value": 3581.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-15",
+   "value": 3490.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-16",
+   "value": 3279.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-17",
+   "value": 3371.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-18",
+   "value": 3919.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-19",
+   "value": 3875.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-20",
+   "value": 3603.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-21",
+   "value": 3334.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-22",
+   "value": 3098.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-23",
+   "value": 2993.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-24",
+   "value": 2943.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-25",
+   "value": 3223.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-26",
+   "value": 3280.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-27",
+   "value": 3474.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-28",
+   "value": 3357.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-29",
+   "value": 3210.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-30",
+   "value": 3138.0,
+   "imputed": false
+  },
+  {
+   "ts": "2023-12-31",
+   "value": 2944.0,
+   "imputed": false
+  }
+ ]
+}

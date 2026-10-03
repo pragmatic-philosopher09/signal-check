@@ -56,12 +56,11 @@ def test_load_cases_rejects_bad_entries(tmp_path: Path) -> None:
         load_cases(bad)
 
 
-def test_real_template_is_skipped_until_filled(cfg: Config) -> None:
+def test_real_cases_without_csv_snapshot_are_not_loaded_as_csv(cfg: Config) -> None:
     raw = yaml.safe_load(REAL_CASES_PATH.read_text())
     entries = raw["cases"]
-    assert len(entries) == 10
     cases, skipped = load_real_cases(REAL_CASES_PATH, cfg)
-    assert cases == [] and len(skipped) == 10
+    assert cases == [] and len(skipped) == len(entries)
 
 
 def test_noise_sweep_is_deterministic() -> None:
