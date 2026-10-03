@@ -2,10 +2,19 @@ name: Pages
 
 # Builds the static demo (web/) and deploys it to
 # https://pragmatic-philosopher09.github.io/signal-check/
+# Also called by refresh.yml after the daily data commit: pushes made with GITHUB_TOKEN
+# don't trigger other workflows, so the refresh run deploys explicitly.
 on:
   push:
     branches: [main]
   workflow_dispatch:
+  workflow_call:
+    inputs:
+      ref:
+        description: "Commit to build (default: the triggering ref)"
+        type: string
+        required: false
+        default: ""
 
 permissions:
   contents: read
@@ -22,6 +31,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
