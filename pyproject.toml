@@ -32,4 +32,7 @@ ignore_missing_imports = true
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
-addopts = "-ra --strict-markers"
+addopts = "-ra --strict-markers -m 'not live'"
+markers = [
+    "live: opt-in smoke tests that call real public APIs (run with `pytest -m live`)",
+]

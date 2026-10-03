@@ -1,0 +1,650 @@
+{
+ "schema": 1,
+ "source": "hackernews",
+ "query": "chatgpt",
+ "freq": "D",
+ "scale": "count",
+ "meta": {
+  "fetched_at": "2026-10-03T12:16:11.002867+00:00",
+  "caveats": [
+   "Hacker News counts are stories and comments containing the query words (full-text match), which can include unrelated uses of the words."
+  ],
+  "resolved_query": "chatgpt",
+  "truncated_before": null,
+  "partial_rule": "fetched_at",
+  "tags": "(story,comment)",
+  "breadth_days": 19
+ },
+ "points": [
+  {
+   "ts": "2026-07-06",
+   "value": 30.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-07",
+   "value": 39.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-08",
+   "value": 60.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-09",
+   "value": 148.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-10",
+   "value": 85.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-11",
+   "value": 51.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-12",
+   "value": 29.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-13",
+   "value": 45.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-14",
+   "value": 46.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-15",
+   "value": 56.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-16",
+   "value": 63.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-17",
+   "value": 39.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-18",
+   "value": 38.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-19",
+   "value": 56.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-20",
+   "value": 71.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-21",
+   "value": 106.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-22",
+   "value": 114.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-23",
+   "value": 101.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-24",
+   "value": 58.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-25",
+   "value": 41.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-26",
+   "value": 30.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-27",
+   "value": 48.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-28",
+   "value": 40.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-29",
+   "value": 70.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-30",
+   "value": 54.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-07-31",
+   "value": 50.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-01",
+   "value": 36.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-02",
+   "value": 40.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-03",
+   "value": 67.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-04",
+   "value": 76.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-05",
+   "value": 70.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-06",
+   "value": 65.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-07",
+   "value": 62.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-08",
+   "value": 18.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-09",
+   "value": 46.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-10",
+   "value": 66.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-11",
+   "value": 64.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-12",
+   "value": 63.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-13",
+   "value": 83.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-14",
+   "value": 56.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-15",
+   "value": 27.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-16",
+   "value": 57.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-17",
+   "value": 88.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-18",
+   "value": 68.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-19",
+   "value": 44.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-20",
+   "value": 47.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-21",
+   "value": 62.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-22",
+   "value": 41.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-23",
+   "value": 28.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-24",
+   "value": 44.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-25",
+   "value": 60.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-26",
+   "value": 59.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-27",
+   "value": 43.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-28",
+   "value": 34.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-29",
+   "value": 17.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-30",
+   "value": 29.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-08-31",
+   "value": 128.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-01",
+   "value": 58.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-02",
+   "value": 72.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-03",
+   "value": 153.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-04",
+   "value": 91.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-05",
+   "value": 40.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-06",
+   "value": 33.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-07",
+   "value": 28.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-08",
+   "value": 118.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-09",
+   "value": 146.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-10",
+   "value": 83.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-11",
+   "value": 72.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-12",
+   "value": 48.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-13",
+   "value": 32.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-14",
+   "value": 74.0,
+   "contributors": null,
+   "top_share": null,
+   "raw_count": null
+  },
+  {
+   "ts": "2026-09-15",
+   "value": 36.0,
+   "contributors": 35.0,
+   "top_share": 0.05555555555555555,
+   "raw_count": 36.0
+  },
+  {
+   "ts": "2026-09-16",
+   "value": 77.0,
+   "contributors": 71.0,
+   "top_share": 0.025974025974025976,
+   "raw_count": 77.0
+  },
+  {
+   "ts": "2026-09-17",
+   "value": 51.0,
+   "contributors": 46.0,
+   "top_share": 0.058823529411764705,
+   "raw_count": 51.0
+  },
+  {
+   "ts": "2026-09-18",
+   "value": 56.0,
+   "contributors": 54.0,
+   "top_share": 0.03571428571428571,
+   "raw_count": 56.0
+  },
+  {
+   "ts": "2026-09-19",
+   "value": 52.0,
+   "contributors": 47.0,
+   "top_share": 0.057692307692307696,
+   "raw_count": 52.0
+  },
+  {
+   "ts": "2026-09-20",
+   "value": 64.0,
+   "contributors": 61.0,
+   "top_share": 0.03125,
+   "raw_count": 64.0
+  },
+  {
+   "ts": "2026-09-21",
+   "value": 58.0,
+   "contributors": 52.0,
+   "top_share": 0.05172413793103448,
+   "raw_count": 58.0
+  },
+  {
+   "ts": "2026-09-22",
+   "value": 93.0,
+   "contributors": 84.0,
+   "top_share": 0.043010752688172046,
+   "raw_count": 93.0
+  },
+  {
+   "ts": "2026-09-23",
+   "value": 64.0,
+   "contributors": 60.0,
+   "top_share": 0.046875,
+   "raw_count": 64.0
+  },
+  {
+   "ts": "2026-09-24",
+   "value": 44.0,
+   "contributors": 43.0,
+   "top_share": 0.045454545454545456,
+   "raw_count": 44.0
+  },
+  {
+   "ts": "2026-09-25",
+   "value": 50.0,
+   "contributors": 46.0,
+   "top_share": 0.04,
+   "raw_count": 50.0
+  },
+  {
+   "ts": "2026-09-26",
+   "value": 38.0,
+   "contributors": 35.0,
+   "top_share": 0.05263157894736842,
+   "raw_count": 38.0
+  },
+  {
+   "ts": "2026-09-27",
+   "value": 43.0,
+   "contributors": 39.0,
+   "top_share": 0.046511627906976744,
+   "raw_count": 43.0
+  },
+  {
+   "ts": "2026-09-28",
+   "value": 61.0,
+   "contributors": 57.0,
+   "top_share": 0.03278688524590164,
+   "raw_count": 61.0
+  },
+  {
+   "ts": "2026-09-29",
+   "value": 101.0,
+   "contributors": 92.0,
+   "top_share": 0.0297029702970297,
+   "raw_count": 101.0
+  },
+  {
+   "ts": "2026-09-30",
+   "value": 103.0,
+   "contributors": 97.0,
+   "top_share": 0.02912621359223301,
+   "raw_count": 103.0
+  },
+  {
+   "ts": "2026-10-01",
+   "value": 58.0,
+   "contributors": 56.0,
+   "top_share": 0.034482758620689655,
+   "raw_count": 58.0
+  },
+  {
+   "ts": "2026-10-02",
+   "value": 76.0,
+   "contributors": 73.0,
+   "top_share": 0.02631578947368421,
+   "raw_count": 76.0
+  },
+  {
+   "ts": "2026-10-03",
+   "value": 15.0,
+   "contributors": 13.0,
+   "top_share": 0.13333333333333333,
+   "raw_count": 15.0
+  }
+ ]
+}
