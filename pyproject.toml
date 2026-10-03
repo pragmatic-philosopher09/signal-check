@@ -1,0 +1,35 @@
+[project]
+name = "signalcheck"
+version = "0.1.0"
+description = "Is this change in public attention real and lasting, or is it noise?"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+extend-exclude = [".venv", ".cache"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+exclude = ["*.md"]
+
+[tool.mypy]
+python_version = "3.12"
+files = ["signalcheck"]
+warn_redundant_casts = true
+warn_unused_ignores = true
+check_untyped_defs = true
+disallow_untyped_defs = true
+
+[[tool.mypy.overrides]]
+module = ["pymannkendall.*", "ruptures.*", "statsmodels.*", "diskcache.*", "plotly.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"

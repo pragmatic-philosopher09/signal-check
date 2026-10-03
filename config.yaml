@@ -1,0 +1,110 @@
+# Signal Check configuration.
+# Every threshold used by the engine lives here (COPILOT_BRIEF.md sections 5-7).
+# Engine code must read these values; never hard-code them.
+# Frequency-keyed maps use D (daily), W (weekly), M (monthly).
+
+sources:
+  csv: true
+  google_trends: true
+  reddit: true
+  wikipedia: true
+  hackernews: true
+  x: false # also gated by the ENABLE_X env var and X_MAX_SPEND_USD budget
+
+http:
+  connect_timeout_s: 5
+  read_timeout_s: 20
+  max_retries: 4
+  backoff_base_s: 1.0
+  backoff_max_s: 30.0
+
+cache:
+  ttl_hours: 6
+  dir: .cache/signalcheck
+
+# Section 5: preprocessing
+preprocess:
+  # Minimum points of history; fewer -> INCONCLUSIVE (R1).
+  min_history: {D: 28, W: 26, M: 24}
+  # Recent window = clamp(round(recent_frac * n), recent_min[freq], recent_max[freq]).
+  recent_frac: 0.2
+  recent_min: {D: 7, W: 4, M: 3}
+  recent_max: {D: 28, W: 13, M: 6}
+  # Linear gap fill only when a check needs a regular series, at most this many consecutive points.
+  gap_fill_max_consecutive: 2
+  # Scale factor making MAD a consistent estimator of the normal standard deviation.
+  mad_scale: 1.4826
+  # If MAD == 0, use max(MAD, mad_floor * max(median, 1)).
+  mad_floor: 0.05
+
+# Section 6: checks
+checks:
+  persistence:
+    # Baseline points prepended to the recent window for the trend test.
+    persistence_context: 7
+    # Use the Hamed-Rao autocorrelation-corrected Mann-Kendall test at or above this n.
+    hamed_rao_min_n: 10
+    # Mann-Kendall significance level.
+    mk_alpha: 0.05
+    # Minimum |Theil-Sen slope| as a fraction of baseline level per period (0.02 = 2%).
+    min_slope: 0.02
+    # Band (in MADs around baseline median) for counting consecutive recent exceedances.
+    band_mads: 2.0
+  concentration:
+    # Skip unless |sum of excess| >= excess_min_mads * MAD * n_recent.
+    excess_min_mads: 1.0
+    # Fluke if the top period carries >= this share of directional excess.
+    conc_top1_max: 0.6
+    # Fluke if the top two periods carry >= this share of directional excess.
+    conc_top2_max: 0.8
+  seasonality:
+    # Day-of-week STL period (nuisance removal only, never a SEASONAL verdict).
+    weekly_period: 7
+    # Minimum weeks of daily data before removing day-of-week effects.
+    weekly_min_weeks: 2
+    # Annual seasonality needs >= 2 full years of points.
+    annual_min_points: {D: 730, W: 104, M: 24}
+    # Annual STL period per frequency (daily data is aggregated to weekly first).
+    annual_period: {D: 52, W: 52, M: 12}
+    stl_robust: true
+    # Skip unless |rise| >= excess_min_mads * MAD.
+    excess_min_mads: 1.0
+  outliers:
+    # Flag recent points with |robust z| >= outlier_z.
+    outlier_z: 3.5
+  level_shift:
+    # PELT penalty = pen_beta * log(n) on the robust-standardised series.
+    pen_beta: 3.0
+    # Minimum periods a new level must hold (also PELT min_size).
+    min_persist: {D: 7, W: 3, M: 2}
+    # Share of post-change points that must sit on the new side of the midpoint.
+    hold_fraction: 0.8
+  low_count:
+    # Active when baseline mean per bucket is below this (count series only).
+    low_count_threshold: 5.0
+    # Confidence level for the rate-ratio interval.
+    ci_level: 0.95
+  breadth:
+    # Fluke if volume-weighted mean top_share over the recent window >= this.
+    breadth_top_share_max: 0.5
+    # Fluke if recent contributors per item fall below this ratio.
+    breadth_min_contrib_ratio: 0.3
+
+# Section 7: verdict, confidence, cross-source
+verdict:
+  # R2: seasonal share of the recent rise needed to call SEASONAL.
+  seasonal_explained_min: 0.7
+
+confidence:
+  conf_high: 3
+  conf_medium: 1
+  # Penalise when history < history_multiple * min_history.
+  history_multiple: 2
+
+eval:
+  # Thresholds are tuned to keep the false-TREND rate on pure noise at or below this.
+  target_false_trend_rate: 0.05
+
+cross_source:
+  # Sources whose recent window overlaps the comparison window less than this are "not comparable".
+  min_overlap: 0.5
