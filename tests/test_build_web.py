@@ -62,3 +62,36 @@ def test_build_reuses_existing_wheels_offline(tmp_path: Path) -> None:
 
     manifest = build_web.build_python(get_config(), tmp_path, build_web.ROOT, wheels=False)
     assert manifest["wheels"] == ["pymannkendall-1.4.3-py3-none-any.whl"]
+
+
+def test_data_freshness_from_manifest(tmp_path: Path) -> None:
+    path = tmp_path / "manifest.json"
+    assert build_web.data_freshness(path) is None
+    path.write_text("not json")
+    assert build_web.data_freshness(path) is None
+    path.write_text(
+        json.dumps(
+            {
+                "refreshed_at": "2026-10-03T02:41:07+00:00",
+                "status": "partial",
+                "sources": {
+                    "wikipedia": {"status": "ok", "updated": 10},
+                    "hackernews": {"status": "partial", "failed": 1},
+                },
+                "topics": {},
+            }
+        )
+    )
+    assert build_web.data_freshness(path) == {
+        "refreshed_at": "2026-10-03T02:41:07+00:00",
+        "status": "partial",
+        "sources": {"hackernews": "partial", "wikipedia": "ok"},
+    }
+
+
+def test_cards_carry_fetched_at(tmp_path: Path) -> None:
+    build_web.build(tmp_path, wheels=False, now=WHEN)
+    result = json.loads((tmp_path / "results" / "chatgpt.json").read_text())
+    by_source = {c["source"]: c for c in result["cards"]}
+    assert by_source["wikipedia"]["fetched_at"] == "2026-10-03T12:14:50+00:00"
+    assert by_source["x"]["fetched_at"] is None

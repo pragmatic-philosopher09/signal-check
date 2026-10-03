@@ -11,7 +11,7 @@ Schema (``SCHEMA_VERSION``) -- a topic or CSV result::
 
     {schema, kind: "topic"|"csv", query, sample, generated_at,
      summary: {sentence, chips: [{source, title, badge}], unavailable, not_comparable} | null,
-     cards: [{source, title, message, disabled, snapshot, badge, label, direction,
+     cards: [{source, title, message, disabled, snapshot, fetched_at, badge, label, direction,
               confidence, rule, rule_text, reason, window_text, evidence, skipped,
               change_my_mind, caveats, wiki, narration, chart}]}
 
@@ -142,6 +142,15 @@ def chart_json(analysis: Analysis) -> dict[str, Any]:
     }
 
 
+def _fetched_at(outcome: SourceOutcome) -> str | None:
+    """When the source's data was fetched (ISO, UTC), if known."""
+    if outcome.series is None or not outcome.series.meta.get("fetched_at"):
+        return None
+    when = pd.Timestamp(outcome.series.meta["fetched_at"])
+    when = when.tz_localize(UTC) if when.tzinfo is None else when.tz_convert(UTC)
+    return str(when.isoformat(timespec="seconds"))
+
+
 def card_json(outcome: SourceOutcome, narration: Narration | None = None) -> dict[str, Any]:
     """One source card: the Streamlit card view model plus narration and chart data."""
     view = card_view(outcome)
@@ -152,6 +161,7 @@ def card_json(outcome: SourceOutcome, narration: Narration | None = None) -> dic
         "message": view.message,
         "disabled": view.disabled,
         "snapshot": view.snapshot,
+        "fetched_at": _fetched_at(outcome),
         "badge": None,
         "label": None,
         "direction": view.direction,
