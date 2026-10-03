@@ -108,10 +108,14 @@ def series_from_dict(data: dict[str, Any]) -> Series:
 
 
 def write_snapshot(series: Series, base: Path | None = None) -> Path:
-    """Write ``series`` atomically to its snapshot path; return the path."""
-    path = snapshot_path(series.source, series.query, base)
+    """Write ``series`` atomically to its snapshot path under ``base``; return the path."""
+    return write_snapshot_to(series, snapshot_path(series.source, series.query, base))
+
+
+def write_snapshot_to(series: Series, path: Path) -> Path:
+    """Write ``series`` atomically to ``path`` (aggregates + meta only)."""
     path.parent.mkdir(parents=True, exist_ok=True)
-    tmp = path.with_suffix(".json.tmp")
+    tmp = path.with_suffix(path.suffix + ".tmp")
     tmp.write_text(json.dumps(series_to_dict(series), indent=1) + "\n", encoding="utf-8")
     os.replace(tmp, path)
     return path
