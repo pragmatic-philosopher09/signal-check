@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","Kimi (AI)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","118 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-10-04T08:39:12.055023+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","Kimi (AI)","History of artificial intelligence"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","111 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","8 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-05T09:23:15.783472+00:00","merged_days":8,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-27","value":0.0,"imputed":false},
 {"ts":"2024-07-28","value":0.0,"imputed":true},
 {"ts":"2024-07-29","value":0.0,"imputed":true},
@@ -797,5 +797,6 @@
 {"ts":"2026-09-30","value":6218.0,"imputed":false},
 {"ts":"2026-10-01","value":5312.0,"imputed":false},
 {"ts":"2026-10-02","value":4753.0,"imputed":false},
-{"ts":"2026-10-03","value":3881.0,"imputed":false}
+{"ts":"2026-10-03","value":3881.0,"imputed":false},
+{"ts":"2026-10-04","value":4110.0,"imputed":false}
 ]}
