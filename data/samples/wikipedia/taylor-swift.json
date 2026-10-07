@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Wedding of Taylor Swift and Travis Kelce","Taylor Swift albums discography","Taylor Swift singles discography"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-06T09:11:28.984577+00:00","merged_days":3,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Wedding of Taylor Swift and Travis Kelce","Taylor Swift albums discography","The Life of a Showgirl"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","4 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-07T09:01:28.278244+00:00","merged_days":4,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":27741.0,"imputed":false},
 {"ts":"2024-07-27","value":28230.0,"imputed":false},
 {"ts":"2024-07-28","value":29584.0,"imputed":false},
@@ -800,5 +800,6 @@
 {"ts":"2026-10-02","value":15428.0,"imputed":false},
 {"ts":"2026-10-03","value":14855.0,"imputed":false},
 {"ts":"2026-10-04","value":20726.0,"imputed":false},
-{"ts":"2026-10-05","value":16909.0,"imputed":false}
+{"ts":"2026-10-05","value":16909.0,"imputed":false},
+{"ts":"2026-10-06","value":15462.0,"imputed":false}
 ]}
