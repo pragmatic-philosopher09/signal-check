@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","GeForce RTX 50 series","GeForce RTX 30 series","Nvidia RTX"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","5 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-08T09:16:50.702735+00:00","merged_days":5,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","GeForce RTX 30 series","Nvidia RTX","GeForce RTX 20 series"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","6 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-09T09:25:10.461038+00:00","merged_days":6,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":5891.0,"imputed":false},
 {"ts":"2024-07-27","value":5243.0,"imputed":false},
 {"ts":"2024-07-28","value":4584.0,"imputed":false},
@@ -802,5 +802,6 @@
 {"ts":"2026-10-04","value":4094.0,"imputed":false},
 {"ts":"2026-10-05","value":4837.0,"imputed":false},
 {"ts":"2026-10-06","value":5246.0,"imputed":false},
-{"ts":"2026-10-07","value":5673.0,"imputed":false}
+{"ts":"2026-10-07","value":5673.0,"imputed":false},
+{"ts":"2026-10-08","value":6972.0,"imputed":false}
 ]}
