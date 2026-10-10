@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Python (programming language)","article_overridden":true,"candidates":["Python (programming language)","Outline of the Python programming language","History of Python","Python syntax and semantics","Core Python Programming"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","6 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-09T09:26:11.000517+00:00","merged_days":6,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Python (programming language)","truncated_before":null},"query":"python programming","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Python (programming language)","article_overridden":true,"candidates":["Python (programming language)","History of Python","Outline of the Python programming language","Python syntax and semantics","Mojo (programming language)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","7 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-10T08:47:34.923202+00:00","merged_days":7,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Python (programming language)","truncated_before":null},"query":"python programming","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":4564.0,"imputed":false},
 {"ts":"2024-07-27","value":3618.0,"imputed":false},
 {"ts":"2024-07-28","value":3589.0,"imputed":false},
@@ -803,5 +803,6 @@
 {"ts":"2026-10-05","value":4992.0,"imputed":false},
 {"ts":"2026-10-06","value":5097.0,"imputed":false},
 {"ts":"2026-10-07","value":4989.0,"imputed":false},
-{"ts":"2026-10-08","value":4876.0,"imputed":false}
+{"ts":"2026-10-08","value":4876.0,"imputed":false},
+{"ts":"2026-10-09","value":4854.0,"imputed":false}
 ]}

@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","History of artificial intelligence"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","111 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","8 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-09T09:24:49.991597+00:00","merged_days":8,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","History of artificial intelligence"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","111 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","8 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-10T08:46:12.713889+00:00","merged_days":8,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-27","value":0.0,"imputed":false},
 {"ts":"2024-07-28","value":0.0,"imputed":true},
 {"ts":"2024-07-29","value":0.0,"imputed":true},
@@ -802,5 +802,6 @@
 {"ts":"2026-10-05","value":5483.0,"imputed":false},
 {"ts":"2026-10-06","value":5544.0,"imputed":false},
 {"ts":"2026-10-07","value":5484.0,"imputed":false},
-{"ts":"2026-10-08","value":5858.0,"imputed":false}
+{"ts":"2026-10-08","value":5858.0,"imputed":false},
+{"ts":"2026-10-09","value":5308.0,"imputed":false}
 ]}

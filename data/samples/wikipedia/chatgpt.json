@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"ChatGPT","article_overridden":false,"candidates":["ChatGPT","ChatGPT Atlas","OpenAI","GPT-4","GPT-4o"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","6 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-09T09:23:43.954826+00:00","merged_days":6,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"ChatGPT","truncated_before":null},"query":"chatgpt","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"ChatGPT","article_overridden":false,"candidates":["ChatGPT","ChatGPT Atlas","OpenAI","GPT-4","GPT-4o"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","7 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-10T08:45:05.778996+00:00","merged_days":7,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"ChatGPT","truncated_before":null},"query":"chatgpt","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":25665.0,"imputed":false},
 {"ts":"2024-07-27","value":21201.0,"imputed":false},
 {"ts":"2024-07-28","value":21225.0,"imputed":false},
@@ -803,5 +803,6 @@
 {"ts":"2026-10-05","value":47019.0,"imputed":false},
 {"ts":"2026-10-06","value":61606.0,"imputed":false},
 {"ts":"2026-10-07","value":57391.0,"imputed":false},
-{"ts":"2026-10-08","value":49710.0,"imputed":false}
+{"ts":"2026-10-08","value":49710.0,"imputed":false},
+{"ts":"2026-10-09","value":50429.0,"imputed":false}
 ]}

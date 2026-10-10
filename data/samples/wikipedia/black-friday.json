@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Black Friday (shopping)","article_overridden":true,"candidates":["Black Friday (shopping)","Cyber Black Friday","Black Friday (partying)","Black Friday (2004 film)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","6 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-09T09:26:30.839279+00:00","merged_days":6,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Black Friday (shopping)","truncated_before":null},"query":"black friday","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Black Friday (shopping)","article_overridden":true,"candidates":["Black Friday (shopping)","Cyber Black Friday","Black Friday (2004 film)","Black Friday (partying)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","7 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-10T08:47:55.184777+00:00","merged_days":7,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Black Friday (shopping)","truncated_before":null},"query":"black friday","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":641.0,"imputed":false},
 {"ts":"2024-07-27","value":543.0,"imputed":false},
 {"ts":"2024-07-28","value":583.0,"imputed":false},
@@ -803,5 +803,6 @@
 {"ts":"2026-10-05","value":1757.0,"imputed":false},
 {"ts":"2026-10-06","value":1762.0,"imputed":false},
 {"ts":"2026-10-07","value":1694.0,"imputed":false},
-{"ts":"2026-10-08","value":1599.0,"imputed":false}
+{"ts":"2026-10-08","value":1599.0,"imputed":false},
+{"ts":"2026-10-09","value":1855.0,"imputed":false}
 ]}
