@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","Daniel Gross (businessman)","Devin AI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","2 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","12 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-15T07:37:43.342129+00:00","merged_days":12,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","Daniel Gross (businessman)","Devin AI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","2 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","13 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-16T07:24:25.749095+00:00","merged_days":13,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":8.0,"imputed":false},
 {"ts":"2024-07-27","value":1.0,"imputed":false},
 {"ts":"2024-07-28","value":4.0,"imputed":false},
@@ -809,5 +809,6 @@
 {"ts":"2026-10-11","value":1783.0,"imputed":false},
 {"ts":"2026-10-12","value":2219.0,"imputed":false},
 {"ts":"2026-10-13","value":2354.0,"imputed":false},
-{"ts":"2026-10-14","value":2262.0,"imputed":false}
+{"ts":"2026-10-14","value":2262.0,"imputed":false},
+{"ts":"2026-10-15","value":2202.0,"imputed":false}
 ]}
