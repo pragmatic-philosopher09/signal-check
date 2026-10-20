@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","Daniel Gross (businessman)","Devin AI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","1 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","17 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-19T07:58:46.935988+00:00","merged_days":17,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","Daniel Gross (businessman)","Artificial intelligence and copyright"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","1 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","17 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-20T07:49:18.211000+00:00","merged_days":17,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":8.0,"imputed":false},
 {"ts":"2024-07-27","value":1.0,"imputed":false},
 {"ts":"2024-07-28","value":4.0,"imputed":false},
@@ -810,5 +810,9 @@
 {"ts":"2026-10-12","value":2219.0,"imputed":false},
 {"ts":"2026-10-13","value":2354.0,"imputed":false},
 {"ts":"2026-10-14","value":2262.0,"imputed":false},
-{"ts":"2026-10-15","value":2202.0,"imputed":false}
+{"ts":"2026-10-15","value":2202.0,"imputed":false},
+{"ts":"2026-10-16","value":1976.0,"imputed":false},
+{"ts":"2026-10-17","value":1512.0,"imputed":false},
+{"ts":"2026-10-18","value":1542.0,"imputed":false},
+{"ts":"2026-10-19","value":2197.0,"imputed":false}
 ]}

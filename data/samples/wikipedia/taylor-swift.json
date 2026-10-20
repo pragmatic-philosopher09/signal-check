@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Taylor Swift singles discography","Wedding of Taylor Swift and Travis Kelce","Red (Taylor Swift album)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","16 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-19T07:59:25.839951+00:00","merged_days":16,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Taylor Swift singles discography","Taylor Swift albums discography","Red (Taylor Swift album)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","17 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-20T07:49:56.198692+00:00","merged_days":17,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":27741.0,"imputed":false},
 {"ts":"2024-07-27","value":28230.0,"imputed":false},
 {"ts":"2024-07-28","value":29584.0,"imputed":false},
@@ -810,5 +810,9 @@
 {"ts":"2026-10-12","value":11827.0,"imputed":false},
 {"ts":"2026-10-13","value":11163.0,"imputed":false},
 {"ts":"2026-10-14","value":10580.0,"imputed":false},
-{"ts":"2026-10-15","value":11071.0,"imputed":false}
+{"ts":"2026-10-15","value":11071.0,"imputed":false},
+{"ts":"2026-10-16","value":10575.0,"imputed":false},
+{"ts":"2026-10-17","value":10611.0,"imputed":false},
+{"ts":"2026-10-18","value":14191.0,"imputed":false},
+{"ts":"2026-10-19","value":12583.0,"imputed":false}
 ]}

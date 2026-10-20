@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","List of large language models","Artificial intelligence"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-10-19T08:02:33.783624+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","List of large language models","Reasoning model"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-10-20T07:51:17.683713+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-11-26","value":2.0,"imputed":false},
 {"ts":"2024-11-27","value":5.0,"imputed":false},
 {"ts":"2024-11-28","value":3.0,"imputed":false},
@@ -687,5 +687,9 @@
 {"ts":"2026-10-12","value":3668.0,"imputed":false},
 {"ts":"2026-10-13","value":3395.0,"imputed":false},
 {"ts":"2026-10-14","value":3138.0,"imputed":false},
-{"ts":"2026-10-15","value":3682.0,"imputed":false}
+{"ts":"2026-10-15","value":3682.0,"imputed":false},
+{"ts":"2026-10-16","value":2947.0,"imputed":false},
+{"ts":"2026-10-17","value":2427.0,"imputed":false},
+{"ts":"2026-10-18","value":2577.0,"imputed":false},
+{"ts":"2026-10-19","value":3551.0,"imputed":false}
 ]}
