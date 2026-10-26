@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Red (Taylor Swift album)","Taylor Swift albums discography","Taylor Swift singles discography"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","22 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-25T07:44:03.176876+00:00","merged_days":22,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Wedding of Taylor Swift and Travis Kelce","Taylor Swift singles discography","Fearless (Taylor Swift album)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","23 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-26T07:59:31.409571+00:00","merged_days":23,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":27741.0,"imputed":false},
 {"ts":"2024-07-27","value":28230.0,"imputed":false},
 {"ts":"2024-07-28","value":29584.0,"imputed":false},
@@ -819,5 +819,6 @@
 {"ts":"2026-10-21","value":10676.0,"imputed":false},
 {"ts":"2026-10-22","value":10949.0,"imputed":false},
 {"ts":"2026-10-23","value":11293.0,"imputed":false},
-{"ts":"2026-10-24","value":12773.0,"imputed":false}
+{"ts":"2026-10-24","value":12773.0,"imputed":false},
+{"ts":"2026-10-25","value":12628.0,"imputed":false}
 ]}
