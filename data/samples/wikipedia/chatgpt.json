@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"ChatGPT","article_overridden":false,"candidates":["ChatGPT","ChatGPT Atlas","OpenAI","Raine v. OpenAI","GPT-4o"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","26 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-29T08:44:05.484211+00:00","merged_days":26,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"ChatGPT","truncated_before":null},"query":"chatgpt","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"ChatGPT","article_overridden":false,"candidates":["ChatGPT","ChatGPT Atlas","OpenAI","Deaths linked to chatbots","GPT-4o"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","27 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-10-30T08:50:28.707432+00:00","merged_days":27,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"ChatGPT","truncated_before":null},"query":"chatgpt","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":25665.0,"imputed":false},
 {"ts":"2024-07-27","value":21201.0,"imputed":false},
 {"ts":"2024-07-28","value":21225.0,"imputed":false},
@@ -823,5 +823,6 @@
 {"ts":"2026-10-25","value":71140.0,"imputed":false},
 {"ts":"2026-10-26","value":159883.0,"imputed":false},
 {"ts":"2026-10-27","value":183795.0,"imputed":false},
-{"ts":"2026-10-28","value":172227.0,"imputed":false}
+{"ts":"2026-10-28","value":172227.0,"imputed":false},
+{"ts":"2026-10-29","value":197747.0,"imputed":false}
 ]}
