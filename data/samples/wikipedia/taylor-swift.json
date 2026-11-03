@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Taylor Swift albums discography","Taylor Swift singles discography","Wedding of Taylor Swift and Travis Kelce"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","30 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-02T09:45:36.974561+00:00","merged_days":30,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Taylor Swift singles discography","Taylor Swift albums discography","Wedding of Taylor Swift and Travis Kelce"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","31 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-03T09:48:33.453229+00:00","merged_days":31,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":27741.0,"imputed":false},
 {"ts":"2024-07-27","value":28230.0,"imputed":false},
 {"ts":"2024-07-28","value":29584.0,"imputed":false},
@@ -827,5 +827,6 @@
 {"ts":"2026-10-29","value":10305.0,"imputed":false},
 {"ts":"2026-10-30","value":10360.0,"imputed":false},
 {"ts":"2026-10-31","value":9467.0,"imputed":false},
-{"ts":"2026-11-01","value":10924.0,"imputed":false}
+{"ts":"2026-11-01","value":10924.0,"imputed":false},
+{"ts":"2026-11-02","value":10888.0,"imputed":false}
 ]}
