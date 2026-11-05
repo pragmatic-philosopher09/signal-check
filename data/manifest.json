@@ -1,5 +1,5 @@
 {
- "refreshed_at":"2026-11-04T09:37:54+00:00",
+ "refreshed_at":"2026-11-05T09:45:00+00:00",
  "schema":1,
  "sources":{
   "hackernews":{
@@ -30,13 +30,13 @@
    "query":"bitcoin",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:37:16.699253+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:44:15.861135+00:00",
+     "points":123,
      "status":"updated"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:37:16.356841+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:44:15.524825+00:00",
+     "points":832,
      "status":"updated"
     }
    }
@@ -45,8 +45,8 @@
    "query":"black friday",
    "sources":{
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:37:54.293663+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:44:59.727652+00:00",
+     "points":832,
      "status":"updated"
     }
    }
@@ -55,8 +55,8 @@
    "query":"chatgpt",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:35:18.208259+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:42:03.663661+00:00",
+     "points":123,
      "status":"updated"
     },
     "reddit":{
@@ -64,8 +64,8 @@
      "status":"skipped"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:35:17.850947+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:42:03.333319+00:00",
+     "points":832,
      "status":"updated"
     }
    }
@@ -74,8 +74,8 @@
    "query":"claude ai",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:36:19.854944+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:43:04.019703+00:00",
+     "points":123,
      "status":"updated"
     },
     "reddit":{
@@ -83,8 +83,8 @@
      "status":"skipped"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:36:19.515693+00:00",
-     "points":830,
+     "fetched_at":"2026-11-05T09:43:03.697965+00:00",
+     "points":831,
      "status":"updated"
     }
    }
@@ -93,13 +93,13 @@
    "query":"deepseek",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:36:56.990490+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:43:50.885058+00:00",
+     "points":123,
      "status":"updated"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:36:56.708488+00:00",
-     "points":708,
+     "fetched_at":"2026-11-05T09:43:50.608736+00:00",
+     "points":709,
      "status":"updated"
     }
    }
@@ -108,8 +108,8 @@
    "query":"nvidia",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:36:38.073569+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:43:28.635508+00:00",
+     "points":123,
      "status":"updated"
     },
     "reddit":{
@@ -117,8 +117,8 @@
      "status":"skipped"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:36:37.729073+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:43:28.290527+00:00",
+     "points":832,
      "status":"updated"
     }
    }
@@ -127,8 +127,8 @@
    "query":"perplexity ai",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:34:54.512909+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:41:43.576582+00:00",
+     "points":123,
      "status":"updated"
     },
     "reddit":{
@@ -136,8 +136,8 @@
      "status":"skipped"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:34:54.085072+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:41:43.138313+00:00",
+     "points":832,
      "status":"updated"
     }
    }
@@ -146,13 +146,13 @@
    "query":"python programming",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:37:36.670210+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:44:39.846896+00:00",
+     "points":123,
      "status":"updated"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:37:36.320695+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:44:39.544450+00:00",
+     "points":832,
      "status":"updated"
     }
    }
@@ -161,8 +161,8 @@
    "query":"rust programming",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:35:57.686484+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:42:44.848405+00:00",
+     "points":123,
      "status":"updated"
     },
     "reddit":{
@@ -170,8 +170,8 @@
      "status":"skipped"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:35:57.337928+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:42:44.513546+00:00",
+     "points":832,
      "status":"updated"
     }
    }
@@ -180,13 +180,13 @@
    "query":"taylor swift",
    "sources":{
     "hackernews":{
-     "fetched_at":"2026-11-04T09:35:38.695360+00:00",
-     "points":122,
+     "fetched_at":"2026-11-05T09:42:25.125557+00:00",
+     "points":123,
      "status":"updated"
     },
     "wikipedia":{
-     "fetched_at":"2026-11-04T09:35:38.480209+00:00",
-     "points":831,
+     "fetched_at":"2026-11-05T09:42:24.801164+00:00",
+     "points":832,
      "status":"updated"
     }
    }
