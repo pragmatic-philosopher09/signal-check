@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","Devin AI","Artificial intelligence and copyright"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","34 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-06T09:36:32.343681+00:00","merged_days":34,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","Devin AI","Artificial intelligence and copyright"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","35 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-07T08:59:59.757200+00:00","merged_days":35,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":8.0,"imputed":false},
 {"ts":"2024-07-27","value":1.0,"imputed":false},
 {"ts":"2024-07-28","value":4.0,"imputed":false},
@@ -831,5 +831,6 @@
 {"ts":"2026-11-02","value":2156.0,"imputed":false},
 {"ts":"2026-11-03","value":2356.0,"imputed":false},
 {"ts":"2026-11-04","value":1981.0,"imputed":false},
-{"ts":"2026-11-05","value":1923.0,"imputed":false}
+{"ts":"2026-11-05","value":1923.0,"imputed":false},
+{"ts":"2026-11-06","value":1740.0,"imputed":false}
 ]}
