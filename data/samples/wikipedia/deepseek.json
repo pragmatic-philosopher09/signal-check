@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","List of large language models","Artificial intelligence"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-11-09T10:04:16.019415+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","List of large language models","Distillation attack"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-11-10T10:12:47.135258+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-11-26","value":2.0,"imputed":false},
 {"ts":"2024-11-27","value":5.0,"imputed":false},
 {"ts":"2024-11-28","value":3.0,"imputed":false},
@@ -709,5 +709,8 @@
 {"ts":"2026-11-03","value":3620.0,"imputed":false},
 {"ts":"2026-11-04","value":3144.0,"imputed":false},
 {"ts":"2026-11-05","value":3223.0,"imputed":false},
-{"ts":"2026-11-06","value":2564.0,"imputed":false}
+{"ts":"2026-11-06","value":2564.0,"imputed":false},
+{"ts":"2026-11-07","value":2035.0,"imputed":false},
+{"ts":"2026-11-08","value":2050.0,"imputed":false},
+{"ts":"2026-11-09","value":3012.0,"imputed":false}
 ]}

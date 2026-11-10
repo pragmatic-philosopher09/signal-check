@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Black Friday (shopping)","article_overridden":true,"candidates":["Black Friday (shopping)","Cyber Black Friday","Black Friday (2004 film)","Friday Black"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","37 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-09T10:05:22.561773+00:00","merged_days":37,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Black Friday (shopping)","truncated_before":null},"query":"black friday","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Black Friday (shopping)","article_overridden":true,"candidates":["Black Friday (shopping)","Black Friday (2004 film)","Cyber Black Friday","Friday (Rebecca Black song)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","38 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-10T10:13:48.761855+00:00","merged_days":38,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Black Friday (shopping)","truncated_before":null},"query":"black friday","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":641.0,"imputed":false},
 {"ts":"2024-07-27","value":543.0,"imputed":false},
 {"ts":"2024-07-28","value":583.0,"imputed":false},
@@ -832,5 +832,8 @@
 {"ts":"2026-11-03","value":4452.0,"imputed":false},
 {"ts":"2026-11-04","value":4672.0,"imputed":false},
 {"ts":"2026-11-05","value":5090.0,"imputed":false},
-{"ts":"2026-11-06","value":5831.0,"imputed":false}
+{"ts":"2026-11-06","value":5831.0,"imputed":false},
+{"ts":"2026-11-07","value":4320.0,"imputed":false},
+{"ts":"2026-11-08","value":4278.0,"imputed":false},
+{"ts":"2026-11-09","value":4925.0,"imputed":false}
 ]}

@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","GeForce RTX 30 series","GeForce RTX 40 series","Tegra"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","37 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-09T10:03:54.696251+00:00","merged_days":37,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","GeForce RTX 40 series","GeForce RTX 30 series","GeForce RTX 50 series"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","38 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-10T10:12:27.947939+00:00","merged_days":38,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":5891.0,"imputed":false},
 {"ts":"2024-07-27","value":5243.0,"imputed":false},
 {"ts":"2024-07-28","value":4584.0,"imputed":false},
@@ -832,5 +832,8 @@
 {"ts":"2026-11-03","value":4743.0,"imputed":false},
 {"ts":"2026-11-04","value":4112.0,"imputed":false},
 {"ts":"2026-11-05","value":4743.0,"imputed":false},
-{"ts":"2026-11-06","value":4626.0,"imputed":false}
+{"ts":"2026-11-06","value":4626.0,"imputed":false},
+{"ts":"2026-11-07","value":5535.0,"imputed":false},
+{"ts":"2026-11-08","value":17886.0,"imputed":false},
+{"ts":"2026-11-09","value":142333.0,"imputed":false}
 ]}
