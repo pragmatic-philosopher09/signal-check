@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin protocol","Cryptocurrency","Bitcoin Cash"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","38 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-10T10:13:06.955481+00:00","merged_days":38,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin protocol","Cryptocurrency"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","39 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-11T09:42:52.369626+00:00","merged_days":39,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":4218.0,"imputed":false},
 {"ts":"2024-07-27","value":7518.0,"imputed":false},
 {"ts":"2024-07-28","value":7300.0,"imputed":false},
@@ -835,5 +835,6 @@
 {"ts":"2026-11-06","value":3815.0,"imputed":false},
 {"ts":"2026-11-07","value":3238.0,"imputed":false},
 {"ts":"2026-11-08","value":2767.0,"imputed":false},
-{"ts":"2026-11-09","value":3426.0,"imputed":false}
+{"ts":"2026-11-09","value":3426.0,"imputed":false},
+{"ts":"2026-11-10","value":4359.0,"imputed":false}
 ]}

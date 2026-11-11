@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","Moonshot AI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","90 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","38 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-10T10:12:07.337839+00:00","merged_days":38,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","Kimi (AI)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","90 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","38 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-11T09:41:50.183253+00:00","merged_days":38,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-27","value":0.0,"imputed":false},
 {"ts":"2024-07-28","value":0.0,"imputed":true},
 {"ts":"2024-07-29","value":0.0,"imputed":true},
@@ -834,5 +834,6 @@
 {"ts":"2026-11-06","value":4738.0,"imputed":false},
 {"ts":"2026-11-07","value":3649.0,"imputed":false},
 {"ts":"2026-11-08","value":3654.0,"imputed":false},
-{"ts":"2026-11-09","value":4936.0,"imputed":false}
+{"ts":"2026-11-09","value":4936.0,"imputed":false},
+{"ts":"2026-11-10","value":5627.0,"imputed":false}
 ]}
