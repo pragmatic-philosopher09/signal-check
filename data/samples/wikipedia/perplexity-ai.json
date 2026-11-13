@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","OpenAI","Devin AI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","40 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-12T10:00:32.673233+00:00","merged_days":40,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Perplexity AI","article_overridden":false,"candidates":["Perplexity AI","Comet (browser)","Denis Yarats","Artificial intelligence and copyright","OpenAI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","41 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-13T09:48:58.657861+00:00","merged_days":41,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Perplexity AI","truncated_before":null},"query":"perplexity ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":8.0,"imputed":false},
 {"ts":"2024-07-27","value":1.0,"imputed":false},
 {"ts":"2024-07-28","value":4.0,"imputed":false},
@@ -693,16 +693,16 @@
 {"ts":"2026-06-17","value":3674.0,"imputed":false},
 {"ts":"2026-06-18","value":3111.0,"imputed":false},
 {"ts":"2026-06-19","value":2596.0,"imputed":false},
-{"ts":"2026-06-20","value":2123.0,"imputed":false},
-{"ts":"2026-06-21","value":2359.0,"imputed":false},
-{"ts":"2026-06-22","value":3157.0,"imputed":false},
-{"ts":"2026-06-23","value":2632.0,"imputed":false},
-{"ts":"2026-06-24","value":2534.0,"imputed":false},
-{"ts":"2026-06-25","value":2317.0,"imputed":false},
-{"ts":"2026-06-26","value":2206.0,"imputed":false},
-{"ts":"2026-06-27","value":1965.0,"imputed":false},
-{"ts":"2026-06-28","value":2519.0,"imputed":false},
-{"ts":"2026-06-29","value":2767.0,"imputed":false},
+{"ts":"2026-06-20","value":2101.0,"imputed":false},
+{"ts":"2026-06-21","value":2326.0,"imputed":false},
+{"ts":"2026-06-22","value":2642.0,"imputed":false},
+{"ts":"2026-06-23","value":2533.0,"imputed":false},
+{"ts":"2026-06-24","value":2457.0,"imputed":false},
+{"ts":"2026-06-25","value":2223.0,"imputed":false},
+{"ts":"2026-06-26","value":2171.0,"imputed":false},
+{"ts":"2026-06-27","value":1886.0,"imputed":false},
+{"ts":"2026-06-28","value":2471.0,"imputed":false},
+{"ts":"2026-06-29","value":2663.0,"imputed":false},
 {"ts":"2026-06-30","value":2680.0,"imputed":false},
 {"ts":"2026-07-01","value":3766.0,"imputed":false},
 {"ts":"2026-07-02","value":4364.0,"imputed":false},
@@ -837,5 +837,6 @@
 {"ts":"2026-11-08","value":1392.0,"imputed":false},
 {"ts":"2026-11-09","value":1847.0,"imputed":false},
 {"ts":"2026-11-10","value":2012.0,"imputed":false},
-{"ts":"2026-11-11","value":2055.0,"imputed":false}
+{"ts":"2026-11-11","value":2055.0,"imputed":false},
+{"ts":"2026-11-12","value":2101.0,"imputed":false}
 ]}

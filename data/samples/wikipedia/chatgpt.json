@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"ChatGPT","article_overridden":false,"candidates":["ChatGPT","ChatGPT Atlas","OpenAI","Sam Altman","GPT-4"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","40 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-12T10:02:10.166665+00:00","merged_days":40,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"ChatGPT","truncated_before":null},"query":"chatgpt","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"ChatGPT","article_overridden":false,"candidates":["ChatGPT","ChatGPT Atlas","OpenAI","GPT-4","Sam Altman"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","41 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-13T09:49:20.739766+00:00","merged_days":41,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"ChatGPT","truncated_before":null},"query":"chatgpt","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":25665.0,"imputed":false},
 {"ts":"2024-07-27","value":21201.0,"imputed":false},
 {"ts":"2024-07-28","value":21225.0,"imputed":false},
@@ -693,16 +693,16 @@
 {"ts":"2026-06-17","value":111784.0,"imputed":false},
 {"ts":"2026-06-18","value":102675.0,"imputed":false},
 {"ts":"2026-06-19","value":91902.0,"imputed":false},
-{"ts":"2026-06-20","value":82499.0,"imputed":false},
-{"ts":"2026-06-21","value":87159.0,"imputed":false},
-{"ts":"2026-06-22","value":105420.0,"imputed":false},
-{"ts":"2026-06-23","value":106552.0,"imputed":false},
-{"ts":"2026-06-24","value":102817.0,"imputed":false},
-{"ts":"2026-06-25","value":101215.0,"imputed":false},
-{"ts":"2026-06-26","value":87170.0,"imputed":false},
-{"ts":"2026-06-27","value":76141.0,"imputed":false},
-{"ts":"2026-06-28","value":73701.0,"imputed":false},
-{"ts":"2026-06-29","value":86835.0,"imputed":false},
+{"ts":"2026-06-20","value":83780.0,"imputed":false},
+{"ts":"2026-06-21","value":88296.0,"imputed":false},
+{"ts":"2026-06-22","value":106459.0,"imputed":false},
+{"ts":"2026-06-23","value":107783.0,"imputed":false},
+{"ts":"2026-06-24","value":104238.0,"imputed":false},
+{"ts":"2026-06-25","value":102572.0,"imputed":false},
+{"ts":"2026-06-26","value":88161.0,"imputed":false},
+{"ts":"2026-06-27","value":76918.0,"imputed":false},
+{"ts":"2026-06-28","value":74340.0,"imputed":false},
+{"ts":"2026-06-29","value":87407.0,"imputed":false},
 {"ts":"2026-06-30","value":92196.0,"imputed":false},
 {"ts":"2026-07-01","value":89185.0,"imputed":false},
 {"ts":"2026-07-02","value":87461.0,"imputed":false},
@@ -837,5 +837,6 @@
 {"ts":"2026-11-08","value":35513.0,"imputed":false},
 {"ts":"2026-11-09","value":57624.0,"imputed":false},
 {"ts":"2026-11-10","value":59377.0,"imputed":false},
-{"ts":"2026-11-11","value":54921.0,"imputed":false}
+{"ts":"2026-11-11","value":54921.0,"imputed":false},
+{"ts":"2026-11-12","value":59668.0,"imputed":false}
 ]}

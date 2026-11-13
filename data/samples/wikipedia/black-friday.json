@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Black Friday (shopping)","article_overridden":true,"candidates":["Black Friday (shopping)","Black Friday (2004 film)","Cyber Black Friday","Friday (Rebecca Black song)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","40 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-12T10:06:59.143079+00:00","merged_days":40,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Black Friday (shopping)","truncated_before":null},"query":"black friday","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Black Friday (shopping)","article_overridden":true,"candidates":["Black Friday (shopping)","Black Friday (2004 film)","Cyber Black Friday","Friday (Rebecca Black song)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","41 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-13T09:52:15.556134+00:00","merged_days":41,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Black Friday (shopping)","truncated_before":null},"query":"black friday","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":641.0,"imputed":false},
 {"ts":"2024-07-27","value":543.0,"imputed":false},
 {"ts":"2024-07-28","value":583.0,"imputed":false},
@@ -693,16 +693,16 @@
 {"ts":"2026-06-17","value":386.0,"imputed":false},
 {"ts":"2026-06-18","value":448.0,"imputed":false},
 {"ts":"2026-06-19","value":482.0,"imputed":false},
-{"ts":"2026-06-20","value":406.0,"imputed":false},
-{"ts":"2026-06-21","value":407.0,"imputed":false},
-{"ts":"2026-06-22","value":434.0,"imputed":false},
-{"ts":"2026-06-23","value":622.0,"imputed":false},
-{"ts":"2026-06-24","value":437.0,"imputed":false},
-{"ts":"2026-06-25","value":409.0,"imputed":false},
-{"ts":"2026-06-26","value":463.0,"imputed":false},
-{"ts":"2026-06-27","value":606.0,"imputed":false},
-{"ts":"2026-06-28","value":384.0,"imputed":false},
-{"ts":"2026-06-29","value":415.0,"imputed":false},
+{"ts":"2026-06-20","value":333.0,"imputed":false},
+{"ts":"2026-06-21","value":328.0,"imputed":false},
+{"ts":"2026-06-22","value":327.0,"imputed":false},
+{"ts":"2026-06-23","value":478.0,"imputed":false},
+{"ts":"2026-06-24","value":332.0,"imputed":false},
+{"ts":"2026-06-25","value":314.0,"imputed":false},
+{"ts":"2026-06-26","value":370.0,"imputed":false},
+{"ts":"2026-06-27","value":541.0,"imputed":false},
+{"ts":"2026-06-28","value":335.0,"imputed":false},
+{"ts":"2026-06-29","value":352.0,"imputed":false},
 {"ts":"2026-06-30","value":482.0,"imputed":false},
 {"ts":"2026-07-01","value":495.0,"imputed":false},
 {"ts":"2026-07-02","value":439.0,"imputed":false},
@@ -837,5 +837,6 @@
 {"ts":"2026-11-08","value":4278.0,"imputed":false},
 {"ts":"2026-11-09","value":4925.0,"imputed":false},
 {"ts":"2026-11-10","value":5179.0,"imputed":false},
-{"ts":"2026-11-11","value":5527.0,"imputed":false}
+{"ts":"2026-11-11","value":5527.0,"imputed":false},
+{"ts":"2026-11-12","value":6494.0,"imputed":false}
 ]}

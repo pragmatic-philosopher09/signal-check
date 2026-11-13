@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","GeForce RTX 30 series","GeForce RTX 50 series","GeForce RTX 40 series"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","40 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-12T10:05:35.151158+00:00","merged_days":40,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","GeForce RTX 50 series","GeForce RTX 30 series","Nvidia Tesla"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","41 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-13T09:50:52.571556+00:00","merged_days":41,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":5891.0,"imputed":false},
 {"ts":"2024-07-27","value":5243.0,"imputed":false},
 {"ts":"2024-07-28","value":4584.0,"imputed":false},
@@ -693,16 +693,16 @@
 {"ts":"2026-06-17","value":6967.0,"imputed":false},
 {"ts":"2026-06-18","value":6001.0,"imputed":false},
 {"ts":"2026-06-19","value":5740.0,"imputed":false},
-{"ts":"2026-06-20","value":4815.0,"imputed":false},
-{"ts":"2026-06-21","value":4157.0,"imputed":false},
-{"ts":"2026-06-22","value":4780.0,"imputed":false},
-{"ts":"2026-06-23","value":5050.0,"imputed":false},
-{"ts":"2026-06-24","value":5076.0,"imputed":false},
-{"ts":"2026-06-25","value":4945.0,"imputed":false},
-{"ts":"2026-06-26","value":4497.0,"imputed":false},
-{"ts":"2026-06-27","value":3989.0,"imputed":false},
-{"ts":"2026-06-28","value":4116.0,"imputed":false},
-{"ts":"2026-06-29","value":4286.0,"imputed":false},
+{"ts":"2026-06-20","value":3964.0,"imputed":false},
+{"ts":"2026-06-21","value":3390.0,"imputed":false},
+{"ts":"2026-06-22","value":4651.0,"imputed":false},
+{"ts":"2026-06-23","value":4329.0,"imputed":false},
+{"ts":"2026-06-24","value":4082.0,"imputed":false},
+{"ts":"2026-06-25","value":4093.0,"imputed":false},
+{"ts":"2026-06-26","value":3841.0,"imputed":false},
+{"ts":"2026-06-27","value":3243.0,"imputed":false},
+{"ts":"2026-06-28","value":3362.0,"imputed":false},
+{"ts":"2026-06-29","value":3379.0,"imputed":false},
 {"ts":"2026-06-30","value":4335.0,"imputed":false},
 {"ts":"2026-07-01","value":4826.0,"imputed":false},
 {"ts":"2026-07-02","value":4141.0,"imputed":false},
@@ -837,5 +837,6 @@
 {"ts":"2026-11-08","value":17886.0,"imputed":false},
 {"ts":"2026-11-09","value":142333.0,"imputed":false},
 {"ts":"2026-11-10","value":123851.0,"imputed":false},
-{"ts":"2026-11-11","value":87604.0,"imputed":false}
+{"ts":"2026-11-11","value":87604.0,"imputed":false},
+{"ts":"2026-11-12","value":366417.0,"imputed":false}
 ]}

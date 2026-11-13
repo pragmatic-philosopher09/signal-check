@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Red (Taylor Swift album)","Taylor Swift singles discography","Wedding of Taylor Swift and Travis Kelce"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","40 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-12T10:03:09.402083+00:00","merged_days":40,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Taylor Swift","article_overridden":false,"candidates":["Taylor Swift","Taylor Swift (album)","Red (Taylor Swift album)","Taylor Swift singles discography","Taylor Swift albums discography"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","41 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-13T09:49:43.372992+00:00","merged_days":41,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Taylor Swift","truncated_before":null},"query":"taylor swift","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":27741.0,"imputed":false},
 {"ts":"2024-07-27","value":28230.0,"imputed":false},
 {"ts":"2024-07-28","value":29584.0,"imputed":false},
@@ -693,16 +693,16 @@
 {"ts":"2026-06-17","value":14587.0,"imputed":false},
 {"ts":"2026-06-18","value":15458.0,"imputed":false},
 {"ts":"2026-06-19","value":16928.0,"imputed":false},
-{"ts":"2026-06-20","value":16466.0,"imputed":false},
-{"ts":"2026-06-21","value":16035.0,"imputed":false},
-{"ts":"2026-06-22","value":14790.0,"imputed":false},
-{"ts":"2026-06-23","value":14267.0,"imputed":false},
-{"ts":"2026-06-24","value":15830.0,"imputed":false},
-{"ts":"2026-06-25","value":21345.0,"imputed":false},
-{"ts":"2026-06-26","value":18470.0,"imputed":false},
-{"ts":"2026-06-27","value":19096.0,"imputed":false},
-{"ts":"2026-06-28","value":19566.0,"imputed":false},
-{"ts":"2026-06-29","value":17641.0,"imputed":false},
+{"ts":"2026-06-20","value":16622.0,"imputed":false},
+{"ts":"2026-06-21","value":16181.0,"imputed":false},
+{"ts":"2026-06-22","value":14885.0,"imputed":false},
+{"ts":"2026-06-23","value":14440.0,"imputed":false},
+{"ts":"2026-06-24","value":16402.0,"imputed":false},
+{"ts":"2026-06-25","value":20763.0,"imputed":false},
+{"ts":"2026-06-26","value":18584.0,"imputed":false},
+{"ts":"2026-06-27","value":19233.0,"imputed":false},
+{"ts":"2026-06-28","value":19664.0,"imputed":false},
+{"ts":"2026-06-29","value":17798.0,"imputed":false},
 {"ts":"2026-06-30","value":19896.0,"imputed":false},
 {"ts":"2026-07-01","value":28862.0,"imputed":false},
 {"ts":"2026-07-02","value":61704.0,"imputed":false},
@@ -837,5 +837,6 @@
 {"ts":"2026-11-08","value":11276.0,"imputed":false},
 {"ts":"2026-11-09","value":10669.0,"imputed":false},
 {"ts":"2026-11-10","value":11092.0,"imputed":false},
-{"ts":"2026-11-11","value":9838.0,"imputed":false}
+{"ts":"2026-11-11","value":9838.0,"imputed":false},
+{"ts":"2026-11-12","value":9707.0,"imputed":false}
 ]}

@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","List of large language models","Distillation attack"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-11-12T10:05:58.781780+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","List of large language models","Distillation attack"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-11-13T09:51:13.246224+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-11-26","value":2.0,"imputed":false},
 {"ts":"2024-11-27","value":5.0,"imputed":false},
 {"ts":"2024-11-28","value":3.0,"imputed":false},
@@ -570,15 +570,15 @@
 {"ts":"2026-06-17","value":2472.0,"imputed":false},
 {"ts":"2026-06-18","value":2381.0,"imputed":false},
 {"ts":"2026-06-19","value":1961.0,"imputed":false},
-{"ts":"2026-06-20","value":1607.0,"imputed":false},
-{"ts":"2026-06-21","value":1785.0,"imputed":false},
-{"ts":"2026-06-22","value":2274.0,"imputed":false},
-{"ts":"2026-06-23","value":2298.0,"imputed":false},
-{"ts":"2026-06-24","value":2230.0,"imputed":false},
-{"ts":"2026-06-25","value":2235.0,"imputed":false},
-{"ts":"2026-06-26","value":2102.0,"imputed":false},
-{"ts":"2026-06-27","value":1817.0,"imputed":false},
-{"ts":"2026-06-28","value":1737.0,"imputed":false},
+{"ts":"2026-06-20","value":1547.0,"imputed":false},
+{"ts":"2026-06-21","value":1710.0,"imputed":false},
+{"ts":"2026-06-22","value":2145.0,"imputed":false},
+{"ts":"2026-06-23","value":2081.0,"imputed":false},
+{"ts":"2026-06-24","value":2105.0,"imputed":false},
+{"ts":"2026-06-25","value":2029.0,"imputed":false},
+{"ts":"2026-06-26","value":1987.0,"imputed":false},
+{"ts":"2026-06-27","value":1701.0,"imputed":false},
+{"ts":"2026-06-28","value":1599.0,"imputed":false},
 {"ts":"2026-06-29","value":1942.0,"imputed":false},
 {"ts":"2026-06-30","value":1826.0,"imputed":false},
 {"ts":"2026-07-01","value":1740.0,"imputed":false},
@@ -714,5 +714,6 @@
 {"ts":"2026-11-08","value":2050.0,"imputed":false},
 {"ts":"2026-11-09","value":3012.0,"imputed":false},
 {"ts":"2026-11-10","value":3160.0,"imputed":false},
-{"ts":"2026-11-11","value":2940.0,"imputed":false}
+{"ts":"2026-11-11","value":2940.0,"imputed":false},
+{"ts":"2026-11-12","value":3595.0,"imputed":false}
 ]}
