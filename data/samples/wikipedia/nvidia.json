@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","Quadro","Jensen Huang spying scandal","Nvidia GTC"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","44 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-16T10:03:06.888902+00:00","merged_days":44,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","CUDA","Quadro","Nvidia GTC"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","45 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-17T10:57:17.737512+00:00","merged_days":45,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":5891.0,"imputed":false},
 {"ts":"2024-07-27","value":5243.0,"imputed":false},
 {"ts":"2024-07-28","value":4584.0,"imputed":false},
@@ -770,11 +770,11 @@
 {"ts":"2026-09-02","value":4844.0,"imputed":false},
 {"ts":"2026-09-03","value":5775.0,"imputed":false},
 {"ts":"2026-09-04","value":6414.0,"imputed":false},
-{"ts":"2026-09-05","value":5032.0,"imputed":false},
-{"ts":"2026-09-06","value":4281.0,"imputed":false},
-{"ts":"2026-09-07","value":5335.0,"imputed":false},
-{"ts":"2026-09-08","value":4834.0,"imputed":false},
-{"ts":"2026-09-09","value":5465.0,"imputed":false},
+{"ts":"2026-09-05","value":4324.0,"imputed":false},
+{"ts":"2026-09-06","value":3521.0,"imputed":false},
+{"ts":"2026-09-07","value":4427.0,"imputed":false},
+{"ts":"2026-09-08","value":4039.0,"imputed":false},
+{"ts":"2026-09-09","value":4811.0,"imputed":false},
 {"ts":"2026-09-10","value":4736.0,"imputed":false},
 {"ts":"2026-09-11","value":4463.0,"imputed":false},
 {"ts":"2026-09-12","value":3978.0,"imputed":false},
@@ -841,5 +841,6 @@
 {"ts":"2026-11-12","value":366417.0,"imputed":false},
 {"ts":"2026-11-13","value":252871.0,"imputed":false},
 {"ts":"2026-11-14","value":110648.0,"imputed":false},
-{"ts":"2026-11-15","value":65277.0,"imputed":false}
+{"ts":"2026-11-15","value":65277.0,"imputed":false},
+{"ts":"2026-11-16","value":57058.0,"imputed":false}
 ]}

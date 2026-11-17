@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin Cash","Bitcoin (film)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","44 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-16T10:03:44.384841+00:00","merged_days":44,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin Cash","Bitcoin City","Bitcoin (film)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","45 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-17T10:57:55.004717+00:00","merged_days":45,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":4218.0,"imputed":false},
 {"ts":"2024-07-27","value":7518.0,"imputed":false},
 {"ts":"2024-07-28","value":7300.0,"imputed":false},
@@ -770,11 +770,11 @@
 {"ts":"2026-09-02","value":2669.0,"imputed":false},
 {"ts":"2026-09-03","value":3276.0,"imputed":false},
 {"ts":"2026-09-04","value":2820.0,"imputed":false},
-{"ts":"2026-09-05","value":1986.0,"imputed":false},
-{"ts":"2026-09-06","value":3434.0,"imputed":false},
-{"ts":"2026-09-07","value":4723.0,"imputed":false},
-{"ts":"2026-09-08","value":2445.0,"imputed":false},
-{"ts":"2026-09-09","value":3543.0,"imputed":false},
+{"ts":"2026-09-05","value":2296.0,"imputed":false},
+{"ts":"2026-09-06","value":3808.0,"imputed":false},
+{"ts":"2026-09-07","value":4974.0,"imputed":false},
+{"ts":"2026-09-08","value":2869.0,"imputed":false},
+{"ts":"2026-09-09","value":3734.0,"imputed":false},
 {"ts":"2026-09-10","value":2510.0,"imputed":false},
 {"ts":"2026-09-11","value":3653.0,"imputed":false},
 {"ts":"2026-09-12","value":2900.0,"imputed":false},
@@ -841,5 +841,6 @@
 {"ts":"2026-11-12","value":3121.0,"imputed":false},
 {"ts":"2026-11-13","value":3351.0,"imputed":false},
 {"ts":"2026-11-14","value":5482.0,"imputed":false},
-{"ts":"2026-11-15","value":4976.0,"imputed":false}
+{"ts":"2026-11-15","value":4976.0,"imputed":false},
+{"ts":"2026-11-16","value":4096.0,"imputed":false}
 ]}

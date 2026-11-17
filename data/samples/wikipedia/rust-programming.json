@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Rust (programming language)","article_overridden":false,"candidates":["Rust (programming language)","Outline of the Rust programming language","Rust syntax","Rust for Linux","List of programming languages by type"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","44 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-16T10:02:01.791640+00:00","merged_days":44,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Rust (programming language)","truncated_before":null},"query":"rust programming","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Rust (programming language)","article_overridden":false,"candidates":["Rust (programming language)","Outline of the Rust programming language","Rust syntax","List of programming languages by type","Rust for Linux"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","45 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-17T10:56:41.602619+00:00","merged_days":45,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Rust (programming language)","truncated_before":null},"query":"rust programming","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":2181.0,"imputed":false},
 {"ts":"2024-07-27","value":1652.0,"imputed":false},
 {"ts":"2024-07-28","value":1604.0,"imputed":false},
@@ -769,12 +769,12 @@
 {"ts":"2026-09-01","value":1609.0,"imputed":false},
 {"ts":"2026-09-02","value":1510.0,"imputed":false},
 {"ts":"2026-09-03","value":1664.0,"imputed":false},
-{"ts":"2026-09-04","value":1853.0,"imputed":false},
-{"ts":"2026-09-05","value":1654.0,"imputed":false},
-{"ts":"2026-09-06","value":1675.0,"imputed":false},
-{"ts":"2026-09-07","value":1596.0,"imputed":false},
-{"ts":"2026-09-08","value":1852.0,"imputed":false},
-{"ts":"2026-09-09","value":1791.0,"imputed":false},
+{"ts":"2026-09-04","value":1630.0,"imputed":false},
+{"ts":"2026-09-05","value":1297.0,"imputed":false},
+{"ts":"2026-09-06","value":1400.0,"imputed":false},
+{"ts":"2026-09-07","value":1326.0,"imputed":false},
+{"ts":"2026-09-08","value":1612.0,"imputed":false},
+{"ts":"2026-09-09","value":1549.0,"imputed":false},
 {"ts":"2026-09-10","value":1932.0,"imputed":false},
 {"ts":"2026-09-11","value":1972.0,"imputed":false},
 {"ts":"2026-09-12","value":1458.0,"imputed":false},
@@ -841,5 +841,6 @@
 {"ts":"2026-11-12","value":4566.0,"imputed":false},
 {"ts":"2026-11-13","value":3727.0,"imputed":false},
 {"ts":"2026-11-14","value":3423.0,"imputed":false},
-{"ts":"2026-11-15","value":3725.0,"imputed":false}
+{"ts":"2026-11-15","value":3725.0,"imputed":false},
+{"ts":"2026-11-16","value":3733.0,"imputed":false}
 ]}

@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","Moonshot AI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","85 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","44 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-16T10:02:42.168150+00:00","merged_days":44,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Claude (AI)","article_overridden":true,"candidates":["Claude (AI)","Anthropic","Claude Mythos","Moonshot AI"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","85 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed.","44 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-17T10:56:59.294687+00:00","merged_days":44,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Claude (AI)","truncated_before":null},"query":"claude ai","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-27","value":0.0,"imputed":false},
 {"ts":"2024-07-28","value":0.0,"imputed":true},
 {"ts":"2024-07-29","value":0.0,"imputed":true},
@@ -769,11 +769,11 @@
 {"ts":"2026-09-02","value":4311.0,"imputed":false},
 {"ts":"2026-09-03","value":4642.0,"imputed":false},
 {"ts":"2026-09-04","value":3982.0,"imputed":false},
-{"ts":"2026-09-05","value":3447.0,"imputed":false},
-{"ts":"2026-09-06","value":4219.0,"imputed":false},
-{"ts":"2026-09-07","value":4839.0,"imputed":false},
-{"ts":"2026-09-08","value":5379.0,"imputed":false},
-{"ts":"2026-09-09","value":6538.0,"imputed":false},
+{"ts":"2026-09-05","value":3422.0,"imputed":false},
+{"ts":"2026-09-06","value":4040.0,"imputed":false},
+{"ts":"2026-09-07","value":4597.0,"imputed":false},
+{"ts":"2026-09-08","value":5141.0,"imputed":false},
+{"ts":"2026-09-09","value":6337.0,"imputed":false},
 {"ts":"2026-09-10","value":7171.0,"imputed":false},
 {"ts":"2026-09-11","value":7003.0,"imputed":false},
 {"ts":"2026-09-12","value":5332.0,"imputed":false},
@@ -840,5 +840,6 @@
 {"ts":"2026-11-12","value":5399.0,"imputed":false},
 {"ts":"2026-11-13","value":5300.0,"imputed":false},
 {"ts":"2026-11-14","value":3843.0,"imputed":false},
-{"ts":"2026-11-15","value":4177.0,"imputed":false}
+{"ts":"2026-11-15","value":4177.0,"imputed":false},
+{"ts":"2026-11-16","value":5534.0,"imputed":false}
 ]}
