@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin Cash","Bitcoin (film)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","48 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-20T10:18:16.762030+00:00","merged_days":48,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin City","Bitcoin (film)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","49 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-21T10:04:46.320778+00:00","merged_days":49,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":4218.0,"imputed":false},
 {"ts":"2024-07-27","value":7518.0,"imputed":false},
 {"ts":"2024-07-28","value":7300.0,"imputed":false},
@@ -822,7 +822,7 @@
 {"ts":"2026-10-24","value":2264.0,"imputed":false},
 {"ts":"2026-10-25","value":2302.0,"imputed":false},
 {"ts":"2026-10-26","value":2596.0,"imputed":false},
-{"ts":"2026-10-27","value":2827.0,"imputed":false},
+{"ts":"2026-10-27","value":2815.0,"imputed":false},
 {"ts":"2026-10-28","value":5495.0,"imputed":false},
 {"ts":"2026-10-29","value":5814.0,"imputed":false},
 {"ts":"2026-10-30","value":6006.0,"imputed":false},
@@ -845,5 +845,6 @@
 {"ts":"2026-11-16","value":4096.0,"imputed":false},
 {"ts":"2026-11-17","value":3969.0,"imputed":false},
 {"ts":"2026-11-18","value":4450.0,"imputed":false},
-{"ts":"2026-11-19","value":4422.0,"imputed":false}
+{"ts":"2026-11-19","value":4422.0,"imputed":false},
+{"ts":"2026-11-20","value":3838.0,"imputed":false}
 ]}
