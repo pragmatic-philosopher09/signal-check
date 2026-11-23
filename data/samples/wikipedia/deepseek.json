@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","Reasoning model","List of large language models"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-11-22T10:04:13.875849+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"DeepSeek","article_overridden":false,"candidates":["DeepSeek","DeepSeek (AI)","Liang Wenfeng","List of large language models","Reasoning model"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","3 day(s) missing from the Wikimedia response were set to 0 views (the API omits zero-view days) and marked imputed."],"fetched_at":"2026-11-23T11:02:43.793638+00:00","partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"DeepSeek","truncated_before":null},"query":"deepseek","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-11-26","value":2.0,"imputed":false},
 {"ts":"2024-11-27","value":5.0,"imputed":false},
 {"ts":"2024-11-28","value":3.0,"imputed":false},
@@ -724,5 +724,6 @@
 {"ts":"2026-11-18","value":2306.0,"imputed":false},
 {"ts":"2026-11-19","value":2336.0,"imputed":false},
 {"ts":"2026-11-20","value":2413.0,"imputed":false},
-{"ts":"2026-11-21","value":2083.0,"imputed":false}
+{"ts":"2026-11-21","value":2083.0,"imputed":false},
+{"ts":"2026-11-22","value":2009.0,"imputed":false}
 ]}
