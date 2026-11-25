@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Rust (programming language)","article_overridden":false,"candidates":["Rust (programming language)","Outline of the Rust programming language","Rust syntax","List of programming languages by type","Rust for Linux"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","52 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-24T12:46:24.018256+00:00","merged_days":52,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Rust (programming language)","truncated_before":null},"query":"rust programming","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Rust (programming language)","article_overridden":false,"candidates":["Rust (programming language)","Outline of the Rust programming language","Rust syntax","List of programming languages by type","Rust for Linux"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","53 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-25T11:32:46.764905+00:00","merged_days":53,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Rust (programming language)","truncated_before":null},"query":"rust programming","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":2181.0,"imputed":false},
 {"ts":"2024-07-27","value":1652.0,"imputed":false},
 {"ts":"2024-07-28","value":1604.0,"imputed":false},
@@ -849,5 +849,6 @@
 {"ts":"2026-11-20","value":3247.0,"imputed":false},
 {"ts":"2026-11-21","value":2857.0,"imputed":false},
 {"ts":"2026-11-22","value":2795.0,"imputed":false},
-{"ts":"2026-11-23","value":3081.0,"imputed":false}
+{"ts":"2026-11-23","value":3081.0,"imputed":false},
+{"ts":"2026-11-24","value":4145.0,"imputed":false}
 ]}

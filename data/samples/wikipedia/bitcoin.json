@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin Cash","Bitcoin (film)","Bitcoin City"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","52 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-24T12:47:44.519304+00:00","merged_days":52,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Bitcoin","article_overridden":false,"candidates":["Bitcoin","History of bitcoin","Bitcoin Cash","Bitcoin (film)","Bitcoin City"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","53 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-25T11:34:02.128427+00:00","merged_days":53,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Bitcoin","truncated_before":null},"query":"bitcoin","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":4218.0,"imputed":false},
 {"ts":"2024-07-27","value":7518.0,"imputed":false},
 {"ts":"2024-07-28","value":7300.0,"imputed":false},
@@ -849,5 +849,6 @@
 {"ts":"2026-11-20","value":3838.0,"imputed":false},
 {"ts":"2026-11-21","value":4243.0,"imputed":false},
 {"ts":"2026-11-22","value":3474.0,"imputed":false},
-{"ts":"2026-11-23","value":3792.0,"imputed":false}
+{"ts":"2026-11-23","value":3792.0,"imputed":false},
+{"ts":"2026-11-24","value":2694.0,"imputed":false}
 ]}

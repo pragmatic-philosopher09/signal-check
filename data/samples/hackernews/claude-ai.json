@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"breadth_days":19,"caveats":["Hacker News counts are stories and comments containing the query words (full-text match), which can include unrelated uses of the words.","52 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-24T12:46:44.405040+00:00","merged_days":52,"partial_rule":"fetched_at","resolved_query":"claude ai","tags":"(story,comment)","truncated_before":null},"query":"claude ai","scale":"count","schema":1,"source":"hackernews","points":[
+{"freq":"D","meta":{"breadth_days":19,"caveats":["Hacker News counts are stories and comments containing the query words (full-text match), which can include unrelated uses of the words.","53 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-25T11:33:05.159662+00:00","merged_days":53,"partial_rule":"fetched_at","resolved_query":"claude ai","tags":"(story,comment)","truncated_before":null},"query":"claude ai","scale":"count","schema":1,"source":"hackernews","points":[
 {"ts":"2026-07-06","value":58.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-07-07","value":48.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-07-08","value":57.0,"contributors":null,"top_share":null,"raw_count":null},
@@ -86,7 +86,7 @@
 {"ts":"2026-09-28","value":64.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-09-29","value":49.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-09-30","value":62.0,"contributors":null,"top_share":null,"raw_count":null},
-{"ts":"2026-10-01","value":74.0,"contributors":null,"top_share":null,"raw_count":null},
+{"ts":"2026-10-01","value":73.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-10-02","value":75.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-10-03","value":24.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-10-04","value":28.0,"contributors":null,"top_share":null,"raw_count":null},
@@ -119,10 +119,10 @@
 {"ts":"2026-10-31","value":35.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-11-01","value":51.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-11-02","value":118.0,"contributors":null,"top_share":null,"raw_count":null},
-{"ts":"2026-11-03","value":101.0,"contributors":null,"top_share":null,"raw_count":null},
+{"ts":"2026-11-03","value":100.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-11-04","value":62.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-11-05","value":111.0,"contributors":null,"top_share":null,"raw_count":null},
-{"ts":"2026-11-06","value":66.0,"contributors":64.0,"top_share":0.030303030303030304,"raw_count":66.0},
+{"ts":"2026-11-06","value":66.0,"contributors":null,"top_share":null,"raw_count":null},
 {"ts":"2026-11-07","value":36.0,"contributors":34.0,"top_share":0.05555555555555555,"raw_count":36.0},
 {"ts":"2026-11-08","value":67.0,"contributors":64.0,"top_share":0.029850746268656716,"raw_count":67.0},
 {"ts":"2026-11-09","value":115.0,"contributors":110.0,"top_share":0.02608695652173913,"raw_count":115.0},
@@ -140,5 +140,6 @@
 {"ts":"2026-11-21","value":68.0,"contributors":62.0,"top_share":0.04411764705882353,"raw_count":68.0},
 {"ts":"2026-11-22","value":30.0,"contributors":29.0,"top_share":0.06666666666666667,"raw_count":30.0},
 {"ts":"2026-11-23","value":50.0,"contributors":50.0,"top_share":0.02,"raw_count":50.0},
-{"ts":"2026-11-24","value":11.0,"contributors":10.0,"top_share":0.18181818181818182,"raw_count":11.0}
+{"ts":"2026-11-24","value":66.0,"contributors":61.0,"top_share":0.045454545454545456,"raw_count":66.0},
+{"ts":"2026-11-25","value":12.0,"contributors":12.0,"top_share":0.08333333333333333,"raw_count":12.0}
 ]}
