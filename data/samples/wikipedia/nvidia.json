@@ -1,4 +1,4 @@
-{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","Jensen Huang scandal","CUDA","Alice Huang (executive)"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","55 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-27T11:08:58.368757+00:00","merged_days":55,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
+{"freq":"D","meta":{"agent":"user","article":"Nvidia","article_overridden":false,"candidates":["Nvidia","List of Nvidia graphics processing units","Jensen Huang scandal","Alice Huang (executive)","GeForce RTX 30 series"],"caveats":["Wikipedia pageviews use agent=user, which excludes known bots; unflagged automated traffic can still cause spikes.","Views of redirects to this article are not included.","56 earlier day(s) come from previous daily refreshes of this snapshot."],"fetched_at":"2026-11-28T10:43:34.065072+00:00","merged_days":56,"partial_rule":"fetched_at","project":"en.wikipedia","resolved_query":"Nvidia","truncated_before":null},"query":"nvidia","scale":"pageviews","schema":1,"source":"wikipedia","points":[
 {"ts":"2024-07-26","value":5891.0,"imputed":false},
 {"ts":"2024-07-27","value":5243.0,"imputed":false},
 {"ts":"2024-07-28","value":4584.0,"imputed":false},
@@ -852,5 +852,6 @@
 {"ts":"2026-11-23","value":84245.0,"imputed":false},
 {"ts":"2026-11-24","value":89488.0,"imputed":false},
 {"ts":"2026-11-25","value":37203.0,"imputed":false},
-{"ts":"2026-11-26","value":22116.0,"imputed":false}
+{"ts":"2026-11-26","value":22116.0,"imputed":false},
+{"ts":"2026-11-27","value":15932.0,"imputed":false}
 ]}
